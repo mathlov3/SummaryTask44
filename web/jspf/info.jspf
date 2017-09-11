@@ -1,0 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:if test="${sessionScope.user != null}">
+    You logged as ${sessionScope.user.name}, you role - ${sessionScope.role.name}<br>
+</c:if>

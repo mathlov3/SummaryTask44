@@ -1,0 +1,8 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<ul class="pagination">
+<c:if test="${requestScope.page <=3}">
+    <c:forEach begin="1" end="${requestScope.page}" var="i">
+        <li><a <c:if test="${var == requestScope.page}">class="active"</c:if> href="/productList?page=${var}&category=${requestScope.category}">${var}</a></li>
+    </c:forEach>
+</c:if>
+</ul>

@@ -1,0 +1,34 @@
+<div class="panel panel-default search1">
+
+    <form method="get" action="getProducts">
+        <div class="form-group" style="margin: 10px">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" name="name" id="name">
+        </div>
+        <div class="form-group" style="margin: 10px">
+            <label>Category</label>
+            <c:forEach items="${categories}" var="categ">
+                <p>
+                    <input class="inputSearch" type="checkbox" name="${categ.name}" value="${categ.name}"
+                    <c:forEach items="${productParams.categories}" var="categInFilter">
+                           <c:if test="${categInFilter.name == categ.name}">checked</c:if>
+                    </c:forEach>>
+                        ${categ.name}
+                </p>
+            </c:forEach>
+        </div>
+        <div style="margin: 10px">
+        <label>Price</label>
+        <p>
+            <input class="form-control inputSearch" type="text" name="minPrice" value="${productParams.minPrice}" placeholder="$">
+        </p>
+        <p class="text-center">to</p>
+        <p>
+            <input class="form-control inputSearch" type="text" name="maxPrice" value="${productParams.maxPrice}" placeholder="$">
+        </p>
+        </div>
+        <input type="submit" class="btn btn-info center-block" value="Search">
+    </form>
+
+</div>
+
