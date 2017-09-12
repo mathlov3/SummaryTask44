@@ -7,7 +7,7 @@
         </div>
         <div class="form-group" style="margin: 10px">
             <label>Category</label>
-            <c:forEach items="${categories}" var="categ">
+            <c:forEach items="${applicationScope.categories}" var="categ">
                 <p>
                     <input class="inputSearch" type="checkbox" name="${categ.name}" value="${categ.name}"
                     <c:forEach items="${productParams.categories}" var="categInFilter">

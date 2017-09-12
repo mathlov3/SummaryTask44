@@ -2,7 +2,24 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <%@include file="jspf/head.jspf" %>
-<body>
+<body style="padding-top: 0px">
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">WebSiteName</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Page 1</a></li>
+            <li><a href="#">Page 2</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="login.jsp"><span class="glyphicon glyphicon-user"></span>Login</a></li>
+            <li><a href="cart.jsp"><span class="	glyphicon glyphicon-shopping-cart"></span></a></li>
+        </ul>
+    </div>
+</nav>
 <div class="modal-body row">
     <div class="col-md-3">
         <%@include file="jspf/filter.jspf"%>
@@ -18,7 +35,7 @@
                         <img src="https://www.techgig.com/files/logo_1490364784_Sony-Xperia-Z3-320x320.jpg" alt="">
                         <div class="caption">
                             <h4 class="pull-right">${products[i*3+j].price}</h4>
-                            <h4><a href="#">${products[i*3+j].name}</a>
+                            <h4><a href="product?id=${products[i*3+j].id}">${products[i*3+j].name}</a>
                             </h4>
                             <p>${products[i*3+j].description}<a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
                         </div>
@@ -37,7 +54,23 @@
             </c:forEach>
             </div>
         </c:forEach>
-        ${countProducts}
+        <ul class="pagination">
+
+            <c:set var="p" value="${requestScope.page}" /> <%-- current page (1-based) --%>
+            <c:set var="l" value="5" /> <%-- amount of page links to be displayed --%>
+            <c:set var="r" value="${l / 2}" /> <%-- minimum link range ahead/behind --%>
+            <c:set var="t" value="${(requestScope.countProducts+1)/9+1}" /> <%-- total amount of pages --%>
+
+            <c:set var="begin" value="${((p - r) > 0 ? ((p - r) < (t - l + 1) ? (p - r) : (t - l)) : 0) + 1}" />
+            <c:set var="end" value="${(p + r) < t ? ((p + r) > l ? (p + r) : l) : t}" />
+
+
+            <c:forEach begin="${begin}" end="${end}" var="ii">
+                <li <c:if test="${ii == page}">class="active"</c:if> >
+                    <a  href="${pageContext.request.requestURI.replace('.jsp','?')}name=${requestScope.name}${requestScope.categors}&minPrice=${requestScope.minPrice}&maxPrice=${requestScope.maxPrice}&page=${ii}">${ii}</a>
+                </li>
+            </c:forEach>
+        </ul>
 
     </div>
 </div>

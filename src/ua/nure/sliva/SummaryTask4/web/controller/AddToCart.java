@@ -22,17 +22,14 @@ public class AddToCart extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         Product product = productService.getProductById(id);
         int count = Integer.parseInt(req.getParameter("count"));
         if(product != null){
             ((Cart<Product>)req.getSession().getAttribute("cart")).put(product,count);
         }
-        resp.sendRedirect("index.jsp");
+        resp.sendRedirect("/product?id="+id);
     }
+
+
 }
