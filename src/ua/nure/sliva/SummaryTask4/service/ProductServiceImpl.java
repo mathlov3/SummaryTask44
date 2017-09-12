@@ -116,6 +116,23 @@ public class ProductServiceImpl implements ProductService {
                 return null;
             }
         });
+        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
+        ThreadLocaleHandler.setConnecion(null);
         return count[0];
+    }
+
+    @Override
+    public List<Product> getProductsByOrderId(int id) {
+        List<Product> products = new ArrayList<>();
+        transactionPool.execute(new Transaction<Product>() {
+            @Override
+            public Product execute() throws SQLException {
+                products.addAll(productDAO.getProductsByOrderId(id));
+                return null;
+            }
+        });
+        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
+        ThreadLocaleHandler.setConnecion(null);
+        return products;
     }
 }

@@ -22,7 +22,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Profile</a></li>
-                            <li><a href="#">Orders</a></li>
+                            <li><a href="/getOrders">Orders</a></li>
                         </ul>
                     </li>
                 </c:otherwise>

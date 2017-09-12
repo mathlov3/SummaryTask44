@@ -4,7 +4,6 @@ import ua.nure.sliva.SummaryTask4.constants.R;
 import ua.nure.sliva.SummaryTask4.entity.Order;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
-import ua.nure.sliva.SummaryTask4.transaction.TransactionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -76,7 +75,7 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getOrdersByUserId(int id) {
         List<Order> orders = new ArrayList<>();
         Connection connection = ThreadLocaleHandler.getConnection();
-        try(PreparedStatement ps = connection.prepareStatement(R.GET_ALL_ORDERS_BY_USER_ID)) {
+        try(PreparedStatement ps = connection.prepareStatement(R.GET_ORDERS_BY_USER_ID)) {
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
@@ -85,7 +84,7 @@ public class OrderDaoImpl implements OrderDao {
                 order.setId(rs.getInt(++k));
                 order.setPrice(rs.getDouble(++k));
                 order.setUsersId(rs.getInt(++k));
-                order.setUsersId(rs.getInt(++k));
+                order.setOrders_status_id(rs.getInt(++k));
                 orders.add(order);
             }
         } catch (SQLException e) {

@@ -153,6 +153,24 @@ public class ProductDAOImpl implements ProductDAO {
         return count;
     }
 
+    @Override
+    public List<Product> getProductsByOrderId(int id) {
+        List<Product> products = new ArrayList<>();
+        Connection connection = ThreadLocaleHandler.getConnection();
+        try(PreparedStatement ps = connection.prepareStatement(R.GET_PRODUCTS_BY_ORDER_ID)) {
+            ps.setInt(1,id);
+            ResultSet rs = ps.executeQuery();
+            ProductMapper productMapper = new ProductMapper();
+            while (rs.next()){
+                products.add(productMapper.map(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new UnsupportedOperationException(e);
+        }
+        return products;
+    }
+
 
     @Override
     public List<Product> getList(int start, int end, boolean ascending, String orderColumn,int category) {

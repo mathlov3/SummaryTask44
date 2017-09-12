@@ -16,4 +16,6 @@ public interface ProductDAO extends GenericDAO<Product>,Pagenable<Product> {
     List<Product> getProductsBySql(String sql,int start);
 
     int getCountProductsBySql(String sql);
+
+    List<Product> getProductsByOrderId(int id);
 }
