@@ -9,6 +9,15 @@ public class ProductParams {
     private double minPrice;
     private double maxPrice;
     private String name;
+    private String orderBy;
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
 
     public List<Category> getCategories() {
         return categories;

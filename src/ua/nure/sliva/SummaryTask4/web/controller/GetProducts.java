@@ -31,6 +31,7 @@ public class GetProducts extends HttpServlet {
         String minPrice = request.getParameter("minPrice");
         String maxPrice = request.getParameter("maxPrice");
         String page = request.getParameter("page");
+        String sort = request.getParameter("sort");
         List<Category> categories = new ArrayList<>();
         for(Category category: (List<Category>)this.getServletContext().getAttribute("categories")){
             if(request.getParameter(category.getName()) != null){
@@ -50,11 +51,13 @@ public class GetProducts extends HttpServlet {
         pp.setName(name);
         pp.setMinPrice(Double.parseDouble(minPrice == null || minPrice.isEmpty()?"0":minPrice));
         pp.setMaxPrice(Double.parseDouble(maxPrice == null|| maxPrice.isEmpty()?"0":maxPrice));
+        pp.setOrderBy(sort);
         String sql = sqlBuilder.buildSqlProductWithRestrict(pp);
         List<Product> products = productService.getProductsBySql(sql,((Integer.parseInt(page ==null || page.isEmpty()?"1":page)-1))*9);
         request.setAttribute("minPrice",minPrice);
         request.setAttribute("maxPrice",maxPrice);
         request.setAttribute("name",name);
+        request.setAttribute("sort",sort);
         request.setAttribute("categories",categories);
         request.setAttribute("categors",categors.toString());
         request.setAttribute("page",Integer.parseInt(page==null || page.isEmpty()?"1":page));

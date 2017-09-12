@@ -3,24 +3,8 @@
 <html>
 <%@include file="jspf/head.jspf" %>
 <body style="padding-top: 0px">
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">WebSiteName</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Page 1</a></li>
-            <li><a href="#">Page 2</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="login.jsp"><span class="glyphicon glyphicon-user"></span>Login</a></li>
-            <li><a href="cart.jsp"><span class="	glyphicon glyphicon-shopping-cart"></span></a></li>
-        </ul>
-    </div>
-</nav>
-<div class="modal-body row">
+<%@include file="jspf/userTopPanel.jspf"%>
+<div style="margin-left: 0px;margin-right: 0px" class="modal-body row">
     <div class="col-md-3">
         <%@include file="jspf/filter.jspf"%>
     </div>
@@ -67,7 +51,7 @@
 
             <c:forEach begin="${begin}" end="${end}" var="ii">
                 <li <c:if test="${ii == page}">class="active"</c:if> >
-                    <a  href="${pageContext.request.requestURI.replace('.jsp','?')}name=${requestScope.name}${requestScope.categors}&minPrice=${requestScope.minPrice}&maxPrice=${requestScope.maxPrice}&page=${ii}">${ii}</a>
+                    <a  href="${pageContext.request.requestURI.replace('.jsp','?')}name=${requestScope.name}${requestScope.categors}&minPrice=${requestScope.minPrice}&maxPrice=${requestScope.maxPrice}&sort=${requestScope.sort}&page=${ii}">${ii}</a>
                 </li>
             </c:forEach>
         </ul>

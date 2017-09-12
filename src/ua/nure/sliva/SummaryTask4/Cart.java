@@ -23,4 +23,5 @@ public class Cart <T extends Product> extends HashMap<T,Integer> implements Seri
         }
         return price;
     }
+
 }

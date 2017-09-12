@@ -77,14 +77,11 @@ public class Product implements Serializable {
 
         Product product = (Product) o;
 
-        if (id != product.id) return false;
-        return name.equals(product.name);
+        return id == product.id;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + name.hashCode();
-        return result;
+        return id;
     }
 }

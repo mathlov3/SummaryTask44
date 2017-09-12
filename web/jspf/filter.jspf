@@ -17,17 +17,25 @@
                 </p>
             </c:forEach>
         </div>
-        <div style="margin: 10px">
-        <label>Price</label>
-        <p>
-            <input class="form-control inputSearch" type="text" name="minPrice" value="${productParams.minPrice}" placeholder="$">
-        </p>
-        <p class="text-center">to</p>
-        <p>
-            <input class="form-control inputSearch" type="text" name="maxPrice" value="${productParams.maxPrice}" placeholder="$">
-        </p>
+        <div style="margin: 10px" class="form-inline">
+            <label>Price:</label>
+            <input style="width: 70px" class="form-control inputSearch" type="text" name="minPrice"
+                   value="${productParams.minPrice}"placeholder="$"> to <input style="width: 70px" class="form-control inputSearch" type="text" name="maxPrice"
+                   value="${productParams.maxPrice}"
+                   placeholder="$">
+
         </div>
-        <input type="submit" class="btn btn-info center-block" value="Search">
+        <div style="margin: 10px" class="form-group form-inline">
+            <label for="sel1">Select list:</label>
+            <select name="sort" class="form-control" id="sel1">
+                <option value="new">new</option>
+                <option value="a-z">a-z</option>
+                <option value="z-a">z-a</option>
+                <option value="min-max">min-max</option>
+                <option value="max-min">max-min</option>
+            </select>
+        </div>
+        <input style="margin: 10px;margin-bottom: 0px" type="submit" class="btn btn-info" value="Search">
     </form>
 
 </div>

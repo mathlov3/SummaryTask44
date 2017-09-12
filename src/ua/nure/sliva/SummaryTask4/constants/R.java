@@ -24,6 +24,9 @@ public abstract class R {
     //Order
     public static final String CREATE_ORDER = "INSERT INTO orders(`price`,`users_id`,`orders_status_id`) VALUES(?,?,?)";
     public static final String ADD_PRODUCT_TO_ORDER = "INSERT INTO orders_product(`orders_id`,`products_id`,`count`) VALUES(?,?,?)";
+    public static final String GET_ALL_ORDERS_BY_USER_ID = "SELECT * FROM ORDERS WHERE users_id = ?";
+    public static final String GET_PRODUCTS_BY_ORDER_ID = "SELECT p.id,p.name,p.description,p.price,op.count,p.categories_id,p.image FROM products p,orders_product op WHERE op.orders_id=?";
+
     public static final String UPDATE_ORDER_STATUS = "UPDATE orders SET orders_status_id = ? WHERE id = ?";
 
 

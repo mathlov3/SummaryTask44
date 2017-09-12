@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class OrderDaoImpl implements OrderDao {
@@ -68,5 +70,28 @@ public class OrderDaoImpl implements OrderDao {
             throw new UnsupportedOperationException(e);
         }
         return result;
+    }
+
+    @Override
+    public List<Order> getOrdersByUserId(int id) {
+        List<Order> orders = new ArrayList<>();
+        Connection connection = ThreadLocaleHandler.getConnection();
+        try(PreparedStatement ps = connection.prepareStatement(R.GET_ALL_ORDERS_BY_USER_ID)) {
+            ps.setInt(1,id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                int k = 0;
+                Order order = new Order();
+                order.setId(rs.getInt(++k));
+                order.setPrice(rs.getDouble(++k));
+                order.setUsersId(rs.getInt(++k));
+                order.setUsersId(rs.getInt(++k));
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new UnsupportedOperationException(e);
+        }
+        return orders;
     }
 }
