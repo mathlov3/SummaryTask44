@@ -3,6 +3,7 @@ package ua.nure.sliva.SummaryTask4.dao;
 import ua.nure.sliva.SummaryTask4.constants.R;
 import ua.nure.sliva.SummaryTask4.entity.Order;
 import ua.nure.sliva.SummaryTask4.entity.Product;
+import ua.nure.sliva.SummaryTask4.exception.DBException;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 
 import java.sql.Connection;
@@ -66,7 +67,7 @@ public class OrderDaoImpl implements OrderDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException(e);
+            throw new DBException(e);
         }
         return result;
     }

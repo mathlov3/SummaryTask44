@@ -16,7 +16,6 @@ public class ClearCart extends HttpServlet {
         Cart<Product> cart = (Cart<Product>) request.getSession().getAttribute("cart");
         cart.clear();
         response.sendRedirect("cart.jsp");
-
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ua.nure.sliva.SummaryTask4.service;
 
+import ua.nure.sliva.SummaryTask4.Cart;
 import ua.nure.sliva.SummaryTask4.dao.ProductDAO;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
@@ -8,7 +9,9 @@ import ua.nure.sliva.SummaryTask4.transaction.TransactionPool;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductServiceImpl implements ProductService {
     private ProductDAO productDAO;
@@ -134,5 +137,25 @@ public class ProductServiceImpl implements ProductService {
         transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
         ThreadLocaleHandler.setConnecion(null);
         return products;
+    }
+
+    @Override
+    public List<Product> getProductsThatLagestInOrder(Cart<Product> cart) {
+        List<Product> errors = new ArrayList<>();
+        transactionPool.execute(new Transaction<Product>() {
+            @Override
+            public Product execute() throws SQLException {
+                for (Map.Entry<Product,Integer> entry:cart.entrySet()){
+                    Product product = productDAO.getById(entry.getKey().getId());
+                    if(product.getCount() < entry.getValue()){
+                        errors.add(product);
+                    }
+                }
+                return null;
+            }
+        });
+        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
+        ThreadLocaleHandler.setConnecion(null);
+        return errors;
     }
 }

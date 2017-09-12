@@ -1,8 +1,10 @@
 package ua.nure.sliva.SummaryTask4.service;
 
+import ua.nure.sliva.SummaryTask4.Cart;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
     List<Product> getProductsByCategory(int categoryId);
@@ -20,4 +22,6 @@ public interface ProductService {
     int getCountProductsBySql(String sql);
 
     List<Product> getProductsByOrderId(int id);
+
+    List<Product> getProductsThatLagestInOrder(Cart<Product> cart);
 }
