@@ -158,4 +158,19 @@ public class ProductServiceImpl implements ProductService {
         ThreadLocaleHandler.setConnecion(null);
         return errors;
     }
+
+    @Override
+    public List<Product> getNewProducts() {
+        List<Product> products = new ArrayList<>();
+        transactionPool.execute(new Transaction<Product>() {
+            @Override
+            public Product execute() throws SQLException {
+                products.addAll(productDAO.getNewProducts());
+                return null;
+            }
+        });
+        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
+        ThreadLocaleHandler.setConnecion(null);
+        return products;
+    }
 }

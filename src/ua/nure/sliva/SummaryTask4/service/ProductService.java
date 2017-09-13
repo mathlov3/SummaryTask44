@@ -24,4 +24,6 @@ public interface ProductService {
     List<Product> getProductsByOrderId(int id);
 
     List<Product> getProductsThatLagestInOrder(Cart<Product> cart);
+
+    List<Product> getNewProducts();
 }
