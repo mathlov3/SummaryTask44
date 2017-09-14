@@ -9,4 +9,6 @@ public interface OrderService {
     List<Order> getOrdersByUserId(int id);
     boolean isUserHaveOrder(int uId,int oId);
     List<Order> getOrdersByStatusId(int id);
+
+    boolean updateOrder(int id, int status);
 }

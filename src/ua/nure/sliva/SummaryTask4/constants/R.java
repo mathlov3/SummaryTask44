@@ -33,8 +33,6 @@ public abstract class R {
     public static final String GET_ALL_ORDERS = "SELECT * FROM orders ORDER BY id DESC";
     public static final String GET_ACCEPTED_ORDERS_ORDERS = "SELECT * FROM orders WHERE orders_status_id=2 ORDER BY id DESC";
     public static final String GET_DISABLED_ORDERS_ORDERS = "SELECT * FROM orders WHERE orders_status_id=3 ORDER BY id DESC";
-
-
     public static final String UPDATE_ORDER_STATUS = "UPDATE orders SET orders_status_id = ? WHERE id = ?";
 
 

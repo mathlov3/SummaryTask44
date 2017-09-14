@@ -58,8 +58,18 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public int update(Order entity) {
-        return 0;
+    public int update(Order order) {
+        Connection connection = ThreadLocaleHandler.getConnection();
+        int id = 0;
+        try (PreparedStatement ps = connection.prepareStatement(R.UPDATE_ORDER_STATUS,PreparedStatement.RETURN_GENERATED_KEYS)){
+            ps.setInt(1,order.getOrders_status_id());
+            ps.setInt(2,order.getId());
+            id =  ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new UnsupportedOperationException(e);
+        }
+        return id;
     }
 
     @Override

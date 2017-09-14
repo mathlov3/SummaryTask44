@@ -83,4 +83,22 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
 
+    @Override
+    public boolean updateOrder(int id, int status) {
+        final int[] b = {0};
+        transactionPool.execute(new Transaction<Order>() {
+            @Override
+            public Order execute() throws SQLException {
+                Order order = new Order();
+                order.setId(id);
+                order.setOrders_status_id(status);
+                b[0] = orderDao.update(order);
+                return null;
+            }
+        });
+        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
+        ThreadLocaleHandler.setConnecion(null);
+        return b[0]==0?false:true;
+    }
+
 }
