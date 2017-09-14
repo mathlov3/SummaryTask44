@@ -4,6 +4,7 @@ import ua.nure.sliva.SummaryTask4.Cart;
 import ua.nure.sliva.SummaryTask4.entity.Order;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.entity.User;
+import ua.nure.sliva.SummaryTask4.exception.AppException;
 import ua.nure.sliva.SummaryTask4.exception.DBException;
 import ua.nure.sliva.SummaryTask4.service.OrderService;
 import ua.nure.sliva.SummaryTask4.service.ProductService;
@@ -29,6 +30,11 @@ public class CreateOrder extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("user")==null){
+            AppException exception = new AppException("You need login if you want make order");
+            request.setAttribute("exception",exception);
+            throw exception;
+        }
         Order order = new Order();
         Cart<Product> cart = (Cart<Product>) request.getSession().getAttribute("cart");
         User user = (User) request.getSession().getAttribute("user");

@@ -9,4 +9,6 @@ import java.util.Map;
 public interface OrderDao extends GenericDAO<Order> {
     boolean addProductsToOrder(Map<Product,Integer> products,int orderId);
     List<Order> getOrdersByUserId(int id);
+
+    List<Order> getOrdersByStatusId(int id);
 }

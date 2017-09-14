@@ -28,11 +28,11 @@
         <div style="margin: 10px" class="form-group form-inline">
             <label for="sel1">Select list:</label>
             <select name="sort" class="form-control" id="sel1">
-                <option value="new">new</option>
-                <option value="a-z">a-z</option>
-                <option value="z-a">z-a</option>
-                <option value="min-max">min-max</option>
-                <option value="max-min">max-min</option>
+                <option <c:if test="${requestScope.sort eq 'new'}">selected="selected"</c:if> value="new">new</option>
+                <option <c:if test="${requestScope.sort eq 'a-z'}">selected="a-z"</c:if> value="a-z">a-z</option>
+                <option <c:if test="${requestScope.sort eq 'z-a'}">selected="z-a"</c:if> value="z-a">z-a</option>
+                <option <c:if test="${requestScope.sort eq 'min-max'}">selected="min-max"</c:if> value="min-max">min-max</option>
+                <option <c:if test="${requestScope.sort eq 'max-min'}">selected="max-min"</c:if> value="max-min">max-min</option>
             </select>
         </div>
         <input style="margin: 10px;margin-bottom: 0px" type="submit" class="btn btn-info" value="Search">

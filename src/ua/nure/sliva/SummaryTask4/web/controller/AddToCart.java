@@ -28,6 +28,7 @@ public class AddToCart extends HttpServlet {
         if(product != null){
             ((Cart<Product>)req.getSession().getAttribute("cart")).put(product,count);
         }
+        req.getSession().setAttribute("okb","ok");
         resp.sendRedirect("/product?id="+id);
     }
 

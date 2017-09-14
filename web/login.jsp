@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html>
 <%@include file="jspf/head.jspf" %>
-<body>
+<body style="padding-top: 0px">
+<%@include file="jspf/userTopPanel.jspf"%>
 <div class="container">
     <div class="row vertical-offset-100">
         <div class="col-md-4 col-md-offset-4">
@@ -13,8 +14,17 @@
                 <div class="panel-body">
                     <form method="post" action="login">
                         <fieldset>
+                            <c:if test="${!empty sessionScope.err}">
+                            <div style="margin-left: 4px;margin-right: 4px" class="row">
+                                <div class="alert alert-danger">
+                                    <a href="#" class="close" data-dismiss="alert">×</a>
+                                        <p>${sessionScope.err }</p>
+                                    <% request.getSession().removeAttribute("err"); %>
+                                </div>
+                            </div>
+                            </c:if>
                             <div class="form-group">
-                                <input class="form-control" type="text" placeholder="Enter Username" name="login"
+                                <input class="form-control" type="text" placeholder="Enter Username" name="login" value="${sessionScope.login}"
                                        required>
                             </div>
                             <div class="form-group">

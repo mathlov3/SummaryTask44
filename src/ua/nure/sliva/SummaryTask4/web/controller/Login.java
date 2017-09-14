@@ -2,6 +2,7 @@ package ua.nure.sliva.SummaryTask4.web.controller;
 
 import ua.nure.sliva.SummaryTask4.entity.Role;
 import ua.nure.sliva.SummaryTask4.entity.User;
+import ua.nure.sliva.SummaryTask4.exception.AppException;
 import ua.nure.sliva.SummaryTask4.service.RoleService;
 import ua.nure.sliva.SummaryTask4.service.UserService;
 import ua.nure.sliva.SummaryTask4.util.UserValidator;
@@ -26,6 +27,11 @@ public class Login extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("user")!=null){
+            AppException exception = new AppException("You already loginned");
+            request.setAttribute("exception",exception);
+            throw exception;
+        }
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String err = userValidator.validate(login,password);
@@ -37,13 +43,14 @@ public class Login extends HttpServlet {
         User user = userService.tryToLogin(login,password);
         if(user == null){
             request.getSession().setAttribute("err","Incorrect login or password");
+            request.getSession().setAttribute("login",login);
             response.sendRedirect("login.jsp");
             return;
         }
         request.getSession().setAttribute("user",user);
         Role role = roleService.getRoleById(user.getRole());
         request.getSession().setAttribute("role",role);
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("index");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

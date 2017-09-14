@@ -49,4 +49,38 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
 
+    @Override
+    public boolean isUserHaveOrder(int uId, int oId) {
+        final boolean[] result = {false};
+        transactionPool.execute(new Transaction<Order>() {
+            @Override
+            public Order execute() throws SQLException {
+                Order order = orderDao.getById(oId);
+                if(order == null){}
+                else if(order.getUsersId() == uId){
+                    result[0] = true;
+                }
+                return null;
+            }
+        });
+        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
+        ThreadLocaleHandler.setConnecion(null);
+        return result[0];
+    }
+
+    @Override
+    public List<Order> getOrdersByStatusId(int id) {
+        List<Order> orders = new ArrayList<>();
+        transactionPool.execute(new Transaction<Order>() {
+            @Override
+            public Order execute() throws SQLException {
+                orders.addAll(orderDao.getOrdersByStatusId(id));
+                return null;
+            }
+        });
+        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
+        ThreadLocaleHandler.setConnecion(null);
+        return orders;
+    }
+
 }

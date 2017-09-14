@@ -1,4 +1,4 @@
-package ua.nure.sliva.SummaryTask4.web.controller;
+package ua.nure.sliva.SummaryTask4.web.controller.admin;
 
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.service.ProductService;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/addProduct")
+@WebServlet("/admin/addProduct")
 public class AddProduct extends HttpServlet {
     private ProductService productService;
 
@@ -33,7 +33,7 @@ public class AddProduct extends HttpServlet {
         product.setDescription(description);
         product.setName(name);
         productService.addProduct(product);
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("addProduct.jsp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

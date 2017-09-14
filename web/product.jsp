@@ -1,9 +1,19 @@
+<!--This page for simpleusers that want buy product on this page-->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <%@include file="jspf/head.jspf"%>
 <body style="padding-top: 0px">
 <%@include file="jspf/userTopPanel.jspf"%>
+<c:if test="${!empty sessionScope.okb}">
+    <div style="margin-left: 4px;margin-right: 4px" class="row">
+        <div class="alert alert-success">
+            <a href="#" class="close" data-dismiss="alert">×</a>
+            <p>Product added to cart</p>
+            <% request.getSession().removeAttribute("okb"); %>
+        </div>
+    </div>
+</c:if>
 <div class="container">
 
         <div class="thumbnail">

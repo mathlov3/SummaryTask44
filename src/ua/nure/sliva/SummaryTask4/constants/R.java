@@ -27,7 +27,12 @@ public abstract class R {
     //Order
     public static final String CREATE_ORDER = "INSERT INTO orders(`price`,`users_id`,`orders_status_id`) VALUES(?,?,?)";
     public static final String ADD_PRODUCT_TO_ORDER = "INSERT INTO orders_product(`orders_id`,`products_id`,`count`) VALUES(?,?,?)";
-    public static final String GET_ORDERS_BY_USER_ID = "SELECT * FROM ORDERS WHERE users_id = ?";
+    public static final String GET_ORDERS_BY_USER_ID = "SELECT * FROM ORDERS WHERE users_id = ? ORDER BY id DESC";
+    public static final String GET_ORDER_BY_ID = "SELECT * FROM ORDERS WHERE ID = ?";
+    public static final String GET_NEW_ORDERS = "SELECT * FROM orders WHERE orders_status_id = 1 ORDER BY id";
+    public static final String GET_ALL_ORDERS = "SELECT * FROM orders ORDER BY id DESC";
+    public static final String GET_ACCEPTED_ORDERS_ORDERS = "SELECT * FROM orders WHERE orders_status_id=2 ORDER BY id DESC";
+    public static final String GET_DISABLED_ORDERS_ORDERS = "SELECT * FROM orders WHERE orders_status_id=3 ORDER BY id DESC";
 
 
     public static final String UPDATE_ORDER_STATUS = "UPDATE orders SET orders_status_id = ? WHERE id = ?";

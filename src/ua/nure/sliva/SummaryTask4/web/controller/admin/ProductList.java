@@ -1,4 +1,4 @@
-package ua.nure.sliva.SummaryTask4.web.controller;
+package ua.nure.sliva.SummaryTask4.web.controller.admin;
 
 import ua.nure.sliva.SummaryTask4.service.ProductService;
 
