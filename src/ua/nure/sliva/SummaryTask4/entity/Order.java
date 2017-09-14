@@ -60,4 +60,19 @@ public class Order implements Serializable {
                 ", orders_status_id=" + orders_status_id +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+
+        Order order = (Order) o;
+
+        return id == order.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

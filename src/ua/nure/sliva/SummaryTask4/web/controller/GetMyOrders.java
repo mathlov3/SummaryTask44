@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/getOrders")
-public class GetOrders extends HttpServlet {
+@WebServlet("/getMyOrders")
+public class GetMyOrders extends HttpServlet {
     private OrderService orderService;
 
     @Override
