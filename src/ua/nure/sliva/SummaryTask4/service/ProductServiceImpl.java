@@ -158,4 +158,25 @@ public class ProductServiceImpl implements ProductService {
         }
         return products;
     }
+
+    @Override
+    public void voteForProduct(int pId, int uId, int vote) {
+        transactionPool.execute(new Transaction<Object>() {
+            @Override
+            public Object execute() throws SQLException {
+                productDAO.voteForProduct(pId,uId,vote);
+                return null;
+            }
+        });
+    }
+
+    @Override
+    public int getProductVote(int pId) {
+        return transactionPool.execute(new Transaction<Integer>() {
+            @Override
+            public Integer execute() throws SQLException {
+                return productDAO.getProductVote(pId);
+            }
+        });
+    }
 }

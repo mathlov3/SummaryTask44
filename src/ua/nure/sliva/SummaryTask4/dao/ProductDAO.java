@@ -22,4 +22,8 @@ public interface ProductDAO extends GenericDAO<Product>,Pagenable<Product> {
     List<Product> getProductsByOrderId(int id);
 
     List<Product> getNewProducts();
+
+    void voteForProduct(int pId, int uId, int vote);
+
+    int getProductVote(int pId);
 }

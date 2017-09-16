@@ -13,11 +13,11 @@ public interface ProductService {
 
     int addProduct(Product product);
 
-    List<Product> getPaginableProducts(int start,int end,int category);
+    List<Product> getPaginableProducts(int start, int end, int category);
 
     int getCountProductsInCategory(int categoryId);
 
-    List<Product> getProductsBySql(String sql,int start);
+    List<Product> getProductsBySql(String sql, int start);
 
     int getCountProductsBySql(String sql);
 
@@ -28,5 +28,10 @@ public interface ProductService {
     List<Product> getNewProducts();
 
     Product parseImageToBase64(Product product);
+
     List<Product> parseImagesToBase64(List<Product> products);
+
+    void voteForProduct(int pId, int uId, int vote);
+
+    int getProductVote(int pId);
 }

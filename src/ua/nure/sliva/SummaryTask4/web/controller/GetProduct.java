@@ -41,9 +41,11 @@ public class GetProduct extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         Product product = productService.getProductById(id);
         List<Commentary> commentaries=commentaryService.getCommentariesByProductId(id);
-        System.out.println(commentaries);
         Map<Commentary,User> commentaryUserMap = userService.getCommentaryWithUsers(commentaries);
+        int vote = productService.getProductVote(id);
+        System.out.println(vote);
         request.setAttribute("product",product);
+        request.setAttribute("vote",vote);
         request.setAttribute("commentaries",commentaryUserMap);
         request.getRequestDispatcher("/product.jsp").forward(request,response);
     }

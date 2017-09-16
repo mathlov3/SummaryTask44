@@ -1,6 +1,6 @@
 package ua.nure.sliva.SummaryTask4.dao;
 
-import ua.nure.sliva.SummaryTask4.constants.R;
+import ua.nure.sliva.SummaryTask4.constants.Sql;
 import ua.nure.sliva.SummaryTask4.entity.Role;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 
@@ -15,7 +15,7 @@ public class RoleDaoImpl implements RoleDao {
     public Role getById(int id) {
         Connection connection = ThreadLocaleHandler.getConnection();
         Role role = null;
-        try(PreparedStatement ps = connection.prepareStatement(R.GET_ROLE_BY_ID)) {
+        try(PreparedStatement ps = connection.prepareStatement(Sql.GET_ROLE_BY_ID)) {
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){

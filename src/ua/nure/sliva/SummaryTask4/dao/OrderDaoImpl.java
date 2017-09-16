@@ -1,6 +1,6 @@
 package ua.nure.sliva.SummaryTask4.dao;
 
-import ua.nure.sliva.SummaryTask4.constants.R;
+import ua.nure.sliva.SummaryTask4.constants.Sql;
 import ua.nure.sliva.SummaryTask4.dao.mapper.OrderMapper;
 import ua.nure.sliva.SummaryTask4.entity.Order;
 import ua.nure.sliva.SummaryTask4.entity.Product;
@@ -21,7 +21,7 @@ public class OrderDaoImpl implements OrderDao {
     public Order getById(int id) {
         Connection connection = ThreadLocaleHandler.getConnection();
         Order order = null;
-        try (PreparedStatement ps = connection.prepareStatement(R.GET_ORDER_BY_ID)) {
+        try (PreparedStatement ps = connection.prepareStatement(Sql.GET_ORDER_BY_ID)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -39,7 +39,7 @@ public class OrderDaoImpl implements OrderDao {
     public int create(Order entity) {
         Connection connection = ThreadLocaleHandler.getConnection();
         int id = 0;
-        try (PreparedStatement ps = connection.prepareStatement(R.CREATE_ORDER, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = connection.prepareStatement(Sql.CREATE_ORDER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             int k = 0;
             System.out.println("Creating order");
             ps.setDouble(++k, entity.getPrice());
@@ -61,7 +61,7 @@ public class OrderDaoImpl implements OrderDao {
     public int update(Order order) {
         Connection connection = ThreadLocaleHandler.getConnection();
         int id = 0;
-        try (PreparedStatement ps = connection.prepareStatement(R.UPDATE_ORDER_STATUS,PreparedStatement.RETURN_GENERATED_KEYS)){
+        try (PreparedStatement ps = connection.prepareStatement(Sql.UPDATE_ORDER_STATUS,PreparedStatement.RETURN_GENERATED_KEYS)){
             ps.setInt(1,order.getOrders_status_id());
             ps.setInt(2,order.getId());
             id =  ps.executeUpdate();
@@ -81,7 +81,7 @@ public class OrderDaoImpl implements OrderDao {
     public boolean addProductsToOrder(Map<Product, Integer> products, int orderId) {
         Connection connection = ThreadLocaleHandler.getConnection();
         boolean result = true;
-        try (PreparedStatement ps = connection.prepareStatement(R.ADD_PRODUCT_TO_ORDER)) {
+        try (PreparedStatement ps = connection.prepareStatement(Sql.ADD_PRODUCT_TO_ORDER)) {
             for (Map.Entry<Product, Integer> entry : products.entrySet()) {
                 int k = 0;
                 ps.setInt(++k, orderId);
@@ -100,7 +100,7 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getOrdersByUserId(int id) {
         List<Order> orders = new ArrayList<>();
         Connection connection = ThreadLocaleHandler.getConnection();
-        try (PreparedStatement ps = connection.prepareStatement(R.GET_ORDERS_BY_USER_ID)) {
+        try (PreparedStatement ps = connection.prepareStatement(Sql.GET_ORDERS_BY_USER_ID)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -121,23 +121,23 @@ public class OrderDaoImpl implements OrderDao {
         String sql = "";
         switch (id) {
             case 0: {
-                sql = R.GET_ALL_ORDERS;
+                sql = Sql.GET_ALL_ORDERS;
                 break;
             }
             case 1: {
-                sql = R.GET_NEW_ORDERS;
+                sql = Sql.GET_NEW_ORDERS;
                 break;
             }
             case 2: {
-                sql = R.GET_ACCEPTED_ORDERS_ORDERS;
+                sql = Sql.GET_ACCEPTED_ORDERS_ORDERS;
                 break;
             }
             case 3: {
-                sql = R.GET_DISABLED_ORDERS_ORDERS;
+                sql = Sql.GET_DISABLED_ORDERS_ORDERS;
                 break;
             }
             default: {
-                sql = R.GET_ALL_ORDERS;
+                sql = Sql.GET_ALL_ORDERS;
             }
         }
         try (PreparedStatement ps = connection.prepareStatement(sql)) {

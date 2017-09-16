@@ -1,9 +1,11 @@
 package ua.nure.sliva.SummaryTask4.dao;
 
-import ua.nure.sliva.SummaryTask4.constants.R;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import ua.nure.sliva.SummaryTask4.constants.Sql;
 import ua.nure.sliva.SummaryTask4.dao.mapper.ProductMapper;
 import ua.nure.sliva.SummaryTask4.entity.Category;
 import ua.nure.sliva.SummaryTask4.entity.Product;
+import ua.nure.sliva.SummaryTask4.exception.DBException;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 
 import java.sql.Connection;
@@ -18,7 +20,7 @@ public class ProductDAOImpl implements ProductDAO {
     public Product getById(int id) {
         Connection connection = ThreadLocaleHandler.getConnection();
         Product product = null;
-        try(PreparedStatement ps = connection.prepareStatement(R.GET_PRODUCT_BY_ID)) {
+        try(PreparedStatement ps = connection.prepareStatement(Sql.GET_PRODUCT_BY_ID)) {
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
@@ -36,7 +38,7 @@ public class ProductDAOImpl implements ProductDAO {
     public int create(Product entity) {
         Connection connection = ThreadLocaleHandler.getConnection();
         int id = 0;
-        try(PreparedStatement ps = connection.prepareStatement(R.CREATE_PRODUCT,PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try(PreparedStatement ps = connection.prepareStatement(Sql.CREATE_PRODUCT,PreparedStatement.RETURN_GENERATED_KEYS)) {
             int k = 0;
             ps.setString(++k,entity.getName());
             ps.setString(++k,entity.getDescription());
@@ -71,7 +73,7 @@ public class ProductDAOImpl implements ProductDAO {
     public List<Product> getProductsByCategoryId(int categoryId) {
         Connection connection = ThreadLocaleHandler.getConnection();
         List<Product> products = new ArrayList<>();
-        try(PreparedStatement ps = connection.prepareStatement(R.GET_PRODUCTS_BY_CATEGORY_ID)) {
+        try(PreparedStatement ps = connection.prepareStatement(Sql.GET_PRODUCTS_BY_CATEGORY_ID)) {
             ps.setInt(1,categoryId);
             ResultSet rs = ps.executeQuery();
             ProductMapper productMapper = new ProductMapper();
@@ -89,7 +91,7 @@ public class ProductDAOImpl implements ProductDAO {
     public List<Category> getAllCategory() {
         Connection connection = ThreadLocaleHandler.getConnection();
         List<Category> categories = new ArrayList<>();
-        try(PreparedStatement ps = connection.prepareStatement(R.GET_ALL_CATEGORIES)){
+        try(PreparedStatement ps = connection.prepareStatement(Sql.GET_ALL_CATEGORIES)){
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 Category category = new Category();
@@ -108,7 +110,7 @@ public class ProductDAOImpl implements ProductDAO {
     public int getCountProductsByCategoryId(int categoryId) {
         Connection connection = ThreadLocaleHandler.getConnection();
         int count = 0;
-        try(PreparedStatement ps = connection.prepareStatement(R.GET_PRODUCT_COUNT_BY_CATEGORY)) {
+        try(PreparedStatement ps = connection.prepareStatement(Sql.GET_PRODUCT_COUNT_BY_CATEGORY)) {
             ps.setInt(1,categoryId);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
@@ -158,7 +160,7 @@ public class ProductDAOImpl implements ProductDAO {
     public List<Product> getProductsByOrderId(int id) {
         List<Product> products = new ArrayList<>();
         Connection connection = ThreadLocaleHandler.getConnection();
-        try(PreparedStatement ps = connection.prepareStatement(R.GET_PRODUCTS_BY_ORDER_ID)) {
+        try(PreparedStatement ps = connection.prepareStatement(Sql.GET_PRODUCTS_BY_ORDER_ID)) {
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
             ProductMapper productMapper = new ProductMapper();
@@ -176,7 +178,7 @@ public class ProductDAOImpl implements ProductDAO {
     public List<Product> getNewProducts() {
         List<Product> products = new ArrayList<>();
         Connection connection = ThreadLocaleHandler.getConnection();
-        try(PreparedStatement ps = connection.prepareStatement(R.GET_NEW_FOUR_PRODUCTS)){
+        try(PreparedStatement ps = connection.prepareStatement(Sql.GET_NEW_FOUR_PRODUCTS)){
             ResultSet rs = ps.executeQuery();
             ProductMapper productMapper = new ProductMapper();
             while (rs.next()){
@@ -189,12 +191,42 @@ public class ProductDAOImpl implements ProductDAO {
         return products;
     }
 
+    @Override
+    public void voteForProduct(int pId, int uId, int vote) {
+        Connection connection = ThreadLocaleHandler.getConnection();
+        try(PreparedStatement ps = connection.prepareStatement(Sql.VOTE_FOR_PRODUCT)) {
+            ps.setInt(1,uId);
+            ps.setInt(2,pId);
+            ps.setInt(3,vote);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
+    }
+
+    @Override
+    public int getProductVote(int pId) {
+        Connection connection = ThreadLocaleHandler.getConnection();
+        int vote = 0;
+        try(PreparedStatement ps = connection.prepareStatement(Sql.GET_PRODUCT_VOTE)) {
+            ps.setInt(1,pId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                vote = (int) (rs.getDouble(1)+0.5);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new UnsupportedOperationException(e);
+        }
+        return vote;
+    }
+
 
     @Override
     public List<Product> getList(int start, int end, boolean ascending, String orderColumn,int category) {
         Connection connection = ThreadLocaleHandler.getConnection();
         List<Product> products = new ArrayList<>();
-        try(PreparedStatement ps = connection.prepareStatement(R.GET_PRODUCTS_BY_RESTRICTS)) {
+        try(PreparedStatement ps = connection.prepareStatement(Sql.GET_PRODUCTS_BY_RESTRICTS)) {
             ps.setInt(1,category);
             ps.setInt(2,start);
             ps.setInt(3,end);

@@ -1,6 +1,6 @@
 package ua.nure.sliva.SummaryTask4.constants;
 
-public abstract class R {
+public abstract class Sql {
     //User
     public static final String GET_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
     public static final String GET_USER_BY_LOGIN = "SELECT * FROM users WHERE login = ?";
@@ -17,6 +17,8 @@ public abstract class R {
     public static final String GET_PRODUCTS_BY_ORDER_ID = "SELECT p.id,p.name,p.description,p.price,op.count,p.categories_id,p.image FROM products p,orders_product op,orders o WHERE op.orders_id=o.id AND op.products_id=p.id AND o.id=?";
     public static final String GET_NEW_FOUR_PRODUCTS = "SELECT * FROM products WHERE count>=1 ORDER BY id DESC LIMIT 0,4";
     public static final String GET_POPULAR_FIVE_PRODUCTS = "SELECT p.id,p.name,p.description,p.price,p.count,p.categories_id,p.image,sum(op.count) FROM products p,orders_product op WHERE p.id = op.products_id GROUP BY p.id ORDER BY sum(op.count) DESC LIMIT 0,5;";
+    public static final String VOTE_FOR_PRODUCT = "INSERT INTO `votes`(`users_id`, `products_id`, `value`) VALUES (?,?,?)";
+    public static final String GET_PRODUCT_VOTE = "SELECT IFNULL(AVG(value+0),0) FROM votes WHERE products_id =?";
 
     //Role
     public static final String GET_ROLE_BY_ID = "SELECT * FROM roles WHERE id = ?";

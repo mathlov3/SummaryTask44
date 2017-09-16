@@ -1,6 +1,6 @@
 package ua.nure.sliva.SummaryTask4.dao;
 
-import ua.nure.sliva.SummaryTask4.constants.R;
+import ua.nure.sliva.SummaryTask4.constants.Sql;
 import ua.nure.sliva.SummaryTask4.dao.mapper.CommentaryMapper;
 import ua.nure.sliva.SummaryTask4.entity.Commentary;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
@@ -24,7 +24,7 @@ public class CommentaryDAOImpl implements CommentaryDAO {
     public int create(Commentary entity) {
         Connection connection = ThreadLocaleHandler.getConnection();
         int id = 0;
-        try(PreparedStatement ps = connection.prepareStatement(R.CREATE_COMMENTARY,PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try(PreparedStatement ps = connection.prepareStatement(Sql.CREATE_COMMENTARY,PreparedStatement.RETURN_GENERATED_KEYS)) {
             int k = 0;
             ps.setInt(++k,entity.getProducts_id());
             ps.setString(++k,entity.getContent());
@@ -58,7 +58,7 @@ public class CommentaryDAOImpl implements CommentaryDAO {
     public List<Commentary> getCommentariesByProductId(int id) {
         Connection connection = ThreadLocaleHandler.getConnection();
         List<Commentary> commentaries = new ArrayList<>();
-        try(PreparedStatement ps = connection.prepareStatement(R.GET_COMMENTARIES_BY_PRODUCT_ID)) {
+        try(PreparedStatement ps = connection.prepareStatement(Sql.GET_COMMENTARIES_BY_PRODUCT_ID)) {
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
