@@ -14,91 +14,67 @@ public class OrderServiceImpl implements OrderService {
     private TransactionPool transactionPool;
     private OrderDao orderDao;
 
-    public OrderServiceImpl(OrderDao orderDao,TransactionPool transactionPool){
+    public OrderServiceImpl(OrderDao orderDao, TransactionPool transactionPool) {
         this.orderDao = orderDao;
         this.transactionPool = transactionPool;
     }
 
     @Override
     public int tryToCreate(Order order) {
-        transactionPool.execute(new Transaction<Order>() {
+        return transactionPool.execute(new Transaction<Integer>() {
             @Override
-            public Order execute() throws SQLException {
-
-                int id = orderDao.create(order);
-                order.setId(id);
-                orderDao.addProductsToOrder(order.getProducts(),order.getId());
-                return order;
+            public Integer execute() throws SQLException {
+                return orderDao.create(order);
             }
         });
-        return order.getId();
     }
 
     @Override
     public List<Order> getOrdersByUserId(int id) {
-        List<Order> orders = new ArrayList<>();
-        transactionPool.execute(new Transaction<Order>() {
+        return transactionPool.execute(new Transaction<List<Order>>() {
             @Override
-            public Order execute() throws SQLException {
-                orders.addAll(orderDao.getOrdersByUserId(id));
-                return null;
+            public List<Order> execute() throws SQLException {
+                return orderDao.getOrdersByUserId(id);
             }
         });
-        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
-        ThreadLocaleHandler.setConnecion(null);
-        return orders;
     }
 
     @Override
     public boolean isUserHaveOrder(int uId, int oId) {
-        final boolean[] result = {false};
-        transactionPool.execute(new Transaction<Order>() {
+        return transactionPool.execute(new Transaction<Boolean>() {
             @Override
-            public Order execute() throws SQLException {
+            public Boolean execute() throws SQLException {
                 Order order = orderDao.getById(oId);
-                if(order == null){}
-                else if(order.getUsersId() == uId){
-                    result[0] = true;
+                if (order == null) {
+                } else if (order.getUsersId() == uId) {
+                    return true;
                 }
-                return null;
+                return false;
             }
         });
-        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
-        ThreadLocaleHandler.setConnecion(null);
-        return result[0];
     }
 
     @Override
     public List<Order> getOrdersByStatusId(int id) {
-        List<Order> orders = new ArrayList<>();
-        transactionPool.execute(new Transaction<Order>() {
+        return transactionPool.execute(new Transaction<List<Order>>() {
             @Override
-            public Order execute() throws SQLException {
-                orders.addAll(orderDao.getOrdersByStatusId(id));
-                return null;
+            public List<Order> execute() throws SQLException {
+                return orderDao.getOrdersByStatusId(id);
             }
         });
-        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
-        ThreadLocaleHandler.setConnecion(null);
-        return orders;
     }
 
     @Override
     public boolean updateOrder(int id, int status) {
-        final int[] b = {0};
-        transactionPool.execute(new Transaction<Order>() {
+        return transactionPool.execute(new Transaction<Boolean>() {
             @Override
-            public Order execute() throws SQLException {
+            public Boolean execute() throws SQLException {
                 Order order = new Order();
                 order.setId(id);
                 order.setOrders_status_id(status);
-                b[0] = orderDao.update(order);
-                return null;
+                return orderDao.update(order) == 0 ? false : true;
             }
         });
-        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
-        ThreadLocaleHandler.setConnecion(null);
-        return b[0]==0?false:true;
     }
 
 }

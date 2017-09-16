@@ -43,6 +43,7 @@ public class ProductDAOImpl implements ProductDAO {
             ps.setDouble(++k,entity.getPrice());
             ps.setInt(++k,entity.getCount());
             ps.setInt(++k,entity.getCategoryId());
+            ps.setBytes(++k,entity.getImg());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if(rs.next()){
@@ -172,7 +173,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public List<? extends Product> getNewProducts() {
+    public List<Product> getNewProducts() {
         List<Product> products = new ArrayList<>();
         Connection connection = ThreadLocaleHandler.getConnection();
         try(PreparedStatement ps = connection.prepareStatement(R.GET_NEW_FOUR_PRODUCTS)){

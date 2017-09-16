@@ -23,7 +23,7 @@
             <c:forEach items="${requestScope.products}" var="item">
                 <div class="col-md-3">
                     <div class="thumbnail">
-                        <img src="https://www.techgig.com/files/logo_1490364784_Sony-Xperia-Z3-320x320.jpg" alt="">
+                        <img style="height: 252.5px;width: 252.5px" src="data:image/png;base64,${item.imgInBase64}" alt="">
                         <div class="caption">
                             <h4 class="pull-right">${item.price}</h4>
                             <h4><a href="product?id=${item.id}">${item.name}</a>

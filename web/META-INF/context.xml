@@ -1,4 +1,5 @@
-<Context>
+<Context allowCasualMultipartParsing="true">
+
 
     <Resource
             name="jdbc/root"

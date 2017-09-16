@@ -1,11 +1,16 @@
 package ua.nure.sliva.SummaryTask4.web.filter;
 
+import org.apache.log4j.Logger;
+import ua.nure.sliva.SummaryTask4.web.listener.ContextListener;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 @WebFilter(urlPatterns = {"/*"})
 public class EncodingFilter implements Filter {
+    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+
     private String encoding = "utf-8";
     public void destroy() {
     }

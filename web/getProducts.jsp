@@ -17,7 +17,7 @@
                 <c:if test="${i*3+j<=products.size()-1}">
                 <div class="col-sm-4 col-lg-4 col-md-4">
                     <div class="thumbnail">
-                        <img src="https://www.techgig.com/files/logo_1490364784_Sony-Xperia-Z3-320x320.jpg" alt="">
+                        <img style="height: 252.5px;width: 252.5px" src="data:image/png;base64,${products[i*3+j].imgInBase64}" alt="">
                         <div class="caption">
                             <h4 class="pull-right">${products[i*3+j].price}</h4>
                             <h4><a href="product?id=${products[i*3+j].id}">${products[i*3+j].name}</a>

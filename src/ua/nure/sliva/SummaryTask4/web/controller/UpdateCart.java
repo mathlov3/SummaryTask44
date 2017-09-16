@@ -1,7 +1,9 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
+import org.apache.log4j.Logger;
 import ua.nure.sliva.SummaryTask4.Cart;
 import ua.nure.sliva.SummaryTask4.entity.Product;
+import ua.nure.sliva.SummaryTask4.web.listener.ContextListener;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +14,8 @@ import java.io.IOException;
 
 @WebServlet("/updateCart")
 public class UpdateCart extends HttpServlet {
+    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         int count = Integer.parseInt(request.getParameter("count"));

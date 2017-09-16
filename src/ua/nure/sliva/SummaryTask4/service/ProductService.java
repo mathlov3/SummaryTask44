@@ -26,4 +26,7 @@ public interface ProductService {
     List<Product> getProductsThatLagestInOrder(Cart<Product> cart);
 
     List<Product> getNewProducts();
+
+    Product parseImageToBase64(Product product);
+    List<Product> parseImagesToBase64(List<Product> products);
 }

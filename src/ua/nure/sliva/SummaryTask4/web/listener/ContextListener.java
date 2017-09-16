@@ -44,17 +44,20 @@ public class ContextListener implements ServletContextListener {
         ProductDAO productDAO = new ProductDAOImpl();
         RoleDao roleDao = new RoleDaoImpl();
         OrderDao orderDao = new OrderDaoImpl();
+        CommentaryDAO commentaryDAO = new CommentaryDAOImpl();
 
         UserService userService = new UserServiceImpl(userDAO,transactionPool);
         ProductService productService = new ProductServiceImpl(productDAO,transactionPool);
         RoleService roleService = new RoleServiceImpl(roleDao,transactionPool);
         OrderService orderService = new OrderServiceImpl(orderDao,transactionPool);
+        CommentaryService commentaryService = new CommentaryServiceImpl(commentaryDAO,transactionPool);
 
 
         sc.setAttribute("userService",userService);
         sc.setAttribute("orderService",orderService);
         sc.setAttribute("roleService",roleService);
         sc.setAttribute("productService",productService);
+        sc.setAttribute("commentaryService",commentaryService);
 
         List<Category> categories = new ArrayList<>();
         transactionPool.execute(new Transaction<Category>() {

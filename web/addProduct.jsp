@@ -5,7 +5,7 @@
 <body>
 <div class="container">
     <%@include file="jspf/menu.jspf"%>
-    <form class="form-horizontal" method="post" action="addProduct">
+    <form class="form-horizontal" method="post" action="addProduct" enctype="multipart/form-data">
         <fieldset>
 
             <!-- Form Name -->
@@ -64,9 +64,9 @@
 
             <!-- File Button -->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="filebutton1">Image</label>
+                <label class="col-md-4 control-label" for="file">Image</label>
                 <div class="col-md-4">
-                    <input id="filebutton1" name="image" class="file-loading" type="file">
+                    <input type="file" name="file" id="file" />
                 </div>
             </div>
 

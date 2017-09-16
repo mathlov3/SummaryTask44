@@ -4,7 +4,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <%@include file="jspf/head.jspf" %>
-<body style="padding-top: 0px">
+<body style="padding-top: 0px;min-height: 100%">
 <%@include file="jspf/userTopPanel.jspf" %>
 <div class="container">
     <table id="cart" class="table table-hover table-condensed">
@@ -70,7 +70,9 @@
         </tr>
         </tfoot>
     </table>
+
 </div>
+
 <%@include file="jspf/footer.jspf"%>
 </body>
 </html>

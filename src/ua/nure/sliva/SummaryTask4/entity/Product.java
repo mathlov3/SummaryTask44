@@ -9,6 +9,24 @@ public class Product implements Serializable {
     private double price;
     private int count;
     private int categoryId;
+    private byte[] img;
+    private String imgInBase64;
+
+    public String getImgInBase64() {
+        return imgInBase64;
+    }
+
+    public void setImgInBase64(String imgInBase64) {
+        this.imgInBase64 = imgInBase64;
+    }
+
+    public byte[] getImg() {
+        return img;
+    }
+
+    public void setImg(byte[] img) {
+        this.img = img;
+    }
 
     public int getId() {
         return id;

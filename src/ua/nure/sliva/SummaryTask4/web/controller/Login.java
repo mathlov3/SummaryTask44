@@ -1,11 +1,13 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
+import org.apache.log4j.Logger;
 import ua.nure.sliva.SummaryTask4.entity.Role;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.exception.AppException;
 import ua.nure.sliva.SummaryTask4.service.RoleService;
 import ua.nure.sliva.SummaryTask4.service.UserService;
 import ua.nure.sliva.SummaryTask4.util.UserValidator;
+import ua.nure.sliva.SummaryTask4.web.listener.ContextListener;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +18,8 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class Login extends HttpServlet {
+    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+
     private UserService userService;
     private RoleService roleService;
     private UserValidator userValidator;

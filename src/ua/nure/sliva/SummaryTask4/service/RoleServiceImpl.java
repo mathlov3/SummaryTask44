@@ -17,14 +17,11 @@ public class RoleServiceImpl implements RoleService {
     }
     @Override
     public Role getRoleById(int id) {
-        Role role = transactionPool.execute(new Transaction<Role>() {
+        return transactionPool.execute(new Transaction<Role>() {
             @Override
             public Role execute() throws SQLException {
                 return roleDao.getById(id);
             }
         });
-        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
-        ThreadLocaleHandler.setConnecion(null);
-        return role;
     }
 }

@@ -1,6 +1,8 @@
 package ua.nure.sliva.SummaryTask4.web.controller.admin;
 
+import org.apache.log4j.Logger;
 import ua.nure.sliva.SummaryTask4.service.OrderService;
+import ua.nure.sliva.SummaryTask4.web.listener.ContextListener;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +13,8 @@ import java.io.IOException;
 
 @WebServlet("/updateOrder")
 public class UpdateOrder extends HttpServlet {
+    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+
     private OrderService orderService;
 
     @Override

@@ -14,6 +14,7 @@ public class ProductMapper {
         product.setCount(rs.getInt("count"));
         product.setCategoryId(rs.getInt("categories_id"));
         product.setPrice(rs.getDouble("price"));
+        product.setImg(rs.getBytes("image"));
         return product;
     }
 }

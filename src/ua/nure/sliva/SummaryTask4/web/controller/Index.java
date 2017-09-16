@@ -1,7 +1,9 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
+import org.apache.log4j.Logger;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.service.ProductService;
+import ua.nure.sliva.SummaryTask4.web.listener.ContextListener;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +15,8 @@ import java.util.List;
 
 @WebServlet("/index")
 public class Index extends HttpServlet {
+    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+
     private ProductService productService;
 
     @Override

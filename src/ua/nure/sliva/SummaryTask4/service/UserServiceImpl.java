@@ -1,18 +1,22 @@
 package ua.nure.sliva.SummaryTask4.service;
 
 import ua.nure.sliva.SummaryTask4.dao.UserDAO;
+import ua.nure.sliva.SummaryTask4.entity.Commentary;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 import ua.nure.sliva.SummaryTask4.transaction.Transaction;
 import ua.nure.sliva.SummaryTask4.transaction.TransactionPool;
 
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
     private TransactionPool transactionPool;
 
-    public UserServiceImpl(UserDAO userDAO,TransactionPool transactionPool){
+    public UserServiceImpl(UserDAO userDAO, TransactionPool transactionPool) {
         this.userDAO = userDAO;
         this.transactionPool = transactionPool;
     }
@@ -40,16 +44,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User tryToLogin(final String login, final String password) {
-        User user =
-        transactionPool.execute(new Transaction<User>() {
+        return transactionPool.execute(new Transaction<User>() {
             @Override
             public User execute() throws SQLException {
-                User u = userDAO.getByLoginAndPassword(login,password);
+                User u = userDAO.getByLoginAndPassword(login, password);
                 return u;
             }
         });
-        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
-        ThreadLocaleHandler.setConnecion(null);
-        return user;
+    }
+
+    @Override
+    public Map<Commentary, User> getCommentaryWithUsers(List<Commentary> commentaries) {
+        return transactionPool.execute(new Transaction<Map<Commentary, User>>() {
+            @Override
+            public Map<Commentary, User> execute() throws SQLException {
+                Map<Commentary,User> commentaryUserMap = new LinkedHashMap<>();
+                for (Commentary commentary:commentaries){
+                    if(commentary.getUsers_id() == null){
+                        commentaryUserMap.put(commentary,null);
+                    } else {
+                        commentaryUserMap.put(commentary,userDAO.getById(commentary.getUsers_id()));
+                    }
+                }
+                return commentaryUserMap;
+            }
+        });
     }
 }

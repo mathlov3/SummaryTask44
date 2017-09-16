@@ -1,8 +1,10 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
+import org.apache.log4j.Logger;
 import ua.nure.sliva.SummaryTask4.Cart;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.service.ProductService;
+import ua.nure.sliva.SummaryTask4.web.listener.ContextListener;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +16,8 @@ import java.util.Iterator;
 
 @WebServlet("/dropFromCart")
 public class DropFromCart extends HttpServlet {
+    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+
     private ProductService productService;
 
     @Override

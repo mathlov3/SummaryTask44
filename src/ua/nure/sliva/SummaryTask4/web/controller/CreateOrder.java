@@ -1,5 +1,6 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
+import org.apache.log4j.Logger;
 import ua.nure.sliva.SummaryTask4.Cart;
 import ua.nure.sliva.SummaryTask4.entity.Order;
 import ua.nure.sliva.SummaryTask4.entity.Product;
@@ -8,6 +9,7 @@ import ua.nure.sliva.SummaryTask4.exception.AppException;
 import ua.nure.sliva.SummaryTask4.exception.DBException;
 import ua.nure.sliva.SummaryTask4.service.OrderService;
 import ua.nure.sliva.SummaryTask4.service.ProductService;
+import ua.nure.sliva.SummaryTask4.web.listener.ContextListener;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +21,8 @@ import java.util.List;
 
 @WebServlet("/createOrder")
 public class CreateOrder extends HttpServlet {
+    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+
     private OrderService orderService;
     private ProductService productService;
 
@@ -50,7 +54,6 @@ public class CreateOrder extends HttpServlet {
             request.setAttribute("errors",errors);
             System.out.println(errors);
             request.getRequestDispatcher("cart.jsp").forward(request,response);
-            return;
         }
 
 

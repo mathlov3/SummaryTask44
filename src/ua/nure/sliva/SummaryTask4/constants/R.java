@@ -12,7 +12,7 @@ public abstract class R {
     public static final String GET_PRODUCT_BY_ID = "SELECT * FROM products WHERE id = ?";
     public static final String GET_PRODUCTS_BY_CATEGORY_ID = "SELECT * FROM products WHERE categories_id = ?";
     public static final String GET_PRODUCTS_BY_RESTRICTS = "SELECT * FROM products WHERE categories_id = ? ORDER BY id LIMIT ?,?";
-    public static final String CREATE_PRODUCT = "INSERT INTO `products`(`name`,`description`,`price`,`count`,`categories_id`) VALUES(?,?,?,?,?)";
+    public static final String CREATE_PRODUCT = "INSERT INTO `products`(`name`,`description`,`price`,`count`,`categories_id`,`image`) VALUES(?,?,?,?,?,?)";
     public static final String GET_PRODUCT_COUNT_BY_CATEGORY = "SELECT COUNT(*) FROM products WHERE categories_id = ?";
     public static final String GET_PRODUCTS_BY_ORDER_ID = "SELECT p.id,p.name,p.description,p.price,op.count,p.categories_id,p.image FROM products p,orders_product op,orders o WHERE op.orders_id=o.id AND op.products_id=p.id AND o.id=?";
     public static final String GET_NEW_FOUR_PRODUCTS = "SELECT * FROM products WHERE count>=1 ORDER BY id DESC LIMIT 0,4";
@@ -35,8 +35,10 @@ public abstract class R {
     public static final String GET_DISABLED_ORDERS_ORDERS = "SELECT * FROM orders WHERE orders_status_id=3 ORDER BY id DESC";
     public static final String UPDATE_ORDER_STATUS = "UPDATE orders SET orders_status_id = ? WHERE id = ?";
 
-
-
-
     //OrderStatus
+
+    //Commentary
+    public static final String CREATE_COMMENTARY = "INSERT INTO `commentaries`(`products_id`, `content`, `users_id`) VALUES (?,?,?)";
+    public static final String GET_COMMENTARIES_BY_PRODUCT_ID = "SELECT * FROM commentaries WHERE products_id = ? ORDER BY id DESC";
+
 }
