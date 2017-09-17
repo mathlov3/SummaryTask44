@@ -39,7 +39,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int create(User user) {
-        return 0;
+        return transactionPool.execute(new Transaction<Integer>() {
+            @Override
+            public Integer execute() throws SQLException {
+                return userDAO.create(user);
+            }
+        });
     }
 
     @Override
@@ -67,6 +72,42 @@ public class UserServiceImpl implements UserService {
                     }
                 }
                 return commentaryUserMap;
+            }
+        });
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return transactionPool.execute(new Transaction<List<User>>() {
+            @Override
+            public List<User> execute() throws SQLException {
+                return userDAO.getAll();
+            }
+        });
+    }
+
+    @Override
+    public void changeBanUser(int userId, int userBan) {
+        transactionPool.execute(new Transaction<Object>() {
+            @Override
+            public Object execute() throws SQLException {
+                User user = userDAO.getById(userId);
+                user.setBan(userBan==1?true:false);
+                userDAO.update(user);
+                return null;
+            }
+        });
+    }
+
+    @Override
+    public void changeRole(int userId, int newRole) {
+        transactionPool.execute(new Transaction<Object>() {
+            @Override
+            public Object execute() throws SQLException {
+                User user = userDAO.getById(userId);
+                user.setRole(newRole);
+                userDAO.update(user);
+                return null;
             }
         });
     }

@@ -24,7 +24,9 @@ public class OrderServiceImpl implements OrderService {
         return transactionPool.execute(new Transaction<Integer>() {
             @Override
             public Integer execute() throws SQLException {
-                return orderDao.create(order);
+                order.setId(orderDao.create(order));
+                orderDao.addProductsToOrder(order.getProducts(),order.getId());
+                return order.getId();
             }
         });
     }

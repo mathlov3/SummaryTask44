@@ -9,6 +9,23 @@ public class User implements Serializable {
     private String name;
     private String email;
     private int roleId;
+    private boolean ban;
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+
+    public boolean isBan() {
+        return ban;
+    }
+
+    public void setBan(boolean ban) {
+        this.ban = ban;
+    }
 
     public int getId() {
         return id;

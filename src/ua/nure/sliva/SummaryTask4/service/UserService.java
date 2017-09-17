@@ -14,4 +14,10 @@ public interface UserService {
     User tryToLogin(String lpgin, String password);
 
     Map<Commentary,User> getCommentaryWithUsers(List<Commentary> commentaries);
+
+    List<User> getAllUsers();
+
+    void changeBanUser(int userId,int userBan);
+
+    void changeRole(int userId,int newRole);
 }

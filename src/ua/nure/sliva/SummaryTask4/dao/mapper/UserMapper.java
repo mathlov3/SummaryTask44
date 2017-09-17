@@ -27,6 +27,7 @@ public class UserMapper {
         user.setName(rs.getString(++k));
         user.setEmail(rs.getString(++k));
         user.setRole(rs.getInt(++k));
+        user.setBan(rs.getInt(++k)==0?false:true);
         return user;
     }
 }

@@ -11,8 +11,8 @@
         <ul class="nav navbar-nav navbar-right">
             <c:choose>
                 <c:when test="${sessionScope.user eq null}">
-                    <li><a href="#"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
-                    <li><a href="login.jsp"><span class="glyphicon glyphicon-user"></span>Login</a></li>
+                    <li><a href="registration.jsp"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
+                    <li><a href="login.jsp"><span class="glyphicon glyphicon-user"></span>Log In</a></li>
                 </c:when>
                 <c:otherwise>
                     <li class="dropdown">

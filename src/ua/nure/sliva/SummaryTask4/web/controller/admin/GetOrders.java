@@ -40,6 +40,6 @@ public class GetOrders extends HttpServlet {
             fullOrders.put(order,productService.getProductsByOrderId(order.getId()));
         }
         request.setAttribute("fullOrders",fullOrders);
-        request.getRequestDispatcher("getOrders.jsp").forward(request,response);
+        request.getRequestDispatcher("WEB-INF/getOrders.jsp").forward(request,response);
     }
 }

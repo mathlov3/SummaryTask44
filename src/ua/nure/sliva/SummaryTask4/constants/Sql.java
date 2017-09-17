@@ -7,6 +7,7 @@ public abstract class Sql {
     public static final String GET_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM users WHERE login = ? AND password=?";
     public static final String GET_ALL_USERS = "SELECT * FROM users";
     public static final String CREATE_USER = "INSERT INTO users(`login`,`password`,`name`,`e-mail`,`roles_id`) VALUES(?,?,?,?,?)";
+    public static final String UPDATE_USER = "UPDATE `users` SET `id`=? ,`login`=?,`password`=?,`name`=?,`e-mail`=?,`roles_id`=?,`blocked`=? WHERE id = ?";
 
     //Product
     public static final String GET_PRODUCT_BY_ID = "SELECT * FROM products WHERE id = ?";

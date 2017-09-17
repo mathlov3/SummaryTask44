@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
+    private UserMapper userMapper = new UserMapper();
     @Override
     public User getByLogin(String login) {
         Connection connection = ThreadLocaleHandler.getConnection();
@@ -21,7 +22,6 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(1,login);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                UserMapper userMapper = new UserMapper();
                 user = userMapper.map(rs);
             }
         } catch (SQLException e) {
@@ -37,7 +37,6 @@ public class UserDAOImpl implements UserDAO {
         Connection connection = ThreadLocaleHandler.getConnection();
         try(PreparedStatement ps = connection.prepareStatement(Sql.GET_ALL_USERS)) {
             ResultSet rs = ps.executeQuery();
-            UserMapper userMapper = new UserMapper();
             while (rs.next()){
                 users.add(userMapper.map(rs));
             }
@@ -57,7 +56,6 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(2,password);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                UserMapper userMapper = new UserMapper();
                 user = userMapper.map(rs);
             }
 
@@ -76,7 +74,6 @@ public class UserDAOImpl implements UserDAO {
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                UserMapper userMapper = new UserMapper();
                 user = userMapper.map(rs);
             }
         } catch (SQLException e) {
@@ -91,6 +88,13 @@ public class UserDAOImpl implements UserDAO {
         Connection connection = ThreadLocaleHandler.getConnection();
         int key = 0;
         try(PreparedStatement ps = connection.prepareStatement(Sql.CREATE_USER,PreparedStatement.RETURN_GENERATED_KEYS)) {
+            int k = 0;
+            ps.setString(++k,user.getLogin());
+            ps.setString(++k,user.getPassword());
+            ps.setString(++k,user.getName());
+            ps.setString(++k,user.getEmail());
+            ps.setInt(++k,user.getRole());
+            ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if(rs.next()){
                 key = rs.getInt(1);
@@ -104,7 +108,28 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public int update(User entity) {
-        return 0;
+        Connection connection = ThreadLocaleHandler.getConnection();
+        int key = 0;
+        try(PreparedStatement ps = connection.prepareStatement(Sql.UPDATE_USER,PreparedStatement.RETURN_GENERATED_KEYS)) {
+            int k = 0;
+            ps.setInt(++k,entity.getId());
+            ps.setString(++k,entity.getLogin());
+            ps.setString(++k,entity.getPassword());
+            ps.setString(++k,entity.getName());
+            ps.setString(++k,entity.getEmail());
+            ps.setInt(++k,entity.getRole());
+            ps.setInt(++k,entity.isBan()?1:0);
+            ps.setInt(++k,entity.getId());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if(rs.next()){
+                key = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new UnsupportedOperationException(e);
+        }
+        return key;
     }
 
     @Override

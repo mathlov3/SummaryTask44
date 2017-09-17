@@ -1,8 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<%@include file="jspf/head.jspf" %>
-<%@include file="jspf/menu.jspf" %>
+<%@include file="../jspf/head.jspf" %>
+<%@include file="../jspf/menu.jspf" %>
 
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -128,7 +128,7 @@
 
 </div>
 </div>
-<script src="js/script.js"></script>
+<script src="../js/script.js"></script>
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 

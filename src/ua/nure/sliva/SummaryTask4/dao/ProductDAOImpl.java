@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAOImpl implements ProductDAO {
+    private  ProductMapper productMapper = new ProductMapper();
     @Override
     public Product getById(int id) {
         Connection connection = ThreadLocaleHandler.getConnection();
@@ -76,7 +77,6 @@ public class ProductDAOImpl implements ProductDAO {
         try(PreparedStatement ps = connection.prepareStatement(Sql.GET_PRODUCTS_BY_CATEGORY_ID)) {
             ps.setInt(1,categoryId);
             ResultSet rs = ps.executeQuery();
-            ProductMapper productMapper = new ProductMapper();
             while (rs.next()){
                 products.add(productMapper.map(rs));
             }
