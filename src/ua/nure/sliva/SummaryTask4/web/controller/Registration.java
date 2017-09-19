@@ -1,5 +1,6 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Role;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.exception.AppException;
@@ -29,11 +30,11 @@ public class Registration extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String login = request.getParameter("login");
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String repassword = request.getParameter("repassword");
+        String login = request.getParameter(Parameters.USER_LOGIN);
+        String name = request.getParameter(Parameters.NAME);
+        String email = request.getParameter(Parameters.USER_EMAIL);
+        String password = request.getParameter(Parameters.USER_PASSWORD);
+        String repassword = request.getParameter(Parameters.USER_REPASSWORD);
 
         String err = userValidator.validate(login,name,email,password,repassword);
         if(err != null){
@@ -54,12 +55,12 @@ public class Registration extends HttpServlet {
         user.setLogin(login);
         if(userService.create(user) == 0){
             AppException exception = new AppException("Inner error");
-            request.setAttribute("exception",exception);
+            request.setAttribute(Parameters.EXCEPTION,exception);
             throw exception;
         }
         Role role = roleService.getRoleById(1);
-        request.getSession().setAttribute("user",user);
-        request.getSession().setAttribute("role",role);
+        request.getSession().setAttribute(Parameters.USER,user);
+        request.getSession().setAttribute(Parameters.ROLE,role);
         response.sendRedirect("index");
     }
 }

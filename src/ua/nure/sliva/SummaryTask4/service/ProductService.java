@@ -34,4 +34,6 @@ public interface ProductService {
     void voteForProduct(int pId, int uId, int vote);
 
     int getProductVote(int pId);
+
+    int updateProduct(Product product);
 }

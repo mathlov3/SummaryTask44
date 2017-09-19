@@ -3,6 +3,7 @@
 <html>
 <%@include file="jspf/head.jspf" %>
 <body style="padding-top: 0px">
+
 <%@include file="jspf/userTopPanel.jspf"%>
 <div class="container">
     <div class="row vertical-offset-100">

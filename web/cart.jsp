@@ -10,10 +10,10 @@
     <table id="cart" class="table table-hover table-condensed">
         <thead>
         <tr>
-            <th style="width:50%">Product</th>
-            <th style="width:10%">Price</th>
-            <th style="width:8%">Quantity</th>
-            <th style="width:22%" class="text-center">Subtotal</th>
+            <th style="width:50%"><fmt:message key="cart.products"/> </th>
+            <th style="width:10%"><fmt:message key="cart.price"/> </th>
+            <th style="width:8%"><fmt:message key="cart.count"/> </th>
+            <th style="width:22%" class="text-center"><fmt:message key="cart.all"/> </th>
             <th style="width:10%"></th>
         </tr>
         </thead>
@@ -22,8 +22,10 @@
             <tr>
                 <td data-th="Product">
                     <div class="row">
-                        <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..."
-                                                             class="img-responsive"/></div>
+                        <div class="col-sm-2 hidden-xs"><img
+                                <c:if test="${!empty item.key.imgInBase64}">src="data:image/png;base64,${item.key.imgInBase64}"</c:if>
+                                <c:if test="${empty item.key.imgInBase64}">src="images/emptyproduct.png"</c:if>
+                                class="img-responsive"/></div>
                         <div class="col-sm-10">
                             <h4 class="nomargin">${item.key.name}</h4>
                             <p>${item.key.description}
@@ -57,15 +59,12 @@
         </c:forEach>
         </tbody>
         <tfoot>
-        <tr class="visible-xs">
-            <td class="text-center"><strong>Total 1.99</strong></td>
-        </tr>
         <tr>
-            <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+            <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i><fmt:message key="cart.continue"/> </a></td>
             <td colspan="2" class="hidden-xs"><a href="clearCart" class="btn btn-warning"><i
-                    class="fa fa-angle-left"></i>Clear cart</a></td>
-            <td class="hidden-xs text-center"><strong>Total $${sessionScope.cart.getPrice()}</strong></td>
-            <td><a href="/createOrder" class="btn btn-success btn-block">Create order<i
+                    class="fa fa-angle-left"></i><fmt:message key="cart.clearcart"/> </a></td>
+            <td class="hidden-xs text-center"><strong><fmt:message key="cart.allall"/> ${sessionScope.cart.getPrice()}</strong></td>
+            <td><a href="/createOrder" class="btn btn-success btn-block"><fmt:message key="cart.create"/> <i
                     class="fa fa-angle-right"></i></a></td>
         </tr>
         </tfoot>
@@ -73,6 +72,6 @@
 
 </div>
 
-<%@include file="jspf/footer.jspf"%>
+<%@include file="jspf/footer.jspf" %>
 </body>
 </html>

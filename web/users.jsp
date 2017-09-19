@@ -5,15 +5,15 @@
 <%@include file="jspf/userTopPanel.jspf" %>
 <%@include file="jspf/menu.jspf" %>
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <h2>Users</h2>
+    <h2><fmt:message key="users.users"/> </h2>
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>id</th>
-            <th>login</th>
-            <th>name</th>
-            <th>email</th>
-            <th>role</th>
+            <th><fmt:message key="orders.userid"/> </th>
+            <th><fmt:message key="registration.login"/> </th>
+            <th><fmt:message key="registration.name"/> </th>
+            <th><fmt:message key="registration.email"/> </th>
+            <th><fmt:message key="users.role"/> </th>
             <th>block</th>
         </tr>
         </thead>

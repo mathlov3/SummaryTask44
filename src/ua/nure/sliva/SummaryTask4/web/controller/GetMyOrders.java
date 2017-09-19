@@ -1,6 +1,7 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
 import org.apache.log4j.Logger;
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Order;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.exception.AppException;
@@ -28,14 +29,14 @@ public class GetMyOrders extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute("user")==null){
+        if(request.getSession().getAttribute(Parameters.USER)==null){
             AppException exception = new AppException("You need login if you want show your orders");
-            request.setAttribute("exception",exception);
+            request.setAttribute(Parameters.EXCEPTION,exception);
             throw exception;
         }
-        User user = (User) request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute(Parameters.USER);
         List<Order> orders = orderService.getOrdersByUserId(user.getId());
-        request.setAttribute("orders",orders);
+        request.setAttribute(Parameters.ORDERS,orders);
         request.getRequestDispatcher("myOrders.jsp").forward(request,response);
     }
 }

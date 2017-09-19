@@ -2,6 +2,7 @@ package ua.nure.sliva.SummaryTask4.web.controller;
 
 import org.apache.log4j.Logger;
 import ua.nure.sliva.SummaryTask4.Cart;
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Order;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.entity.User;
@@ -34,14 +35,14 @@ public class CreateOrder extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute("user")==null){
+        if(request.getSession().getAttribute(Parameters.USER)==null){
             AppException exception = new AppException("You need login if you want make order");
-            request.setAttribute("exception",exception);
+            request.setAttribute(Parameters.EXCEPTION,exception);
             throw exception;
         }
         Order order = new Order();
-        Cart<Product> cart = (Cart<Product>) request.getSession().getAttribute("cart");
-        User user = (User) request.getSession().getAttribute("user");
+        Cart<Product> cart = (Cart<Product>) request.getSession().getAttribute(Parameters.CART);
+        User user = (User) request.getSession().getAttribute(Parameters.USER);
         order.setPrice(cart.getPrice());
         order.setUsersId(user.getId());
         order.setProducts(cart);
@@ -52,7 +53,6 @@ public class CreateOrder extends HttpServlet {
         } catch (DBException e){
             List<Product> errors = productService.getProductsThatLagestInOrder(cart);
             request.setAttribute("errors",errors);
-            System.out.println(errors);
             request.getRequestDispatcher("cart.jsp").forward(request,response);
         }
 

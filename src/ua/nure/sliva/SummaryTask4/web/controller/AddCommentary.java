@@ -1,6 +1,7 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
 import org.apache.log4j.Logger;
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Commentary;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.service.CommentaryService;
@@ -25,8 +26,8 @@ public class AddCommentary extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("user");
-        int id = Integer.parseInt(request.getParameter("id"));
+        User user = (User) request.getSession().getAttribute(Parameters.USER);
+        int id = Integer.parseInt(request.getParameter(Parameters.ID));
         String content = request.getParameter("content");
         Commentary commentary = new Commentary();
         commentary.setProducts_id(id);

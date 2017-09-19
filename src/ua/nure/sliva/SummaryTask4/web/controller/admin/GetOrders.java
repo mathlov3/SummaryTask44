@@ -1,6 +1,7 @@
 package ua.nure.sliva.SummaryTask4.web.controller.admin;
 
 import org.apache.log4j.Logger;
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Order;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.service.OrderService;
@@ -33,7 +34,7 @@ public class GetOrders extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int status = Integer.parseInt(request.getParameter("status") == null || request.getParameter("status").isEmpty()?"0":request.getParameter("status"));
+        int status = Integer.parseInt(request.getParameter(Parameters.STATUS) == null || request.getParameter(Parameters.STATUS).isEmpty()?"0":request.getParameter(Parameters.STATUS));
         List<Order> orders = orderService.getOrdersByStatusId(status);
         Map<Order,List<Product>> fullOrders = new LinkedHashMap<>();
         for(Order order:orders){

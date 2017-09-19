@@ -20,6 +20,7 @@ public class SessionListener implements HttpSessionListener {
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         Cart<Product> cart = new Cart<>();
         httpSessionEvent.getSession().setAttribute("cart",cart);
+        httpSessionEvent.getSession().setAttribute("locale","en");
 
     }
 

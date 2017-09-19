@@ -25,7 +25,6 @@ public class UpdateOrder extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int status = Integer.parseInt(request.getParameter("status"));
-        System.out.println(status);
         int id = Integer.parseInt(request.getParameter("id"));
         boolean st = orderService.updateOrder(id,status);
         request.getSession().setAttribute("status",st?"Operation succsessfull":"Operation denied");

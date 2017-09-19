@@ -98,6 +98,7 @@ public class UserDAOImpl implements UserDAO {
             ResultSet rs = ps.getGeneratedKeys();
             if(rs.next()){
                 key = rs.getInt(1);
+                user.setId(key);
             }
         } catch (SQLException e) {
             e.printStackTrace();

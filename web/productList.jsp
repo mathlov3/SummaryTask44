@@ -1,24 +1,27 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
 <%@include file="jspf/head.jspf" %>
+<html>
+<body style="padding-top: 0px">
+<%@include file="jspf/userTopPanel.jspf" %>
 <%@include file="jspf/menu.jspf" %>
 
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <c:choose>
         <c:when test="${!empty requestScope.products}">
-            <h2 class="sub-header">Products</h2>
+            <h2 class="sub-header"><fmt:message key="cart.products"/> </h2>
             <div class="table-responsive">
                 <table class="table table-list-search">
                     <thead>
                     <tr>
-                        <th>id</th>
-                        <th>name</th>
-                        <th>description</th>
-                        <th>count</th>
-                        <th>price</th>
-                        <th>category_id</th>
+                        <th><fmt:message key="myorders.id"/> </th>
+                        <th><fmt:message key="getproduct.name"/> </th>
+                        <th><fmt:message key="addproduct.description"/> </th>
+                        <th><fmt:message key="cart.count"/> </th>
+                        <th><fmt:message key="cart.count"/> </th>
+                        <th><fmt:message key="productlis.categoryid"/> </th>
+                        <th>edit</th>
                     </tr>
                     </thead>
                     <c:forEach items="${requestScope.products}" var="item">
@@ -30,6 +33,12 @@
                         <td>${item.count}</td>
                         <td>${item.price}</td>
                         <td>${item.categoryId}</td>
+                        <td><form method="get" action="editProduct">
+                                <input type="hidden" name="id" value="${item.id}">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </button>
+                        </form></td>
                     </tr>
                     </c:forEach>
                 </table>

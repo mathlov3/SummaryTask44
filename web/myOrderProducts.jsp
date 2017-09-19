@@ -14,10 +14,10 @@
     <table id="cart" class="table table-hover table-condensed">
         <thead>
         <tr>
-            <th style="width:50%"><b>Product</b></th>
-            <th style="width:10%"><b>Price</b></th>
-            <th style="width:8%"><b>Quantity</b></th>
-            <th style="width:22%" class="text-center"><b>Subtotal</b></th>
+            <th style="width:50%"><b><fmt:message key="cart.products"/> </b></th>
+            <th style="width:10%"><b><fmt:message key="cart.price"/> </b></th>
+            <th style="width:8%"><b><fmt:message key="cart.count"/> </b></th>
+            <th style="width:22%" class="text-center"><b><fmt:message key="cart.all"/> </b></th>
             <th style="width:10%"></th>
         </tr>
         </thead>

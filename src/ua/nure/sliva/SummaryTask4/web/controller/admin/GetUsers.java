@@ -1,5 +1,6 @@
 package ua.nure.sliva.SummaryTask4.web.controller.admin;
 
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.service.UserService;
 
@@ -23,7 +24,7 @@ public class GetUsers extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<User> users = userService.getAllUsers();
-        request.setAttribute("users",users);
+        request.setAttribute(Parameters.USERS,users);
         request.getRequestDispatcher("users.jsp").forward(request,response);
     }
 }

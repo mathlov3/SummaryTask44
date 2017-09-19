@@ -41,8 +41,8 @@ public class OrderDaoImpl implements OrderDao {
         int id = 0;
         try (PreparedStatement ps = connection.prepareStatement(Sql.CREATE_ORDER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             int k = 0;
-            System.out.println("Creating order");
             ps.setDouble(++k, entity.getPrice());
+            System.out.println(entity.getUsersId());
             ps.setInt(++k, entity.getUsersId());
             ps.setInt(++k, 1);
             ps.executeUpdate();

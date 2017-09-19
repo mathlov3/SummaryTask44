@@ -1,5 +1,6 @@
 package ua.nure.sliva.SummaryTask4.web.controller.admin;
 
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.service.UserService;
 
@@ -21,7 +22,7 @@ public class UpdateUserStatus extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userId = Integer.parseInt(request.getParameter("userId"));
+        int userId = Integer.parseInt(request.getParameter(Parameters.USER_ID));
         if(userId != 1) {
             if (request.getParameter("banUser") != null) {
                 int banUser = Integer.parseInt(request.getParameter("banUser"));

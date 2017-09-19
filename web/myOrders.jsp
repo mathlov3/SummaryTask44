@@ -5,13 +5,13 @@
 <body style="padding-top: 0px">
 <%@include file="jspf/userTopPanel.jspf"%>
 <div class="container">
-    <h2>Orders</h2>
+    <h2><fmt:message key="myorders.orders"/> </h2>
     <table class="table table-striped">
         <tr>
-            <td><b>id</b></td>
-            <td><b>status</b></td>
-            <td><b>date</b></td>
-            <td><b>price</b></td>
+            <td><b><fmt:message key="myorders.id"/></b></td>
+            <td><b><fmt:message key="myorders.status"/></b></td>
+            <td><b><fmt:message key="myorders.date"/></b></td>
+            <td><b><fmt:message key="myorders.price"/></b></td>
         </tr>
         <c:forEach items="${requestScope.orders}" var="order">
             <tr>

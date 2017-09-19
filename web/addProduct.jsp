@@ -2,19 +2,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <%@include file="jspf/head.jspf" %>
-<body>
+<body style="padding-top: 0px">
+<%@include file="jspf/userTopPanel.jspf" %>
+<%@include file="jspf/menu.jspf" %>
 <div class="container">
-    <%@include file="jspf/menu.jspf"%>
+
     <form class="form-horizontal" method="post" action="addProduct" enctype="multipart/form-data">
         <fieldset>
 
-            <!-- Form Name -->
-            <legend>Products</legend>
-
-
-            <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="product_name">Name</label>
+                <label class="col-md-4 control-label" for="product_name"><fmt:message key="getproduct.name"/> </label>
                 <div class="col-md-4">
                     <input id="product_name" name="name" placeholder="PRODUCT NAME" class="form-control input-md"
                            required="" type="text">
@@ -24,7 +21,7 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="product_name_fr">Description</label>
+                <label class="col-md-4 control-label" for="product_name_fr"><fmt:message key="addproduct.description"/> </label>
                 <div class="col-md-4">
                     <input id="product_name_fr" name="description" placeholder="PRODUCT DESCRIPTION FR"
                            class="form-control input-md" required="" type="text">
@@ -34,7 +31,7 @@
 
             <!-- Select Basic -->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="product_category">Category</label>
+                <label class="col-md-4 control-label" for="product_category"><fmt:message key="getproduct.category"/> </label>
                 <div class="col-md-4">
                     <select id="product_category" name="category" class="form-control">
                         <c:forEach items="${applicationScope.categories}" var="category">
@@ -46,7 +43,7 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="available_quantity">Initial count</label>
+                <label class="col-md-4 control-label" for="available_quantity"><fmt:message key="cart.count"/> </label>
                 <div class="col-md-4">
                     <input id="available_quantity" name="count" placeholder="AVAILABLE QUANTITY"
                            class="form-control input-md" required="" type="number">
@@ -54,7 +51,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-md-4 control-label" for="available_quantity">PRICE</label>
+                <label class="col-md-4 control-label" for="available_quantity"><fmt:message key="cart.price"/> </label>
                 <div class="col-md-4">
                     <input id="price" name="price" placeholder="AVAILABLE QUANTITY"
                            class="form-control input-md" required="" type="text">
@@ -64,7 +61,7 @@
 
             <!-- File Button -->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="file">Image</label>
+                <label class="col-md-4 control-label" for="file"><fmt:message key="addproduct.image"/> </label>
                 <div class="col-md-4">
                     <input type="file" name="file" id="file" />
                 </div>
@@ -74,7 +71,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="singlebutton"></label>
                 <div class="col-md-4">
-                    <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-primary">Add product</button>
+                    <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-primary"><fmt:message key="addproduct.addproduct"/>  </button>
                 </div>
             </div>
 

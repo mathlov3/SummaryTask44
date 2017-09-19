@@ -20,6 +20,9 @@ public abstract class Sql {
     public static final String GET_POPULAR_FIVE_PRODUCTS = "SELECT p.id,p.name,p.description,p.price,p.count,p.categories_id,p.image,sum(op.count) FROM products p,orders_product op WHERE p.id = op.products_id GROUP BY p.id ORDER BY sum(op.count) DESC LIMIT 0,5;";
     public static final String VOTE_FOR_PRODUCT = "INSERT INTO `votes`(`users_id`, `products_id`, `value`) VALUES (?,?,?)";
     public static final String GET_PRODUCT_VOTE = "SELECT IFNULL(AVG(value+0),0) FROM votes WHERE products_id =?";
+    public static final String UPDATE_PRODUCT = "UPDATE `products` SET `id`=?,`name`=?,`description`=?,`price`=?,`count`=?,`categories_id`=?,`image`=? WHERE id = ?";
+    public static final String GET_IMAGES_BY_PRODUCT_ID = "SELECT * FORM images WHERE products_id = ?";
+    public static final String ADD_IMAGE_FOR_PRODUCT = "INSERT INTO `images`(`image`, `products_id`) VALUES (?,?)";
 
     //Role
     public static final String GET_ROLE_BY_ID = "SELECT * FROM roles WHERE id = ?";

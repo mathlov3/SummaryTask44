@@ -1,6 +1,7 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
 import org.apache.log4j.Logger;
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.service.ProductService;
 import ua.nure.sliva.SummaryTask4.web.listener.ContextListener;
@@ -27,7 +28,7 @@ public class Index extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Product> products = productService.getNewProducts();
-        request.setAttribute("products",products);
+        request.setAttribute(Parameters.PRODUCTS,products);
         request.getRequestDispatcher("/index.jsp").forward(request,response);
     }
 }

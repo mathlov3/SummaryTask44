@@ -17,12 +17,14 @@
                 <c:if test="${i*3+j<=products.size()-1}">
                 <div class="col-sm-4 col-lg-4 col-md-4">
                     <div class="thumbnail">
-                        <img style="height: 252.5px;width: 252.5px" src="data:image/png;base64,${products[i*3+j].imgInBase64}" alt="">
+                        <img style="height: 252.5px;width: 252.5px"
+                             <c:if test="${!empty requestScope.products[i*3+j].imgInBase64}">src="data:image/png;base64,${requestScope.products[i*3+j].imgInBase64}"</c:if>
+                             <c:if test="${empty requestScope.products[i*3+j].imgInBase64}">src="images/emptyproduct.png"</c:if>alt="">
                         <div class="caption">
                             <h4 class="pull-right">${products[i*3+j].price}</h4>
                             <h4><a href="product?id=${products[i*3+j].id}">${products[i*3+j].name}</a>
                             </h4>
-                            <p>${products[i*3+j].description}<a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
+
                         </div>
                         <div class="ratings">
                             <p>

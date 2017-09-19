@@ -26,4 +26,8 @@ public interface ProductDAO extends GenericDAO<Product>,Pagenable<Product> {
     void voteForProduct(int pId, int uId, int vote);
 
     int getProductVote(int pId);
+
+    List<byte[]> getImagesById(int id);
+
+    int addProductImage(byte[] image,int productId);
 }

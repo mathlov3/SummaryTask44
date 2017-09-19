@@ -1,6 +1,7 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
 import org.apache.log4j.Logger;
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.web.listener.ContextListener;
 
 import javax.servlet.ServletException;
@@ -15,8 +16,8 @@ public class Logout extends HttpServlet {
     private static final Logger LOG = Logger.getLogger(ContextListener.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getSession().removeAttribute("user");
-        request.getSession().removeAttribute("role");
+        request.getSession().removeAttribute(Parameters.USER);
+        request.getSession().removeAttribute(Parameters.ROLE);
         response.sendRedirect("index");
     }
 

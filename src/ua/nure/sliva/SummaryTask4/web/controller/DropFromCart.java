@@ -2,6 +2,7 @@ package ua.nure.sliva.SummaryTask4.web.controller;
 
 import org.apache.log4j.Logger;
 import ua.nure.sliva.SummaryTask4.Cart;
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.service.ProductService;
 import ua.nure.sliva.SummaryTask4.web.listener.ContextListener;
@@ -26,8 +27,8 @@ public class DropFromCart extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Cart<Product> cart = (Cart<Product>) request.getSession().getAttribute("cart");
-        int id = Integer.parseInt(request.getParameter("id"));
+        Cart<Product> cart = (Cart<Product>) request.getSession().getAttribute(Parameters.CART);
+        int id = Integer.parseInt(request.getParameter(Parameters.ID));
         Product product = new Product();
         product.setId(id);
         cart.remove(product);

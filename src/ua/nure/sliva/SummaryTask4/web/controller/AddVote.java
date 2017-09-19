@@ -1,5 +1,6 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.exception.AppException;
 import ua.nure.sliva.SummaryTask4.exception.DBException;
@@ -24,15 +25,15 @@ public class AddVote extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute("user") == null){
+        if(request.getSession().getAttribute(Parameters.USER) == null){
             AppException exception = new AppException("You must be logined if you want vote for product");
-            request.setAttribute("exception",exception);
+            request.setAttribute(Parameters.EXCEPTION,exception);
             throw exception;
         }
-        int vote = Integer.parseInt(request.getParameter("vote"));
-        int id = Integer.parseInt(request.getParameter("id"));
+        int vote = Integer.parseInt(request.getParameter(Parameters.VOTE));
+        int id = Integer.parseInt(request.getParameter(Parameters.ID));
         try {
-            productService.voteForProduct(id,((User)request.getSession().getAttribute("user")).getId(),vote);
+            productService.voteForProduct(id,((User)request.getSession().getAttribute(Parameters.USER)).getId(),vote);
             request.getSession().setAttribute("voteStatus","Your vote was accepte");
         } catch (DBException e){
             request.getSession().setAttribute("voteStatus","Your alredy vote for this product");

@@ -1,6 +1,7 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
 import org.apache.log4j.Logger;
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Role;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.exception.AppException;
@@ -31,13 +32,13 @@ public class Login extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute("user")!=null){
+        if(request.getSession().getAttribute(Parameters.USER)!=null){
             AppException exception = new AppException("You already loginned");
-            request.setAttribute("exception",exception);
+            request.setAttribute(Parameters.EXCEPTION,exception);
             throw exception;
         }
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
+        String login = request.getParameter(Parameters.USER_LOGIN);
+        String password = request.getParameter(Parameters.USER_PASSWORD);
         String err = userValidator.validate(login,password);
         if(err != null){
             request.getSession().setAttribute("err",err);
@@ -51,9 +52,9 @@ public class Login extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
-        request.getSession().setAttribute("user",user);
+        request.getSession().setAttribute(Parameters.USER,user);
         Role role = roleService.getRoleById(user.getRole());
-        request.getSession().setAttribute("role",role);
+        request.getSession().setAttribute(Parameters.ROLE,role);
         response.sendRedirect("index");
     }
 

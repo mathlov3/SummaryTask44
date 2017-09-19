@@ -12,18 +12,21 @@
 
     <!-- Jumbotron Header -->
     <header class="jumbotron my-4">
-        <h1 class="display-3">Welcome in &lt;epam&gt;SHOP</h1>
-        <a href="/getProducts" class="btn btn-primary btn-lg">Go to products</a>
+        <h1 class="display-3"><fmt:message key="index.welcome"/> &lt;epam&gt;SHOP</h1>
+        <a href="/getProducts" class="btn btn-primary btn-lg"><fmt:message key="toppanel.products"/> </a>
     </header>
 
     <!-- Page Features -->
 
-        <h2>New products</h2>
+        <h2><fmt:message key="index.newproducts"/> </h2>
         <div class="row">
             <c:forEach items="${requestScope.products}" var="item">
                 <div class="col-md-3">
                     <div class="thumbnail">
-                        <img style="height: 252.5px;width: 252.5px" src="data:image/png;base64,${item.imgInBase64}" alt="">
+                        <img style="height: 252.5px;width: 252.5px"
+                             <c:if test="${!empty item.imgInBase64}">src="data:image/png;base64,${item.imgInBase64}"</c:if>
+                             <c:if test="${empty item.imgInBase64}">src="images/emptyproduct.png"</c:if>
+                             alt="">
                         <div class="caption">
                             <h4 class="pull-right">${item.price}</h4>
                             <h4><a href="product?id=${item.id}">${item.name}</a>

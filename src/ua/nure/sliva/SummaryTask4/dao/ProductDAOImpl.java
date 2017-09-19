@@ -30,7 +30,7 @@ public class ProductDAOImpl implements ProductDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException(e);
+            throw new DBException(e);
         }
         return product;
     }
@@ -55,14 +55,35 @@ public class ProductDAOImpl implements ProductDAO {
         } catch (SQLException e) {
             e.printStackTrace();
 
-            throw new UnsupportedOperationException(e);
+            throw new DBException(e);
         }
         return id;
     }
 
     @Override
     public int update(Product entity) {
-        return 0;
+        Connection connection = ThreadLocaleHandler.getConnection();
+        int id = 0;
+        try(PreparedStatement ps = connection.prepareStatement(Sql.UPDATE_PRODUCT,PreparedStatement.RETURN_GENERATED_KEYS)) {
+            int k = 0;
+            ps.setInt(++k,entity.getId());
+            ps.setString(++k,entity.getName());
+            ps.setString(++k,entity.getDescription());
+            ps.setDouble(++k,entity.getPrice());
+            ps.setInt(++k,entity.getCount());
+            ps.setInt(++k,entity.getCategoryId());
+            ps.setBytes(++k,entity.getImg());
+            ps.setInt(++k,entity.getId());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if(rs.next()){
+                id = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(e);
+        }
+        return id;
     }
 
     @Override
@@ -82,7 +103,7 @@ public class ProductDAOImpl implements ProductDAO {
             }
         } catch (SQLException e){
             e.printStackTrace();
-            throw new UnsupportedOperationException(e);
+            throw new DBException(e);
         }
         return products;
     }
@@ -101,7 +122,7 @@ public class ProductDAOImpl implements ProductDAO {
             }
         } catch (SQLException e){
             e.printStackTrace();
-            throw  new UnsupportedOperationException(e);
+            throw  new DBException(e);
         }
         return categories;
     }
@@ -135,7 +156,7 @@ public class ProductDAOImpl implements ProductDAO {
             }
         } catch (SQLException e){
             e.printStackTrace();
-            throw new UnsupportedOperationException(e);
+            throw new DBException(e);
         }
         return products;
     }
@@ -151,7 +172,7 @@ public class ProductDAOImpl implements ProductDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException(e);
+            throw new DBException(e);
         }
         return count;
     }
@@ -169,7 +190,7 @@ public class ProductDAOImpl implements ProductDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException(e);
+            throw new DBException(e);
         }
         return products;
     }
@@ -186,7 +207,7 @@ public class ProductDAOImpl implements ProductDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException(e);
+            throw new DBException(e);
         }
         return products;
     }
@@ -216,9 +237,45 @@ public class ProductDAOImpl implements ProductDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException(e);
+            throw new DBException(e);
         }
         return vote;
+    }
+
+    @Override
+    public List<byte[]> getImagesById(int id) {
+        Connection connection = ThreadLocaleHandler.getConnection();
+        List<byte[]> images = new ArrayList<>();
+        try(PreparedStatement ps = connection.prepareStatement(Sql.GET_IMAGES_BY_PRODUCT_ID)) {
+            ps.setInt(1,id);
+            ResultSet rs =ps.executeQuery();
+            while (rs.next()){
+                images.add(rs.getBytes(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(e);
+        }
+        return images;
+    }
+
+    @Override
+    public int addProductImage(byte[] image, int productId) {
+        Connection connection =ThreadLocaleHandler.getConnection();
+        int id = 0;
+        try (PreparedStatement ps = connection.prepareStatement(Sql.ADD_IMAGE_FOR_PRODUCT,PreparedStatement.RETURN_GENERATED_KEYS)){
+            ps.setBytes(1,image);
+            ps.setInt(2,productId);
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if(rs.next()){
+                id= rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(e);
+        }
+        return id;
     }
 
 
@@ -237,7 +294,7 @@ public class ProductDAOImpl implements ProductDAO {
             }
         } catch (SQLException e){
             e.printStackTrace();
-            throw new UnsupportedOperationException(e);
+            throw new DBException(e);
         }
         return products;
     }

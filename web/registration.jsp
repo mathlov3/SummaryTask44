@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Eugene
-  Date: 17.09.2017
-  Time: 13:32
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <%@include file="jspf/head.jspf" %>
@@ -29,52 +22,34 @@
                                 </div>
                             </c:if>
                             <div class="form-group ">
-                                <label class="control-label" for="name">Name</label>
+                                <label class="control-label" for="name"><fmt:message key="registration.name"/> </label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Имя" value="${user.name }" />
                             </div>
-                            <c:if test="${!empty errors.get('login') }">
-                                <div class="alert alert-danger">
-                                    <a href="#" class="close" data-dismiss="alert">×</a>
-                                        ${errors.get('login') }
-                                </div>
-                            </c:if>
                             <div class="form-group ">
-                                <label class="control-label requiredField" for="login">Login
+                                <label class="control-label requiredField" for="login"><fmt:message key="registration.login"/>
                                     <span class="asteriskField"> * </span></label>
                                 <input type="text" class="form-control" id="login" name="login" placeholder="login"  value="${user.login }" />
                             </div>
                             <div class="form-group ">
-                                <label class="control-label requiredField" for="login">Email
+                                <label class="control-label requiredField" for="login"><fmt:message key="registration.email"/>
                                     <span class="asteriskField"> * </span></label>
                                 <input type="text" class="form-control" id="email" name="email" placeholder="email"  value="${user.login }" />
                             </div>
-                            <c:if test="${!empty errors.get('password') }">
-                                <div class="alert alert-danger">
-                                    <a href="#" class="close" data-dismiss="alert">×</a>
-                                        ${errors.get('password') }
-                                </div>
-                            </c:if>
                             <div class="form-group">
-                                <label class="control-label requiredField" for="password">Пароль
+                                <label class="control-label requiredField" for="password"><fmt:message key="registration.password"/>
                                     <span class="asteriskField"> * </span>
                                 </label> <input type="password" class="form-control" id="password" name="password"
                                                 placeholder="пароль" />
                             </div>
-                            <c:if test="${!empty errors.get('password2') }">
-                                <div class="alert alert-danger">
-                                    <a href="#" class="close" data-dismiss="alert">×</a>
-                                        ${errors.get('password2') }
-                                </div>
-                            </c:if>
                             <div class="form-group">
-                                <label class="control-label requiredField" for="repassword">Подтверждение пароля
+                                <label class="control-label requiredField" for="repassword"><fmt:message key="registration.repassword"/>
                                     <span class="asteriskField"> * </span>
                                 </label> <input type="password" class="form-control" id="repassword" name="repassword"
                                                 placeholder="подтверждение" />
                             </div>
                             <div class="form-group">
                                 <div>
-                                    <button class="btn btn-primary " name="submit" type="submit">Зарегистрироваться</button>
+                                    <button class="btn btn-primary " name="submit" type="submit"><fmt:message key="registration.submit"/> </button>
                                 </div>
                             </div>
                         </form>

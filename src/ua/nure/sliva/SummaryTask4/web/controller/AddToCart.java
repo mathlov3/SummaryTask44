@@ -2,6 +2,7 @@ package ua.nure.sliva.SummaryTask4.web.controller;
 
 import org.apache.log4j.Logger;
 import ua.nure.sliva.SummaryTask4.Cart;
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.dao.ProductDAO;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.service.ProductService;
@@ -26,11 +27,11 @@ public class AddToCart extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
+        int id = Integer.parseInt(req.getParameter(Parameters.ID));
         Product product = productService.getProductById(id);
-        int count = Integer.parseInt(req.getParameter("count"));
+        int count = Integer.parseInt(req.getParameter(Parameters.COUNT));
         if(product != null){
-            ((Cart<Product>)req.getSession().getAttribute("cart")).put(product,count);
+            ((Cart<Product>)req.getSession().getAttribute(Parameters.CART)).put(product,count);
         }
         req.getSession().setAttribute("okb","ok");
         resp.sendRedirect("/product?id="+id);

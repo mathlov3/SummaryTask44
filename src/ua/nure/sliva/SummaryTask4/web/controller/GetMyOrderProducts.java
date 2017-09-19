@@ -1,6 +1,7 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
 import org.apache.log4j.Logger;
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.exception.AppException;
@@ -30,21 +31,21 @@ public class GetMyOrderProducts extends HttpServlet {
         productService = (ProductService) getServletContext().getAttribute("productService");
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute("user")==null){
+        if(request.getSession().getAttribute(Parameters.USER)==null){
             AppException exception = new AppException("You need login if you want show orders and ordered products");
-            request.setAttribute("exception",exception);
+            request.setAttribute(Parameters.EXCEPTION,exception);
             throw exception;
         }
-        int orderId = Integer.parseInt(request.getParameter("orderId"));
-        boolean access = orderService.isUserHaveOrder(((User)request.getSession().getAttribute("user")).getId(),orderId);
+        int orderId = Integer.parseInt(request.getParameter(Parameters.ORDER_ID));
+        boolean access = orderService.isUserHaveOrder(((User)request.getSession().getAttribute(Parameters.USER)).getId(),orderId);
         if(!access){
             AppException exception = new AppException("You don't have access to this page");
-            request.setAttribute("exception",exception);
+            request.setAttribute(Parameters.EXCEPTION,exception);
             throw exception;
         }
         List<Product> products = productService.getProductsByOrderId(orderId);
-        request.setAttribute("products",products);
-        request.setAttribute("orderId",orderId);
+        request.setAttribute(Parameters.PRODUCTS,products);
+        request.setAttribute(Parameters.ORDER_ID,orderId);
         request.getRequestDispatcher("myOrderProducts.jsp").forward(request,response);
     }
 }

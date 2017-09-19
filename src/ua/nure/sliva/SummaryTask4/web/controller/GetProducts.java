@@ -1,6 +1,7 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
 import org.apache.log4j.Logger;
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Category;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.service.ProductService;
@@ -31,13 +32,13 @@ public class GetProducts extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String minPrice = request.getParameter("minPrice");
-        String maxPrice = request.getParameter("maxPrice");
-        String page = request.getParameter("page");
-        String sort = request.getParameter("sort");
+        String name = request.getParameter(Parameters.NAME);
+        String minPrice = request.getParameter(Parameters.PRODUCT_MIN_PRICE);
+        String maxPrice = request.getParameter(Parameters.PRODUCT_MAX_PRICE);
+        String page = request.getParameter(Parameters.PRODUCT_PAGE);
+        String sort = request.getParameter(Parameters.PRODUCT_SORT);
         List<Category> categories = new ArrayList<>();
-        for(Category category: (List<Category>)this.getServletContext().getAttribute("categories")){
+        for(Category category: (List<Category>)this.getServletContext().getAttribute(Parameters.CATEGORIES)){
             if(request.getParameter(category.getName()) != null){
                 categories.add(category);
             }
@@ -46,10 +47,10 @@ public class GetProducts extends HttpServlet {
         for(Category category:categories){
             categors.append("&").append(category.getName()).append("=").append(category.getName());
         }
-        ProductParams pp = (ProductParams) request.getSession().getAttribute("productParams");
+        ProductParams pp = (ProductParams) request.getSession().getAttribute(Parameters.PRODUCT_PARAMS);
         if(pp == null){
             pp = new ProductParams();
-            request.getSession().setAttribute("productParams",pp);
+            request.getSession().setAttribute(Parameters.PRODUCT_PARAMS,pp);
         }
         pp.setCategories(categories);
         pp.setName(name);
@@ -58,15 +59,15 @@ public class GetProducts extends HttpServlet {
         pp.setOrderBy(sort);
         String sql = sqlBuilder.buildSqlProductWithRestrict(pp);
         List<Product> products = productService.getProductsBySql(sql,((Integer.parseInt(page ==null || page.isEmpty()?"1":page)-1))*9);
-        request.setAttribute("minPrice",minPrice);
-        request.setAttribute("maxPrice",maxPrice);
-        request.setAttribute("name",name);
-        request.setAttribute("sort",sort);
-        request.setAttribute("categories",categories);
-        request.setAttribute("categors",categors.toString());
-        request.setAttribute("page",Integer.parseInt(page==null || page.isEmpty()?"1":page));
-        request.setAttribute("products",products);
-        request.setAttribute("countProducts",productService.getCountProductsBySql(sqlBuilder.buildSqlForCount(sql)));
+        request.setAttribute(Parameters.PRODUCT_MIN_PRICE,minPrice);
+        request.setAttribute(Parameters.PRODUCT_MAX_PRICE,maxPrice);
+        request.setAttribute(Parameters.NAME,name);
+        request.setAttribute(Parameters.PRODUCT_SORT,sort);
+        request.setAttribute(Parameters.CATEGORIES,categories);
+        request.setAttribute(Parameters.CATEGORS,categors.toString());
+        request.setAttribute(Parameters.PRODUCT_PAGE,Integer.parseInt(page==null || page.isEmpty()?"1":page));
+        request.setAttribute(Parameters.PRODUCTS,products);
+        request.setAttribute(Parameters.COUNT_PRODUCTS,productService.getCountProductsBySql(sqlBuilder.buildSqlForCount(sql)));
         request.getRequestDispatcher("getProducts.jsp").forward(request,response);
 
     }

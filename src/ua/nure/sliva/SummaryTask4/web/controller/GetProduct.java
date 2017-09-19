@@ -1,6 +1,7 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
 import org.apache.log4j.Logger;
+import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Commentary;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.entity.User;
@@ -38,15 +39,14 @@ public class GetProduct extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter(Parameters.ID));
         Product product = productService.getProductById(id);
         List<Commentary> commentaries=commentaryService.getCommentariesByProductId(id);
         Map<Commentary,User> commentaryUserMap = userService.getCommentaryWithUsers(commentaries);
         int vote = productService.getProductVote(id);
-        System.out.println(vote);
-        request.setAttribute("product",product);
-        request.setAttribute("vote",vote);
-        request.setAttribute("commentaries",commentaryUserMap);
+        request.setAttribute(Parameters.PRODUCT,product);
+        request.setAttribute(Parameters.VOTE,vote);
+        request.setAttribute(Parameters.COMMENTARIES,commentaryUserMap);
         request.getRequestDispatcher("/product.jsp").forward(request,response);
     }
 }

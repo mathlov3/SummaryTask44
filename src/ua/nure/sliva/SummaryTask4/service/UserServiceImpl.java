@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
             }
         });
 
-        if (user != null) {
+        if (Objects.nonNull(user)) {
             return true;
         } else {
             return false;

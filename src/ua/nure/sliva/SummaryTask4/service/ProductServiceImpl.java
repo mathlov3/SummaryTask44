@@ -179,4 +179,17 @@ public class ProductServiceImpl implements ProductService {
             }
         });
     }
+
+    @Override
+    public int updateProduct(Product product) {
+        return transactionPool.execute(new Transaction<Integer>() {
+            @Override
+            public Integer execute() throws SQLException {
+                if(product.getImg() == null){
+                    product.setImg(productDAO.getById(product.getId()).getImg());
+                }
+                return productDAO.update(product);
+            }
+        });
+    }
 }
