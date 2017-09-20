@@ -21,7 +21,7 @@ public abstract class Sql {
     public static final String VOTE_FOR_PRODUCT = "INSERT INTO `votes`(`users_id`, `products_id`, `value`) VALUES (?,?,?)";
     public static final String GET_PRODUCT_VOTE = "SELECT IFNULL(AVG(value+0),0) FROM votes WHERE products_id =?";
     public static final String UPDATE_PRODUCT = "UPDATE `products` SET `id`=?,`name`=?,`description`=?,`price`=?,`count`=?,`categories_id`=?,`image`=? WHERE id = ?";
-    public static final String GET_IMAGES_BY_PRODUCT_ID = "SELECT * FORM images WHERE products_id = ?";
+    public static final String GET_IMAGES_BY_PRODUCT_ID = "SELECT * FROM images WHERE products_id = ?";
     public static final String ADD_IMAGE_FOR_PRODUCT = "INSERT INTO `images`(`image`, `products_id`) VALUES (?,?)";
 
     //Role
@@ -47,4 +47,5 @@ public abstract class Sql {
     public static final String CREATE_COMMENTARY = "INSERT INTO `commentaries`(`products_id`, `content`, `users_id`) VALUES (?,?,?)";
     public static final String GET_COMMENTARIES_BY_PRODUCT_ID = "SELECT * FROM commentaries WHERE products_id = ? ORDER BY id DESC";
 
+    public static final String DELETE_IMAGE = "DELETE FROM `images` WHERE id = ?";
 }

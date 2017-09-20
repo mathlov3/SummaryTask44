@@ -1,6 +1,7 @@
 package ua.nure.sliva.SummaryTask4.web.controller.admin;
 
 import ua.nure.sliva.SummaryTask4.constants.Parameters;
+import ua.nure.sliva.SummaryTask4.entity.Image;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.service.ProductService;
 
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @WebServlet("/editProduct")
 @MultipartConfig
@@ -56,6 +58,7 @@ public class EditProduct extends HttpServlet {
                 }
             }
         }
+
         productService.updateProduct(product);
         response.sendRedirect("editProduct?id="+id);
     }
@@ -63,7 +66,9 @@ public class EditProduct extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter(Parameters.ID));
         Product product = productService.getProductById(id);
+        List<Image> images = productService.getProductImages(id);
         request.setAttribute(Parameters.PRODUCT,product);
+        request.setAttribute(Parameters.IMAGES,images);
         request.getRequestDispatcher("editProduct.jsp").forward(request,response);
     }
 }

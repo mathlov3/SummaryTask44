@@ -3,6 +3,7 @@ package ua.nure.sliva.SummaryTask4.web.controller;
 import org.apache.log4j.Logger;
 import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Commentary;
+import ua.nure.sliva.SummaryTask4.entity.Image;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.service.CommentaryService;
@@ -43,8 +44,10 @@ public class GetProduct extends HttpServlet {
         Product product = productService.getProductById(id);
         List<Commentary> commentaries=commentaryService.getCommentariesByProductId(id);
         Map<Commentary,User> commentaryUserMap = userService.getCommentaryWithUsers(commentaries);
+        List<Image> images = productService.getProductImages(id);
         int vote = productService.getProductVote(id);
         request.setAttribute(Parameters.PRODUCT,product);
+        request.setAttribute(Parameters.IMAGES,images);
         request.setAttribute(Parameters.VOTE,vote);
         request.setAttribute(Parameters.COMMENTARIES,commentaryUserMap);
         request.getRequestDispatcher("/product.jsp").forward(request,response);

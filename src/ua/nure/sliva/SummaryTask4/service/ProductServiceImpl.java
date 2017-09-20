@@ -2,6 +2,7 @@ package ua.nure.sliva.SummaryTask4.service;
 
 import ua.nure.sliva.SummaryTask4.Cart;
 import ua.nure.sliva.SummaryTask4.dao.ProductDAO;
+import ua.nure.sliva.SummaryTask4.entity.Image;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 import ua.nure.sliva.SummaryTask4.transaction.Transaction;
@@ -20,17 +21,6 @@ public class ProductServiceImpl implements ProductService {
         this.transactionPool = transactionPool;
     }
 
-    @Override
-    public List<Product> getProductsByCategory(final int categoryId) {
-        return parseImagesToBase64(
-                transactionPool.execute(new Transaction<List<Product>>() {
-                    @Override
-                    public List<Product> execute() throws SQLException {
-                        return productDAO.getProductsByCategoryId(categoryId);
-                    }
-                })
-        );
-    }
 
     @Override
     public Product getProductById(final int id) {
@@ -189,6 +179,41 @@ public class ProductServiceImpl implements ProductService {
                     product.setImg(productDAO.getById(product.getId()).getImg());
                 }
                 return productDAO.update(product);
+            }
+        });
+    }
+
+    @Override
+    public int addImageForProduct(byte[] image, int productId) {
+        return transactionPool.execute(new Transaction<Integer>() {
+            @Override
+            public Integer execute() throws SQLException {
+                return productDAO.addProductImage(image,productId);
+            }
+        });
+    }
+
+    @Override
+    public List<Image> getProductImages(int productId) {
+        return transactionPool.execute(new Transaction<List<Image>>() {
+            @Override
+            public List<Image> execute() throws SQLException {
+                List<Image> images = productDAO.getImagesById(productId);
+                for (Image image:images){
+                    image.setBase64Img(Base64.getEncoder().encodeToString(image.getByteImage()));
+                }
+                return images;
+            }
+        });
+    }
+
+    @Override
+    public void deleteImage(int imageId) {
+        transactionPool.execute(new Transaction<Object>() {
+            @Override
+            public Object execute() throws SQLException {
+                productDAO.dropImage(imageId);
+                return null;
             }
         });
     }

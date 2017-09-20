@@ -24,16 +24,8 @@
                             <h4 class="pull-right">${products[i*3+j].price}</h4>
                             <h4><a href="product?id=${products[i*3+j].id}">${products[i*3+j].name}</a>
                             </h4>
+                            <h5>${products[i*3+j].description}</h5>
 
-                        </div>
-                        <div class="ratings">
-                            <p>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                            </p>
                         </div>
                     </div>
                 </div>

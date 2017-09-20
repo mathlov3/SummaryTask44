@@ -26,28 +26,45 @@
 <div class="container">
 
     <div class="thumbnail">
-        <img class="img-responsive"
-             <c:if test="${!empty requestScope.product.imgInBase64}">src="data:image/png;base64,${requestScope.product.imgInBase64}"</c:if>
-             <c:if test="${empty requestScope.product.imgInBase64}">src="images/emptyproduct.png"</c:if>
-             alt="">
-        <div class="caption-full">
-            <h4 class="pull-right">${requestScope.product.price}</h4>
-            <h4><a href="#">${requestScope.product.name}</a>
-            </h4>
-            <p>${requestScope.product.description}</p>
+        <div class="row">
+            <div class="col-md-6" align="center">
+                <img style="max-height: 320px" class="img-responsive"
+                     <c:if test="${!empty requestScope.product.imgInBase64}">src="data:image/png;base64,${requestScope.product.imgInBase64}"</c:if>
+                     <c:if test="${empty requestScope.product.imgInBase64}">src="images/emptyproduct.png"</c:if>
+                     alt="">
+            </div>
+            <div class="col-md-6">
+                <h4><a href="#">${requestScope.product.name}</a>
+                </h4>
+                <p>${requestScope.product.description}</p>
+            </div>
 
         </div>
+
+        <div class="caption-full">
+            <h4 class="pull-right"><fmt:message key="getproduct.price"/> - ${requestScope.product.price}</h4>
+        </div>
+        <br>
         <form method="post" action="addToCart">
-            <input type="hidden" name="id" value="${product.id}">
-            <div class="row">
-                <div class="col-md-1">
-                    <input style="width: 60px" name="count" type="number" min="0"
-                           max="${product.count>100?100:product.count}" class="form-control text-center" value="1">
+            <c:if test="${product.count!=0}">
+                <input type="hidden" name="id" value="${product.id}">
+                <div class="row">
+                    <div class="col-md-1">
+                        <input style="width: 60px" name="count" type="number" min="0"
+                               max="${product.count>100?100:product.count}" class="form-control text-center" value="1">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success"><fmt:message key="product.addtocart"/></button>
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-success"><fmt:message key="product.addtocart"/></button>
+            </c:if>
+            <c:if test="${product.count==0}">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p><b><fmt:message key="product.empty"/></b></p>
+                    </div>
                 </div>
-            </div>
+            </c:if>
         </form>
         <div class="ratings">
             <p>
@@ -69,13 +86,34 @@
             </p>
         </div>
     </div>
+    <c:if test="${requestScope.images.size() !=  0}">
+        <div class="thumbnail">
+            <h2 class="sub-header"><fmt:message key="editproduct.images"/> </h2>
+            <c:forEach begin="0" end="${requestScope.images.size() %2==0?requestScope.images.size()/2:requestScope.size/2+1}"
+                       var="i">
+                <div class="row" align="center">
+
+                    <div class="col-md-6"><img class="img-responsive" style="max-height: 320px"
+                                               src="data:image/png;base64,${images[i*2].base64Img}" alt=""></div>
+                    <c:if test="${requestScope.images.size()!=i*2}">
+                        <div class="col-md-6"><img class="img-responsive" style="max-height: 320px"
+                                                   src="data:image/png;base64,${images[i*2+1].base64Img}" alt=""></div>
+                    </c:if>
+                </div>
+                <br>
+            </c:forEach>
+        </div>
+    </c:if>
     <form method="post" action="/addCommentary">
         <input type="hidden" name="id" value="${product.id}"/>
-        <textarea name="content" class="form-control" rows="3" placeholder=<fmt:message key="product.youcommentary"/> required></textarea>
-        <button type="submit" class="btn btn-primary"><fmt:message key="product.addcomment"/> </button>
+        <textarea name="content" class="form-control" rows="3" placeholder=
+        <fmt:message key="product.youcommentary"/> required></textarea>
+        <br>
+        <button type="submit" class="btn btn-primary"><fmt:message key="product.addcomment"/></button>
     </form>
 
     <c:forEach items="${requestScope.commentaries}" var="comment">
+
         <div class="row">
             <div class="col-sm-1">
                 <div class="thumbnail">

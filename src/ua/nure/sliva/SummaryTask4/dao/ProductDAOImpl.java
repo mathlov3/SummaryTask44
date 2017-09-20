@@ -4,6 +4,7 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 import ua.nure.sliva.SummaryTask4.constants.Sql;
 import ua.nure.sliva.SummaryTask4.dao.mapper.ProductMapper;
 import ua.nure.sliva.SummaryTask4.entity.Category;
+import ua.nure.sliva.SummaryTask4.entity.Image;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.exception.DBException;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
@@ -243,14 +244,18 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public List<byte[]> getImagesById(int id) {
+    public List<Image> getImagesById(int id) {
         Connection connection = ThreadLocaleHandler.getConnection();
-        List<byte[]> images = new ArrayList<>();
+        List<Image> images = new ArrayList<>();
         try(PreparedStatement ps = connection.prepareStatement(Sql.GET_IMAGES_BY_PRODUCT_ID)) {
             ps.setInt(1,id);
             ResultSet rs =ps.executeQuery();
             while (rs.next()){
-                images.add(rs.getBytes(1));
+                Image image = new Image();
+                image.setId(rs.getInt(1));
+                image.setByteImage(rs.getBytes(2));
+                image.setProducts_id(rs.getInt(3));
+                images.add(image);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -276,6 +281,18 @@ public class ProductDAOImpl implements ProductDAO {
             throw new DBException(e);
         }
         return id;
+    }
+
+    @Override
+    public void dropImage(int imageId) {
+        Connection connection = ThreadLocaleHandler.getConnection();
+        try (PreparedStatement ps = connection.prepareStatement(Sql.DELETE_IMAGE)){
+            ps.setInt(1,imageId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw  new DBException(e);
+        }
     }
 
 

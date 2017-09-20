@@ -2,6 +2,7 @@ package ua.nure.sliva.SummaryTask4.dao;
 
 import ua.nure.sliva.SummaryTask4.Cart;
 import ua.nure.sliva.SummaryTask4.entity.Category;
+import ua.nure.sliva.SummaryTask4.entity.Image;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.util.Pagenable;
 
@@ -27,7 +28,9 @@ public interface ProductDAO extends GenericDAO<Product>,Pagenable<Product> {
 
     int getProductVote(int pId);
 
-    List<byte[]> getImagesById(int id);
+    List<Image> getImagesById(int id);
 
     int addProductImage(byte[] image,int productId);
+
+    void dropImage(int imageId);
 }

@@ -1,14 +1,13 @@
 package ua.nure.sliva.SummaryTask4.service;
 
 import ua.nure.sliva.SummaryTask4.Cart;
+import ua.nure.sliva.SummaryTask4.entity.Image;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 
 import java.util.List;
 import java.util.Map;
 
 public interface ProductService {
-    List<Product> getProductsByCategory(int categoryId);
-
     Product getProductById(int id);
 
     int addProduct(Product product);
@@ -36,4 +35,10 @@ public interface ProductService {
     int getProductVote(int pId);
 
     int updateProduct(Product product);
+
+    int addImageForProduct(byte[] image, int productId);
+
+    List<Image> getProductImages(int productId);
+
+    void deleteImage(int imageId);
 }

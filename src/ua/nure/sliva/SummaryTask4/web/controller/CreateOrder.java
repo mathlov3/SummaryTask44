@@ -49,7 +49,7 @@ public class CreateOrder extends HttpServlet {
         try {
             orderService.tryToCreate(order);
             request.getRequestDispatcher("clearCart").include(request,response);
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("cart.jsp");
         } catch (DBException e){
             List<Product> errors = productService.getProductsThatLagestInOrder(cart);
             request.setAttribute("errors",errors);
