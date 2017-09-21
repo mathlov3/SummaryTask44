@@ -11,6 +11,17 @@ public class Product implements Serializable {
     private int categoryId;
     private byte[] img;
     private String imgInBase64;
+    private String allDesc;
+
+
+    public String getAllDesc() {
+        return allDesc;
+    }
+
+    public void setAllDesc(String allDesc) {
+        this.allDesc = allDesc;
+    }
+
 
     public String getImgInBase64() {
         return imgInBase64;

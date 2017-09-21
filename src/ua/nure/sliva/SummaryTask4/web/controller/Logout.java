@@ -13,11 +13,12 @@ import java.io.IOException;
 
 @WebServlet("/logout")
 public class Logout extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+    private static final Logger LOG = Logger.getLogger(Logout.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getSession().removeAttribute(Parameters.USER);
-        request.getSession().removeAttribute(Parameters.ROLE);
+        LOG.debug(request.getSession().getAttribute(Parameters.USER));
+        request.getSession().setAttribute(Parameters.USER,null);
+        request.getSession().setAttribute(Parameters.ROLE,null);
         response.sendRedirect("index");
     }
 

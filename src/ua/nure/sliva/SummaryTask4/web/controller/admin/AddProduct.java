@@ -23,7 +23,7 @@ import java.util.Base64;
 @WebServlet("/addProduct")
 @MultipartConfig
 public class AddProduct extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+    private static final Logger LOG = Logger.getLogger(AddProduct.class);
 
     private ProductService productService;
 
@@ -34,17 +34,26 @@ public class AddProduct extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LOG.debug( request.getParameter(Parameters.NAME));
+        LOG.debug(request.getParameter(Parameters.DESCRIPTION));
+        LOG.debug(request.getParameter(Parameters.CATEGORY));
+        LOG.debug(request.getParameter(Parameters.COUNT));
+        LOG.debug(request.getParameter(Parameters.PRICE));
+        LOG.debug(request.getParameter(Parameters.ALLDESC));
         String name = request.getParameter(Parameters.NAME);
         String description = request.getParameter(Parameters.DESCRIPTION);
         String category = request.getParameter(Parameters.CATEGORY);
         int count = Integer.parseInt(request.getParameter(Parameters.COUNT));
         double price = Double.parseDouble(request.getParameter(Parameters.PRICE));
+        String alldesc = request.getParameter(Parameters.ALLDESC);
+
         Product product = new Product();
         product.setPrice(price);
         product.setCategoryId(Integer.parseInt(category));
         product.setCount(count);
         product.setDescription(description);
         product.setName(name);
+        product.setAllDesc(alldesc);
         Part filePart = request.getPart("file");
         InputStream filecontent = null;
         try {
@@ -62,6 +71,6 @@ public class AddProduct extends HttpServlet {
 
         }
         productService.addProduct(product);
-        response.sendRedirect("addProduct.jsp");
+        response.sendRedirect("admin");
     }
 }

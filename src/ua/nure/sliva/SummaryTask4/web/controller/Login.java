@@ -15,11 +15,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @WebServlet("/login")
 public class Login extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+    private static final Logger LOG = Logger.getLogger(Login.class);
 
     private UserService userService;
     private RoleService roleService;
@@ -32,6 +35,7 @@ public class Login extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LOG.debug(request.getParameter(Parameters.USER_LOGIN));
         if(request.getSession().getAttribute(Parameters.USER)!=null){
             AppException exception = new AppException("You already loginned");
             request.setAttribute(Parameters.EXCEPTION,exception);
@@ -41,8 +45,22 @@ public class Login extends HttpServlet {
         String password = request.getParameter(Parameters.USER_PASSWORD);
         String err = userValidator.validate(login,password);
         if(err != null){
+            LOG.debug(err);
             request.getSession().setAttribute("err",err);
             response.sendRedirect("login.jsp");
+            return;
+        }
+        byte[] bytesOfPassword = password.getBytes();
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] thedigest = md.digest();
+            password = DatatypeConverter.printHexBinary(thedigest);
+            System.out.println(password);
+        } catch (NoSuchAlgorithmException e) {
+            AppException exception = new AppException(e);
+            request.setAttribute("exception",exception);
+            request.getRequestDispatcher("appException").forward(request,response);
             return;
         }
         User user = userService.tryToLogin(login,password);
@@ -52,6 +70,7 @@ public class Login extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+
         request.getSession().setAttribute(Parameters.USER,user);
         Role role = roleService.getRoleById(user.getRole());
         request.getSession().setAttribute(Parameters.ROLE,role);

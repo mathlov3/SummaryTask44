@@ -18,7 +18,7 @@ import java.util.List;
 
 @WebServlet("/getMyOrders")
 public class GetMyOrders extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+    private static final Logger LOG = Logger.getLogger(GetMyOrders.class);
 
     private OrderService orderService;
 
@@ -31,11 +31,13 @@ public class GetMyOrders extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(request.getSession().getAttribute(Parameters.USER)==null){
             AppException exception = new AppException("You need login if you want show your orders");
+            LOG.error(exception);
             request.setAttribute(Parameters.EXCEPTION,exception);
             throw exception;
         }
         User user = (User) request.getSession().getAttribute(Parameters.USER);
         List<Order> orders = orderService.getOrdersByUserId(user.getId());
+        LOG.debug(orders);
         request.setAttribute(Parameters.ORDERS,orders);
         request.getRequestDispatcher("myOrders.jsp").forward(request,response);
     }

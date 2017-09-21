@@ -13,6 +13,9 @@ public class OrderMapper {
         order.setPrice(rs.getDouble(++k));
         order.setUsersId(rs.getInt(++k));
         order.setOrders_status_id(rs.getInt(++k));
+        order.setDate(rs.getTimestamp("date"));
+        k++;
+        order.setNote(rs.getString(++k));
         return order;
     }
 }

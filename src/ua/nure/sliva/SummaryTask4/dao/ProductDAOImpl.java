@@ -48,6 +48,7 @@ public class ProductDAOImpl implements ProductDAO {
             ps.setInt(++k,entity.getCount());
             ps.setInt(++k,entity.getCategoryId());
             ps.setBytes(++k,entity.getImg());
+            ps.setString(++k,entity.getAllDesc());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if(rs.next()){
@@ -74,6 +75,7 @@ public class ProductDAOImpl implements ProductDAO {
             ps.setInt(++k,entity.getCount());
             ps.setInt(++k,entity.getCategoryId());
             ps.setBytes(++k,entity.getImg());
+            ps.setString(++k,entity.getAllDesc());
             ps.setInt(++k,entity.getId());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();

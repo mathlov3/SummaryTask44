@@ -42,7 +42,6 @@ public class OrderDaoImpl implements OrderDao {
         try (PreparedStatement ps = connection.prepareStatement(Sql.CREATE_ORDER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             int k = 0;
             ps.setDouble(++k, entity.getPrice());
-            System.out.println(entity.getUsersId());
             ps.setInt(++k, entity.getUsersId());
             ps.setInt(++k, 1);
             ps.executeUpdate();
@@ -62,8 +61,9 @@ public class OrderDaoImpl implements OrderDao {
         Connection connection = ThreadLocaleHandler.getConnection();
         int id = 0;
         try (PreparedStatement ps = connection.prepareStatement(Sql.UPDATE_ORDER_STATUS,PreparedStatement.RETURN_GENERATED_KEYS)){
-            ps.setInt(1,order.getOrders_status_id());
-            ps.setInt(2,order.getId());
+            ps.setInt(1,order.getOrders_status_id());            ps.setString(2,order.getNote());
+
+            ps.setInt(3,order.getId());
             id =  ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

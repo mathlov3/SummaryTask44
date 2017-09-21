@@ -16,7 +16,6 @@ import java.util.List;
 
 @WebServlet("/index")
 public class Index extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
 
     private ProductService productService;
 

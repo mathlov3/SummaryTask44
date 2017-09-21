@@ -2,6 +2,7 @@ package ua.nure.sliva.SummaryTask4.web.controller;
 
 import org.apache.log4j.Logger;
 import ua.nure.sliva.SummaryTask4.constants.Parameters;
+import ua.nure.sliva.SummaryTask4.entity.Order;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.exception.AppException;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @WebServlet("/orderProducts")
 public class GetMyOrderProducts extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+    private static final Logger LOG = Logger.getLogger(GetMyOrderProducts.class);
 
     private ProductService productService;
     private OrderService orderService;
@@ -33,6 +34,7 @@ public class GetMyOrderProducts extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(request.getSession().getAttribute(Parameters.USER)==null){
             AppException exception = new AppException("You need login if you want show orders and ordered products");
+            LOG.error(exception);
             request.setAttribute(Parameters.EXCEPTION,exception);
             throw exception;
         }
@@ -43,9 +45,11 @@ public class GetMyOrderProducts extends HttpServlet {
             request.setAttribute(Parameters.EXCEPTION,exception);
             throw exception;
         }
+        Order order = orderService.getOrderById(orderId);
         List<Product> products = productService.getProductsByOrderId(orderId);
+        LOG.debug(products);
         request.setAttribute(Parameters.PRODUCTS,products);
-        request.setAttribute(Parameters.ORDER_ID,orderId);
+        request.setAttribute(Parameters.ORDER,order);
         request.getRequestDispatcher("myOrderProducts.jsp").forward(request,response);
     }
 }

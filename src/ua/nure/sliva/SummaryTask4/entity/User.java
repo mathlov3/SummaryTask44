@@ -2,7 +2,7 @@ package ua.nure.sliva.SummaryTask4.entity;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class  User implements Serializable {
     private int id;
     private String login;
     private String password;
@@ -84,5 +84,23 @@ public class User implements Serializable {
                 ", email='" + email + '\'' +
                 ", role='" + roleId + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (id != user.id) return false;
+        return login.equals(user.login);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + login.hashCode();
+        return result;
     }
 }

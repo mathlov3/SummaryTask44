@@ -20,4 +20,10 @@ public interface UserService {
     void changeBanUser(int userId,int userBan);
 
     void changeRole(int userId,int newRole);
+
+    User getUserByLogin(String login);
+
+    void notifyUsers(int productId);
+
+    int addWaiting(int userId, int productId);
 }

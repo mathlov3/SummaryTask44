@@ -18,3 +18,13 @@ $(document).ready(function(e){
     $found.find('.panel-body').hide();
     $found.removeClass($classy);
 });
+
+$( "button.back" ).click(function() {
+    document.getElementById("myDIV").style.display = "";
+    document.getElementById($(this).parent().attr('id')).style.display = "none";
+});
+$( ".tr" ).click(function() {
+    document.getElementById("myDIV").style.display = "none";
+    document.getElementById("oo"+$(this).children()[0].id).style.display="block";
+    document.getElementById("o"+$(this).children()[0].id).style.display="block";
+});

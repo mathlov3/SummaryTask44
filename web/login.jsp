@@ -1,3 +1,4 @@
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -40,5 +41,6 @@
         </div>
     </div>
 </div>
+<%@include file="jspf/footer.jspf"%>
 </body>
 </html>

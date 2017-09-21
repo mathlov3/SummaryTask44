@@ -12,9 +12,8 @@ import java.io.IOException;
 
 @WebServlet("/admin")
 public class Admin extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("addProduct.jsp").forward(request,response);
+        request.getRequestDispatcher("WEB-INF/addProduct.jsp").forward(request,response);
     }
 }

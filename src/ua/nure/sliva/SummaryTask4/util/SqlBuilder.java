@@ -37,11 +37,11 @@ public class SqlBuilder {
                 sql.append(" ORDER BY id DESC,count");
             }
         }
-        sql.append(" LIMIT ?,9");
+        sql.append(" LIMIT ?,6");
         return sql.toString();
     }
     public String buildSqlForCount(String sql){
-        return sql.replace(" LIMIT ?,9","").replace(" * "," COUNT(*) ");
+        return sql.replace(" LIMIT ?,6","").replace(" * "," COUNT(*) ");
     }
 }
     

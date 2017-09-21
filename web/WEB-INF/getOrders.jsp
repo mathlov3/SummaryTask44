@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../jspf/head.jspf" %>
 <html>
@@ -42,61 +43,60 @@
         <c:when test="${!empty requestScope.fullOrders}">
             <h2 class="sub-header"><fmt:message key="myorders.orders"/> </h2>
             <div class="table-responsive">
-                <table class="table table-list-search">
+                <table class="table table-list-search main" id="myDIV">
                     <thead>
-                    <tr>
-                        <th><fmt:message key="myorders.id"/> </th>
+                    <tr >
+                        <th class="tr"><fmt:message key="myorders.id"/> </th>
                         <th><fmt:message key="myorders.date"/> </th>
                         <th><fmt:message key="cart.price"/> </th>
                         <th><fmt:message key="orders.userid"/> </th>
                         <th><fmt:message key="myorders.status"/> </th>
                     </tr>
                     </thead>
+                    <tbody>
+                    <c:forEach items="${requestScope.fullOrders}" var="item">
+                        <tr class="tr">
+                            <td id="rderid${item.key.id}">${item.key.id}</td>
+                            <td>${item.key.date}</td>
+                            <td>${item.key.price}</td>
+                            <td>${item.key.usersId}</td>
+                            <td>${item.key.orders_status_id==1?'new':item.key.orders_status_id==2?'accepted':'disabled'}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
                 </table>
 
                 <c:forEach items="${requestScope.fullOrders}" var="item">
+                <div style="display:none;" id="oorderid${item.key.id}">
+                    <button id="orderid${item.key.id}" style="display: none" class="back btn btn-primary">Back</button>
 
-                    <div class="panel panel-default autocollapse">
-                        <div class="panel-heading clickable">
-                            <h3 class="panel-title">
+                    <table class="table table-list-search" >
+                    <thead>
+                    <tr >
+                        <th><fmt:message key="myorders.id"/> </th>
+                        <th><fmt:message key="getproduct.name"/> </th>
+                        <th><fmt:message key="addproduct.description"/> </th>
+                        <th><fmt:message key="cart.count"/> </th>
+                        <th><fmt:message key="cart.price"/> </th>
+                        <th><fmt:message key="productlis.categoryid"/> </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${item.value}" var="product">
+                        <tr>
+                            <td><a href="product?id=${product.id}">${product.id}</a></td>
+                            <td>${product.name}</td>
+                            <td>${product.description}</td>
+                            <td>${product.count}</td>
+                            <td>${product.price}</td>
+                            <td>${product.categoryId}</td>
+                            <div style="display: none" class="spoiler">Скрытый текст</div>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
 
-                                <table style="margin-bottom: 0px" class="table table-list-search">
-
-                                    <tr>
-                                        <td>${item.key.id}</td>
-                                        <td>date</td>
-                                        <td>${item.key.price}</td>
-                                        <td>${item.key.usersId}</td>
-                                        <td>${item.key.orders_status_id}</td>
-                                    </tr>
-                                </table>
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <table class="table table-list-search">
-                                <thead>
-                                <tr>
-                                    <th><fmt:message key="myorders.id"/> </th>
-                                    <th><fmt:message key="getproduct.name"/> </th>
-                                    <th><fmt:message key="addproduct.description"/> </th>
-                                    <th><fmt:message key="cart.count"/> </th>
-                                    <th><fmt:message key="cart.price"/> </th>
-                                    <th><fmt:message key="productlis.categoryid"/> </th>
-                                </tr>
-                                </thead>
-                                <c:forEach items="${item.value}" var="product">
-                                <tbody>
-                                <tr>
-                                    <td>${product.id}</td>
-                                    <td>${product.name}</td>
-                                    <td>${product.description}</td>
-                                    <td>${product.count}</td>
-                                    <td>${product.price}</td>
-                                    <td>${product.categoryId}</td>
-                                </tr>
-                                </c:forEach>
-                            </table>
-                            <c:if test="${item.key.orders_status_id==1}">
+                </table>
+                        <c:if test="${item.key.orders_status_id==1}">
                             <form method="post" action="updateOrder" class="pull-right">
                                 <input type="hidden" name="id" value="${item.key.id}">
                                 <input type="hidden" name="status" value="2">
@@ -104,17 +104,16 @@
                                         class="glyphicon glyphicon-ok"></span>
                                 </button>
                             </form>
-                                <div class="pull-right"></div>
-                                <form method="post" action="updateOrder" class="pull-right">
-                                    <input type="hidden" name="id" value="${item.key.id}">
-                                    <input type="hidden" name="status" value="3">
-                                    <button type="submit" class="btn btn-danger btn-sm"><span
-                                            class="glyphicon glyphicon-remove"></span>
-                                    </button>
-                                </form>
-                                </c:if>
-                        </div>
-                    </div>
+                            <form method="post" action="updateOrder">
+                                <input type="hidden" name="id" value="${item.key.id}">
+                                <input type="hidden" name="status" value="3">
+                                <textarea class="form-control" name="content"> </textarea>
+                                <button type="submit" class="btn btn-danger btn-sm"><span
+                                        class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </form>
+                        </c:if>
+                </div>
                 </c:forEach>
 
 
@@ -129,10 +128,7 @@
 
 </div>
 </div>
-<script src="../js/script.js"></script>
-<script src="https://code.jquery.com/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
+<t:footer/>
 
 </body>
 </html>

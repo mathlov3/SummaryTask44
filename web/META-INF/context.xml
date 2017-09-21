@@ -5,7 +5,7 @@
             name="jdbc/root"
             auth="Container"
             type="javax.sql.DataSource"
-            maxActive="50"
+            maxActive="30"
             maxIdle="30"
             maxWait="3000"
             username="root"

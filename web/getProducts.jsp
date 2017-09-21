@@ -1,4 +1,4 @@
-<!--This page fore simle users that want buy smth-->
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -19,9 +19,9 @@
                     <div class="thumbnail">
                         <img style="height: 252.5px;width: 252.5px"
                              <c:if test="${!empty requestScope.products[i*3+j].imgInBase64}">src="data:image/png;base64,${requestScope.products[i*3+j].imgInBase64}"</c:if>
-                             <c:if test="${empty requestScope.products[i*3+j].imgInBase64}">src="images/emptyproduct.png"</c:if>alt="">
+                             <c:if test="${empty requestScope.products[i*3+j].imgInBase64}">src="images/emptyproduct.png" </c:if>alt="">
                         <div class="caption">
-                            <h4 class="pull-right">${products[i*3+j].price}</h4>
+                            <h4 class="pull-right">${products[i*3+j].price} UAH</h4>
                             <h4><a href="product?id=${products[i*3+j].id}">${products[i*3+j].name}</a>
                             </h4>
                             <h5>${products[i*3+j].description}</h5>
@@ -36,9 +36,9 @@
         <ul class="pagination">
 
             <c:set var="p" value="${requestScope.page}" /> <%-- current page (1-based) --%>
-            <c:set var="l" value="5" /> <%-- amount of page links to be displayed --%>
+            <c:set var="l" value="4" /> <%-- amount of page links to be displayed --%>
             <c:set var="r" value="${l / 2}" /> <%-- minimum link range ahead/behind --%>
-            <c:set var="t" value="${(requestScope.countProducts+1)/9+1}" /> <%-- total amount of pages --%>
+            <c:set var="t" value="${(requestScope.countProducts)/6+1}" /> <%-- total amount of pages --%>
 
             <c:set var="begin" value="${((p - r) > 0 ? ((p - r) < (t - l + 1) ? (p - r) : (t - l)) : 0) + 1}" />
             <c:set var="end" value="${(p + r) < t ? ((p + r) > l ? (p + r) : l) : t}" />
@@ -46,7 +46,7 @@
 
             <c:forEach begin="${begin}" end="${end}" var="ii">
                 <li <c:if test="${ii == page}">class="active"</c:if> >
-                    <a  href="${pageContext.request.requestURI.replace('.jsp','?')}name=${requestScope.name}${requestScope.categors}&minPrice=${requestScope.minPrice}&maxPrice=${requestScope.maxPrice}&sort=${requestScope.sort}&page=${ii}">${ii}</a>
+                    <c:if test="${ii!=0}"><a  href="${pageContext.request.requestURI.replace('.jsp','?')}name=${requestScope.name}${requestScope.categors}&minPrice=${requestScope.minPrice}&maxPrice=${requestScope.maxPrice}&sort=${requestScope.sort}&page=${ii}">${ii}</a></c:if>
                 </li>
             </c:forEach>
         </ul>

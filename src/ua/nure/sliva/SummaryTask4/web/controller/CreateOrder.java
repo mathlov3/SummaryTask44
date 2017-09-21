@@ -22,7 +22,7 @@ import java.util.List;
 
 @WebServlet("/createOrder")
 public class CreateOrder extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+    private static final Logger LOG = Logger.getLogger(CreateOrder.class);
 
     private OrderService orderService;
     private ProductService productService;
@@ -38,11 +38,13 @@ public class CreateOrder extends HttpServlet {
         if(request.getSession().getAttribute(Parameters.USER)==null){
             AppException exception = new AppException("You need login if you want make order");
             request.setAttribute(Parameters.EXCEPTION,exception);
+            LOG.error(exception);
             throw exception;
         }
         Order order = new Order();
         Cart<Product> cart = (Cart<Product>) request.getSession().getAttribute(Parameters.CART);
         User user = (User) request.getSession().getAttribute(Parameters.USER);
+        LOG.debug(user);
         order.setPrice(cart.getPrice());
         order.setUsersId(user.getId());
         order.setProducts(cart);
@@ -51,6 +53,7 @@ public class CreateOrder extends HttpServlet {
             request.getRequestDispatcher("clearCart").include(request,response);
             response.sendRedirect("cart.jsp");
         } catch (DBException e){
+            LOG.error(e);
             List<Product> errors = productService.getProductsThatLagestInOrder(cart);
             request.setAttribute("errors",errors);
             request.getRequestDispatcher("cart.jsp").forward(request,response);

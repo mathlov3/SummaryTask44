@@ -1,3 +1,4 @@
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <%@include file="jspf/head.jspf" %>
@@ -23,29 +24,29 @@
                             </c:if>
                             <div class="form-group ">
                                 <label class="control-label" for="name"><fmt:message key="registration.name"/> </label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Имя" value="${user.name }" />
+                                <input maxlength="24" type="text" class="form-control" id="name" name="name"  value="${user.name }" />
                             </div>
                             <div class="form-group ">
                                 <label class="control-label requiredField" for="login"><fmt:message key="registration.login"/>
                                     <span class="asteriskField"> * </span></label>
-                                <input type="text" class="form-control" id="login" name="login" placeholder="login"  value="${user.login }" />
+                                <input maxlength="24" type="text" class="form-control" id="login" name="login"  value="${user.login }" />
                             </div>
                             <div class="form-group ">
                                 <label class="control-label requiredField" for="login"><fmt:message key="registration.email"/>
                                     <span class="asteriskField"> * </span></label>
-                                <input type="text" class="form-control" id="email" name="email" placeholder="email"  value="${user.login }" />
+                                <input maxlength="36" type="text" class="form-control" id="email" name="email"   value="${user.login }" />
                             </div>
                             <div class="form-group">
                                 <label class="control-label requiredField" for="password"><fmt:message key="registration.password"/>
                                     <span class="asteriskField"> * </span>
-                                </label> <input type="password" class="form-control" id="password" name="password"
-                                                placeholder="пароль" />
+                                </label> <input maxlength="24" type="password" class="form-control" id="password" name="password"
+                                               />
                             </div>
                             <div class="form-group">
                                 <label class="control-label requiredField" for="repassword"><fmt:message key="registration.repassword"/>
                                     <span class="asteriskField"> * </span>
-                                </label> <input type="password" class="form-control" id="repassword" name="repassword"
-                                                placeholder="подтверждение" />
+                                </label> <input maxlength="24" type="password" class="form-control" id="repassword" name="repassword"
+                                               />
                             </div>
                             <div class="form-group">
                                 <div>
@@ -60,8 +61,9 @@
         <div class="col-lg-4 col-md-4 col-sm-4"></div>
     </div>
 </div>
-<!-- /#contentContainer -->
+<%@include file="jspf/footer.jspf"%>
 <script src="js/myvalidator.js"></script>
+
 
 </body>
 </html>

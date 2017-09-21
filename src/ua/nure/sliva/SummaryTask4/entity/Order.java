@@ -1,6 +1,7 @@
 package ua.nure.sliva.SummaryTask4.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,24 @@ public class Order implements Serializable {
     private int usersId;
     private int orders_status_id;
     private Map<Product,Integer> products = new HashMap<>();
+    private Timestamp date;
+    private String note;
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 
     public Map<Product, Integer> getProducts() {
         return products;

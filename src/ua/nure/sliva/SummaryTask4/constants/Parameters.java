@@ -44,4 +44,7 @@ public abstract class Parameters{
 
 
     public static final String IMAGES = "images";
+    public static final String ALLDESC = "alldesc";
+    public static final String CONTENT = "content";
+    public static final String ORDER = "order";
 }

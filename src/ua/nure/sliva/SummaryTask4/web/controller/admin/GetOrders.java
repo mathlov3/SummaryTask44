@@ -21,7 +21,7 @@ import java.util.Map;
 
 @WebServlet("/getOrders")
 public class GetOrders extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+    private static final Logger LOG = Logger.getLogger(GetOrders.class);
 
     private OrderService orderService;
     private ProductService productService;
@@ -34,9 +34,11 @@ public class GetOrders extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LOG.debug(request.getParameter(Parameters.STATUS));
         int status = Integer.parseInt(request.getParameter(Parameters.STATUS) == null || request.getParameter(Parameters.STATUS).isEmpty()?"0":request.getParameter(Parameters.STATUS));
         List<Order> orders = orderService.getOrdersByStatusId(status);
         Map<Order,List<Product>> fullOrders = new LinkedHashMap<>();
+        LOG.debug(fullOrders);
         for(Order order:orders){
             fullOrders.put(order,productService.getProductsByOrderId(order.getId()));
         }

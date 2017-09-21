@@ -67,13 +67,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean updateOrder(int id, int status) {
+    public Order getOrderById(int id) {
+        return transactionPool.execute(new Transaction<Order>() {
+            @Override
+            public Order execute() throws SQLException {
+                return orderDao.getById(id);
+            }
+        });
+    }
+
+    @Override
+    public boolean updateOrder(int id, int status,String content) {
         return transactionPool.execute(new Transaction<Boolean>() {
             @Override
             public Boolean execute() throws SQLException {
                 Order order = new Order();
                 order.setId(id);
                 order.setOrders_status_id(status);
+                order.setNote(content);
                 return orderDao.update(order) == 0 ? false : true;
             }
         });

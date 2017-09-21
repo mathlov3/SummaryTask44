@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet("/productList")
 public class ProductList extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+    private static final Logger LOG = Logger.getLogger(ProductList.class);
 
     private static final int PAGE_CONTENT = 10;
     private ProductService productService;
@@ -29,6 +29,8 @@ public class ProductList extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LOG.debug(request.getParameter(Parameters.CATEGORY));
+        LOG.debug(request.getParameter(Parameters.PAGE));
         int category = Integer.parseInt(request.getParameter(Parameters.CATEGORY));
         int page = Integer.parseInt(request.getParameter(Parameters.PAGE));
         int countProducts = productService.getCountProductsInCategory(category);
@@ -36,6 +38,6 @@ public class ProductList extends HttpServlet {
         request.setAttribute(Parameters.PAGE,page);
         request.getSession().setAttribute(Parameters.COUNT_PRODUCTS,countProducts);
         request.setAttribute(Parameters.CATEGORY,category);
-        request.getRequestDispatcher("productList.jsp").forward(request,response);
+        request.getRequestDispatcher("WEB-INF/productList.jsp").forward(request,response);
     }
 }

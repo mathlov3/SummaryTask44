@@ -1,16 +1,11 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Eugene
-  Date: 18.09.2017
-  Time: 11:31
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<%@include file="jspf/head.jspf" %>
+<%@include file="../jspf/head.jspf" %>
 <body style="padding-top: 0px">
-<%@include file="jspf/userTopPanel.jspf" %>
-<%@include file="jspf/menu.jspf" %>
+<%@include file="../jspf/userTopPanel.jspf" %>
+<%@include file="../jspf/menu.jspf" %>
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <div class="row">
         <form class="form-horizontal" method="post" action="editProduct" enctype="multipart/form-data">
@@ -22,30 +17,27 @@
                     </div>
                 </div>
 
-                <!-- Text input-->
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="product_name"><fmt:message
                             key="getproduct.name"/> </label>
                     <div class="col-md-4">
                         <input maxlength="45" value="${product.name}" id="product_name" name="name"
-                               placeholder="PRODUCT NAME"
+
                                class="form-control input-md" required="" type="text">
                     </div>
                 </div>
 
-                <!-- Text input-->
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="product_name_fr"><fmt:message
                             key="addproduct.description"/> </label>
                     <div class="col-md-4">
                         <input maxlength="100" value="${product.description}" id="product_name_fr" name="description"
-                               placeholder="PRODUCT DESCRIPTION FR"
+
                                class="form-control input-md" required="" type="text">
 
                     </div>
                 </div>
 
-                <!-- Select Basic -->
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="product_category"><fmt:message
                             key="getproduct.category"/> </label>
@@ -59,13 +51,12 @@
                     </div>
                 </div>
 
-                <!-- Text input-->
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="available_quantity"><fmt:message
                             key="cart.count"/> </label>
                     <div class="col-md-4">
                         <input min="0" max="100" value="${product.count}" id="available_quantity" name="count"
-                               placeholder="AVAILABLE QUANTITY"
+
                                class="form-control input-md" required="" type="number">
                     </div>
                 </div>
@@ -74,7 +65,7 @@
                     <label class="col-md-4 control-label" for="available_quantity"><fmt:message
                             key="cart.price"/> </label>
                     <div class="col-md-4">
-                        <input value="${product.price}" id="price" name="price" placeholder="AVAILABLE QUANTITY"
+                        <input value="${product.price}" id="price" name="price"
                                class="form-control input-md" required="" type="text">
                     </div>
                 </div>
@@ -87,6 +78,14 @@
                         <input type="file" name="file" id="file"/>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="alldesc"><fmt:message key="addproduct.description"/> </label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" name="alldesc" id="alldesc">${requestScope.product.allDesc}</textarea>
+                    </div>
+                </div>
+
 
                 <!-- Button -->
                 <div class="form-group">
@@ -103,7 +102,7 @@
                     <div class="col-md-4">
                         <img class="img-responsive"
                              <c:if test="${!empty requestScope.product.imgInBase64}">src="data:image/png;base64,${requestScope.product.imgInBase64}"</c:if>
-                             <c:if test="${empty requestScope.product.imgInBase64}">src="images/emptyproduct.png"</c:if>
+                             <c:if test="${empty requestScope.product.imgInBase64}">src="../images/emptyproduct.png"</c:if>
                              alt="">
                     </div>
                 </div>
@@ -152,6 +151,7 @@
 </div>
 </div>
 </div>
-
+<%@include file="../jspf/footer.jspf"%>
+<t:footer/>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
 import org.apache.log4j.Logger;
+import org.gjt.mm.mysql.Driver;
 import ua.nure.sliva.SummaryTask4.Cart;
 import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Product;
@@ -17,7 +18,7 @@ import java.util.Iterator;
 
 @WebServlet("/dropFromCart")
 public class DropFromCart extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+    private static final Logger LOG = Logger.getLogger(DropFromCart.class);
 
     private ProductService productService;
 
@@ -29,6 +30,7 @@ public class DropFromCart extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Cart<Product> cart = (Cart<Product>) request.getSession().getAttribute(Parameters.CART);
         int id = Integer.parseInt(request.getParameter(Parameters.ID));
+        LOG.debug(id);
         Product product = new Product();
         product.setId(id);
         cart.remove(product);

@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -37,13 +37,13 @@
                         </div>
                     </div>
                 </td>
-                <td data-th="Price">$${item.key.price}</td>
+                <td data-th="Price">${item.key.price} UAH</td>
                 <form method="post" action="updateCart">
                     <td data-th="Quantity">
                         <input type="number" name="count" min="1" max="${item.key.count>100?100:item.key.count}"
                                class="form-control text-center" value="${item.value}">
                     </td>
-                    <td data-th="Subtotal" class="text-center">$${item.key.price*item.value}</td>
+                    <td data-th="Subtotal" class="text-center">${item.key.price*item.value} UAH</td>
                     <td class="actions" data-th="">
                         <input type="hidden" name="id" value="${item.key.id}">
                         <button style="margin-bottom: 5px" type="submit" class="btn btn-primary btn-sm"><span
@@ -63,7 +63,7 @@
             <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i><fmt:message key="cart.continue"/> </a></td>
             <td colspan="2" class="hidden-xs"><a href="clearCart" class="btn btn-warning"><i
                     class="fa fa-angle-left"></i><fmt:message key="cart.clearcart"/> </a></td>
-            <td class="hidden-xs text-center"><strong><fmt:message key="cart.allall"/> ${sessionScope.cart.getPrice()}</strong></td>
+            <td class="hidden-xs text-center"><strong><fmt:message key="cart.allall"/> ${sessionScope.cart.getPrice()} UAH</strong></td>
             <td><a href="/createOrder" class="btn btn-success btn-block"><fmt:message key="cart.create"/> <i
                     class="fa fa-angle-right"></i></a></td>
         </tr>
@@ -71,7 +71,6 @@
     </table>
 
 </div>
-
 <%@include file="jspf/footer.jspf" %>
 </body>
 </html>

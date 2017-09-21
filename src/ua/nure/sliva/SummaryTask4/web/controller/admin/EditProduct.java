@@ -1,9 +1,12 @@
 package ua.nure.sliva.SummaryTask4.web.controller.admin;
 
+import org.apache.log4j.Logger;
+import sun.rmi.runtime.Log;
 import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Image;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.service.ProductService;
+import ua.nure.sliva.SummaryTask4.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -19,12 +22,15 @@ import java.util.List;
 @WebServlet("/editProduct")
 @MultipartConfig
 public class EditProduct extends HttpServlet {
+    private static final Logger LOG = Logger.getLogger(EditProduct.class);
     private ProductService productService;
+    private UserService userService;
 
     @Override
     public void init() throws ServletException {
         super.init();
         productService = (ProductService) getServletContext().getAttribute("productService");
+        userService = (UserService) getServletContext().getAttribute("userService");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,6 +38,7 @@ public class EditProduct extends HttpServlet {
         String name = request.getParameter(Parameters.NAME);
         String description = request.getParameter(Parameters.DESCRIPTION);
         String category = request.getParameter(Parameters.CATEGORY);
+        String allDesc = request.getParameter(Parameters.ALLDESC);
         int count = Integer.parseInt(request.getParameter(Parameters.COUNT));
         double price = Double.parseDouble(request.getParameter(Parameters.PRICE));
         Product product = new Product();
@@ -41,6 +48,7 @@ public class EditProduct extends HttpServlet {
         product.setCount(count);
         product.setDescription(description);
         product.setName(name);
+        product.setAllDesc(allDesc);
         Part filePart = request.getPart("file");
         if(filePart.getSize() !=0) {
             InputStream filecontent = null;
@@ -58,8 +66,10 @@ public class EditProduct extends HttpServlet {
                 }
             }
         }
-
         productService.updateProduct(product);
+        if(count>0){
+            userService.notifyUsers(product.getId());
+        }
         response.sendRedirect("editProduct?id="+id);
     }
 
@@ -69,6 +79,6 @@ public class EditProduct extends HttpServlet {
         List<Image> images = productService.getProductImages(id);
         request.setAttribute(Parameters.PRODUCT,product);
         request.setAttribute(Parameters.IMAGES,images);
-        request.getRequestDispatcher("editProduct.jsp").forward(request,response);
+        request.getRequestDispatcher("WEB-INF/editProduct.jsp").forward(request,response);
     }
 }

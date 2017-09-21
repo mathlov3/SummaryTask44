@@ -46,7 +46,7 @@ public class ContextListener implements ServletContextListener {
         OrderDao orderDao = new OrderDaoImpl();
         CommentaryDAO commentaryDAO = new CommentaryDAOImpl();
 
-        UserService userService = new UserServiceImpl(userDAO,transactionPool);
+        UserService userService = new UserServiceImpl(userDAO,transactionPool,productDAO);
         ProductService productService = new ProductServiceImpl(productDAO,transactionPool);
         RoleService roleService = new RoleServiceImpl(roleDao,transactionPool);
         OrderService orderService = new OrderServiceImpl(orderDao,transactionPool);

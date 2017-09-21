@@ -1,10 +1,15 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="jspf/head.jspf" %>
+<%@include file="../jspf/head.jspf" %>
 <body style="padding-top: 0px">
-<%@include file="jspf/userTopPanel.jspf" %>
-<%@include file="jspf/menu.jspf" %>
+<%@include file="../jspf/userTopPanel.jspf" %>
+<%@include file="../jspf/menu.jspf" %>
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <form method="get" action="getUsers">
+        <input type="text" name="login" <c:if test="${requestScope.login!=null}"> value="${requestScope.login}" </c:if> >
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
     <h2><fmt:message key="users.users"/> </h2>
     <table class="table table-striped">
         <thead>
@@ -63,9 +68,8 @@
         </tbody>
     </table>
 </div>
-
-
 </div>
 </div>
+<t:footer/>
 </body>
 </html>

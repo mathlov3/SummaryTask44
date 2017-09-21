@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/getUsers")
@@ -23,8 +24,17 @@ public class GetUsers extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<User> users = userService.getAllUsers();
+        List<User> users = new ArrayList<>();
+        if(request.getParameter("login")!=null && !request.getParameter("login").isEmpty()){
+            request.setAttribute("login",request.getParameter("login"));
+            User user = userService.getUserByLogin(request.getParameter("login"));
+            if(user!=null){
+                users.add(user);
+            }
+        } else {
+            users = userService.getAllUsers();
+        }
         request.setAttribute(Parameters.USERS,users);
-        request.getRequestDispatcher("users.jsp").forward(request,response);
+        request.getRequestDispatcher("WEB-INF/users.jsp").forward(request,response);
     }
 }

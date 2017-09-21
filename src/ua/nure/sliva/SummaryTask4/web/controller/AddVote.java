@@ -1,10 +1,12 @@
 package ua.nure.sliva.SummaryTask4.web.controller;
 
+import org.apache.log4j.Logger;
 import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.exception.AppException;
 import ua.nure.sliva.SummaryTask4.exception.DBException;
 import ua.nure.sliva.SummaryTask4.service.ProductService;
+import ua.nure.sliva.SummaryTask4.web.listener.ContextListener;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +19,7 @@ import java.sql.SQLException;
 @WebServlet("/addVote")
 public class AddVote extends HttpServlet {
     private ProductService productService;
+    private static final Logger LOG = Logger.getLogger(AddVote.class);
 
     @Override
     public void init() throws ServletException {
@@ -32,6 +35,9 @@ public class AddVote extends HttpServlet {
         }
         int vote = Integer.parseInt(request.getParameter(Parameters.VOTE));
         int id = Integer.parseInt(request.getParameter(Parameters.ID));
+        LOG.debug(vote);
+        LOG.debug(id);
+
         try {
             productService.voteForProduct(id,((User)request.getSession().getAttribute(Parameters.USER)).getId(),vote);
             request.getSession().setAttribute("voteStatus","Your vote was accepte");

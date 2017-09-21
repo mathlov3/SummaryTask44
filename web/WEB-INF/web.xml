@@ -11,6 +11,17 @@
         <exception-type>ua.nure.sliva.SummaryTask4.exception.AppException</exception-type>
         <location>/appException.jsp</location>
     </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error404.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/commonError.jsp</location>
+    </error-page>
+
+
     <resource-ref>
         <res-ref-name>jdbc/root</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>

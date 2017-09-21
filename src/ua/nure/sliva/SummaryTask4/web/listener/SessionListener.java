@@ -14,7 +14,6 @@ import java.util.Map;
 
 @WebListener
 public class SessionListener implements HttpSessionListener {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
 
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {

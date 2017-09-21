@@ -9,7 +9,6 @@ import java.io.IOException;
 
 @WebFilter(urlPatterns = {"/*"})
 public class EncodingFilter implements Filter {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
 
     private String encoding = "utf-8";
     public void destroy() {

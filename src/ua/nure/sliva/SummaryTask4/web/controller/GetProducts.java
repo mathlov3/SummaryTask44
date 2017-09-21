@@ -20,7 +20,7 @@ import java.util.List;
 
 @WebServlet("/getProducts")
 public class GetProducts extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+    private static final Logger LOG = Logger.getLogger(GetProducts.class);
 
     private ProductService productService;
     private SqlBuilder sqlBuilder = new SqlBuilder();
@@ -32,6 +32,11 @@ public class GetProducts extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LOG.debug(request.getParameter(Parameters.NAME));
+        LOG.debug(request.getParameter(Parameters.PRODUCT_MIN_PRICE));
+        LOG.debug(request.getParameter(Parameters.PRODUCT_MAX_PRICE));
+        LOG.debug(request.getParameter(Parameters.PRODUCT_PAGE));
+        LOG.debug(request.getParameter(Parameters.PRODUCT_SORT));
         String name = request.getParameter(Parameters.NAME);
         String minPrice = request.getParameter(Parameters.PRODUCT_MIN_PRICE);
         String maxPrice = request.getParameter(Parameters.PRODUCT_MAX_PRICE);
@@ -58,7 +63,8 @@ public class GetProducts extends HttpServlet {
         pp.setMaxPrice(Double.parseDouble(maxPrice == null|| maxPrice.isEmpty()?"0":maxPrice));
         pp.setOrderBy(sort);
         String sql = sqlBuilder.buildSqlProductWithRestrict(pp);
-        List<Product> products = productService.getProductsBySql(sql,((Integer.parseInt(page ==null || page.isEmpty()?"1":page)-1))*9);
+        LOG.debug(sql);
+        List<Product> products = productService.getProductsBySql(sql,((Integer.parseInt(page ==null || page.isEmpty()?"1":page)-1))*6);
         request.setAttribute(Parameters.PRODUCT_MIN_PRICE,minPrice);
         request.setAttribute(Parameters.PRODUCT_MAX_PRICE,maxPrice);
         request.setAttribute(Parameters.NAME,name);

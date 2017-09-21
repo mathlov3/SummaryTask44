@@ -3,4 +3,8 @@
         <h4 class="text-muted pull-right">vzrivpaket22@gmail.com - Eugene Sliva</h4>
         <h4 class="text-muted">Created for final project. </h4>
     </div>
+
 </footer>
+<script src="../../js/jquery-3.2.1.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/script.js"></script>

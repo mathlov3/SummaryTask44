@@ -22,7 +22,7 @@ import java.util.Map;
 
 @WebServlet("/product")
 public class GetProduct extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(ContextListener.class);
+    private static final Logger LOG = Logger.getLogger(GetProduct.class);
     private CommentaryService commentaryService;
     private ProductService productService;
     private UserService userService;
@@ -40,6 +40,7 @@ public class GetProduct extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LOG.debug(request.getParameter(Parameters.ID));
         int id = Integer.parseInt(request.getParameter(Parameters.ID));
         Product product = productService.getProductById(id);
         List<Commentary> commentaries=commentaryService.getCommentariesByProductId(id);
