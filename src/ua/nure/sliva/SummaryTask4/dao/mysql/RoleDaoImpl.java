@@ -1,7 +1,9 @@
-package ua.nure.sliva.SummaryTask4.dao;
+package ua.nure.sliva.SummaryTask4.dao.mysql;
 
 import ua.nure.sliva.SummaryTask4.constants.Sql;
+import ua.nure.sliva.SummaryTask4.dao.RoleDao;
 import ua.nure.sliva.SummaryTask4.entity.Role;
+import ua.nure.sliva.SummaryTask4.exception.DBException;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 
 import java.sql.Connection;
@@ -25,7 +27,7 @@ public class RoleDaoImpl implements RoleDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException();
+            throw new DBException(e);
         }
         return role;
     }

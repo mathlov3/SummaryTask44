@@ -1,6 +1,7 @@
 package ua.nure.sliva.SummaryTask4.constants;
 
 public abstract class Parameters{
+    private Parameters(){};
     //user
     public static final String ID = "id";
     public static final String USER_ID = "userId";

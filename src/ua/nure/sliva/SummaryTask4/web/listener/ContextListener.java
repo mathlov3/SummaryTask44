@@ -3,11 +3,12 @@ package ua.nure.sliva.SummaryTask4.web.listener;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import ua.nure.sliva.SummaryTask4.dao.*;
+import ua.nure.sliva.SummaryTask4.dao.mysql.*;
 import ua.nure.sliva.SummaryTask4.entity.Category;
 import ua.nure.sliva.SummaryTask4.service.*;
-import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
+import ua.nure.sliva.SummaryTask4.transaction.TRPool;
 import ua.nure.sliva.SummaryTask4.transaction.Transaction;
-import ua.nure.sliva.SummaryTask4.transaction.TransactionPool;
+import ua.nure.sliva.SummaryTask4.transaction.TransactionPoolMysql;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -38,7 +39,7 @@ public class ContextListener implements ServletContextListener {
             throw new UnsupportedOperationException(e);
         }
 
-        TransactionPool transactionPool = new TransactionPool(ds);
+        TRPool transactionPool = new TransactionPoolMysql(ds);
 
         UserDAO userDAO = new UserDAOImpl();
         ProductDAO productDAO = new ProductDAOImpl();

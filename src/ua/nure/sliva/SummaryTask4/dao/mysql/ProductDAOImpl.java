@@ -1,7 +1,8 @@
-package ua.nure.sliva.SummaryTask4.dao;
+package ua.nure.sliva.SummaryTask4.dao.mysql;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import ua.nure.sliva.SummaryTask4.constants.Sql;
+import ua.nure.sliva.SummaryTask4.dao.ProductDAO;
 import ua.nure.sliva.SummaryTask4.dao.mapper.ProductMapper;
 import ua.nure.sliva.SummaryTask4.entity.Category;
 import ua.nure.sliva.SummaryTask4.entity.Image;

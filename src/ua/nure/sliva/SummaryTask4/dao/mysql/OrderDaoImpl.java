@@ -1,6 +1,7 @@
-package ua.nure.sliva.SummaryTask4.dao;
+package ua.nure.sliva.SummaryTask4.dao.mysql;
 
 import ua.nure.sliva.SummaryTask4.constants.Sql;
+import ua.nure.sliva.SummaryTask4.dao.OrderDao;
 import ua.nure.sliva.SummaryTask4.dao.mapper.OrderMapper;
 import ua.nure.sliva.SummaryTask4.entity.Order;
 import ua.nure.sliva.SummaryTask4.entity.Product;
@@ -30,7 +31,7 @@ public class OrderDaoImpl implements OrderDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException();
+            throw new DBException(e);
         }
         return order;
     }
@@ -51,7 +52,7 @@ public class OrderDaoImpl implements OrderDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException();
+            throw new DBException(e);
         }
         return id;
     }
@@ -67,7 +68,7 @@ public class OrderDaoImpl implements OrderDao {
             id =  ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException(e);
+            throw new DBException(e);
         }
         return id;
     }
@@ -109,7 +110,7 @@ public class OrderDaoImpl implements OrderDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            new UnsupportedOperationException(e);
+            new DBException(e);
         }
         return orders;
     }
@@ -149,7 +150,7 @@ public class OrderDaoImpl implements OrderDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException(e);
+            throw new DBException(e);
         }
         return orders;
     }

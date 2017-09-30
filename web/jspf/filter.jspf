@@ -3,7 +3,7 @@
     <form method="get" action="getProducts">
         <div class="form-group" style="margin: 10px">
             <label for="name"><fmt:message key="getproduct.name"/> </label>
-            <input type="text" class="form-control" name="name" id="name">
+            <input type="text" class="form-control" name="name" id="name" maxlength="200">
         </div>
         <div class="form-group" style="margin: 10px">
             <label><fmt:message key="getproduct.category"/> </label>
@@ -19,9 +19,9 @@
         </div>
         <div style="margin: 10px" class="form-inline">
             <label><fmt:message key="getproduct.price"/> :</label>
-            <input style="width: 70px" class="form-control inputSearch" type="text" name="minPrice"
+            <input style="width: 70px" class="form-control inputSearch" type="text" name="minPrice" min="0"
                    value="${productParams.minPrice}"placeholder="$"> - <input style="width: 70px" class="form-control inputSearch" type="text" name="maxPrice"
-                   value="${productParams.maxPrice}"
+                   value="${productParams.maxPrice}" min="0"
                    placeholder="$">
 
         </div>

@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet("/createOrder")
 public class CreateOrder extends HttpServlet {
@@ -35,7 +36,7 @@ public class CreateOrder extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute(Parameters.USER)==null){
+        if(Objects.isNull(request.getSession().getAttribute(Parameters.USER))){
             AppException exception = new AppException("You need login if you want make order");
             request.setAttribute(Parameters.EXCEPTION,exception);
             LOG.error(exception);

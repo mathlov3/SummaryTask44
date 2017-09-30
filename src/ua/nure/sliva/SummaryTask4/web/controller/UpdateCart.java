@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import ua.nure.sliva.SummaryTask4.Cart;
 import ua.nure.sliva.SummaryTask4.constants.Parameters;
 import ua.nure.sliva.SummaryTask4.entity.Product;
+import ua.nure.sliva.SummaryTask4.exception.AppException;
 import ua.nure.sliva.SummaryTask4.web.listener.ContextListener;
 
 import javax.servlet.ServletException;
@@ -22,10 +23,16 @@ public class UpdateCart extends HttpServlet {
         LOG.debug(request.getParameter(Parameters.PRODUCT_COUNT));
         int id = Integer.parseInt(request.getParameter(Parameters.ID));
         int count = Integer.parseInt(request.getParameter(Parameters.PRODUCT_COUNT));
+        if (count <= 0) {
+            AppException exception = new AppException("Count products cannot be less 1");
+            request.setAttribute("exception", exception);
+            throw exception;
+        }
+
         Cart<Product> cart = (Cart<Product>) request.getSession().getAttribute(Parameters.CART);
         Product product = new Product();
         product.setId(id);
-        cart.add(product,count);
+        cart.add(product, count);
         response.sendRedirect("cart.jsp");
     }
 }

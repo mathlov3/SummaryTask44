@@ -5,9 +5,10 @@ import ua.nure.sliva.SummaryTask4.dao.UserDAO;
 import ua.nure.sliva.SummaryTask4.entity.Commentary;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.entity.User;
+import ua.nure.sliva.SummaryTask4.transaction.TRPool;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 import ua.nure.sliva.SummaryTask4.transaction.Transaction;
-import ua.nure.sliva.SummaryTask4.transaction.TransactionPool;
+
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -18,9 +19,9 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
     private ProductDAO productDAO;
-    private TransactionPool transactionPool;
+    private TRPool transactionPool;
 
-    public UserServiceImpl(UserDAO userDAO, TransactionPool transactionPool,ProductDAO productDAO) {
+    public UserServiceImpl(UserDAO userDAO, TRPool transactionPool,ProductDAO productDAO) {
         this.userDAO = userDAO;
         this.transactionPool = transactionPool;
         this.productDAO = productDAO;
@@ -49,40 +50,46 @@ public class UserServiceImpl implements UserService {
             public Integer execute() throws SQLException {
                 int id = userDAO.create(user);
                 if(id!=0){
-                    final String username = "eugene.shop.m@gmail.com";
-                    final String password = "1q2w3eQQ";
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            final String username = "eugene.shop.m@gmail.com";
+                            final String password = "1q2w3eQQ";
 
-                    Properties props = new Properties();
-                    props.put("mail.smtp.auth", "true");
-                    props.put("mail.smtp.starttls.enable", "true");
-                    props.put("mail.smtp.host", "smtp.gmail.com");
-                    props.put("mail.smtp.port", "587");
+                            Properties props = new Properties();
+                            props.put("mail.smtp.auth", "true");
+                            props.put("mail.smtp.starttls.enable", "true");
+                            props.put("mail.smtp.host", "smtp.gmail.com");
+                            props.put("mail.smtp.port", "587");
 
-                    Session session = Session.getInstance(props,
-                            new javax.mail.Authenticator() {
-                                protected PasswordAuthentication getPasswordAuthentication() {
-                                    return new PasswordAuthentication(username, password);
-                                }
-                            });
+                            Session session = Session.getInstance(props,
+                                    new javax.mail.Authenticator() {
+                                        protected PasswordAuthentication getPasswordAuthentication() {
+                                            return new PasswordAuthentication(username, password);
+                                        }
+                                    });
 
-                    try {
+                            try {
 
-                        Message message = new MimeMessage(session);
-                        message.setFrom(new InternetAddress(username));
-                        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
-                        message.setSubject("Registration <mine>SHOP");
-                        message.setText("Hi "+user.getName() + " ,"+System.lineSeparator()+
-                        "Thank you gor registration your profile. " + System.lineSeparator() +
-                        "You can buy different products on our <mine>SHOP."+System.lineSeparator()+
-                        "<a href=\"localhost:8080\">Click here</a> if you want go to shop"+System.lineSeparator()+
-                        "Created for test final project.");
+                                Message message = new MimeMessage(session);
+                                message.setFrom(new InternetAddress(username));
+                                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
+                                message.setSubject("Registration <mine>SHOP");
+                                message.setText("Hi "+user.getName() + " ,"+System.lineSeparator()+
+                                        "Thank you gor registration your profile. " + System.lineSeparator() +
+                                        "You can buy different products on our <mine>SHOP."+System.lineSeparator()+
+                                        "<a href=\"localhost:8080\">Click here</a> if you want go to shop"+System.lineSeparator()+
+                                        "Created for test final project.");
 
-                        Transport.send(message);
+                                Transport.send(message);
 
-                    } catch (MessagingException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
+                            } catch (MessagingException e) {
+                                e.printStackTrace();
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }).start();
+
                 }
                 return id;
             }
@@ -124,6 +131,15 @@ public class UserServiceImpl implements UserService {
             @Override
             public List<User> execute() throws SQLException {
                 return userDAO.getAll();
+            }
+        });
+    }
+    @Override
+    public Map<User,Double> getAllUserWithTotalPrice() {
+        return transactionPool.execute(new Transaction<Map<User,Double>>() {
+            @Override
+            public Map<User,Double> execute() throws SQLException {
+                return userDAO.getAllUsersWithTotalSum();
             }
         });
     }

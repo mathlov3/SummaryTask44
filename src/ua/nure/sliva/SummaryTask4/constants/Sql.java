@@ -1,11 +1,14 @@
 package ua.nure.sliva.SummaryTask4.constants;
 
 public abstract class Sql {
+
+    private Sql(){};
     //User
     public static final String GET_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
     public static final String GET_USER_BY_LOGIN = "SELECT * FROM users WHERE login = ?";
     public static final String GET_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM users WHERE login = ? AND password=?";
-    public static final String GET_ALL_USERS = "SELECT * FROM users";
+    public static final String GET_ALL_USERS = "SELECT * FROM users ORDER";
+    public static final String GET_ALL_USERS_WITH_TOTALSUM = "SELECT * ,(SELECT IFNULL(SUM(price),0) FROM orders WHERE users.id=orders.users_id) FROM users ORDER BY (SELECT IFNULL(SUM(price),0) FROM orders WHERE users.id=orders.users_id) DESC";
     public static final String CREATE_USER = "INSERT INTO users(`login`,`password`,`name`,`e-mail`,`roles_id`) VALUES(?,?,?,?,?)";
     public static final String UPDATE_USER = "UPDATE `users` SET `id`=? ,`login`=?,`password`=?,`name`=?,`e-mail`=?,`roles_id`=?,`blocked`=? WHERE id = ?";
     public static final String GET_WAITING_USERS_BY_PRODUCT_ID = "SELECT users.id, users.login, users.password,users.name,users.`e-mail`,users.roles_id,users.blocked FROM users,waiting WHERE waiting.products_id = ? AND waiting.users_id = users.id AND waiting.`wait` = 1 ";
@@ -51,4 +54,5 @@ public abstract class Sql {
     public static final String GET_COMMENTARIES_BY_PRODUCT_ID = "SELECT * FROM commentaries WHERE products_id = ? ORDER BY id DESC";
 
     public static final String DELETE_IMAGE = "DELETE FROM `images` WHERE id = ?";
+
 }

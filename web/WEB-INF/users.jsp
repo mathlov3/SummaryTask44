@@ -20,25 +20,26 @@
             <th><fmt:message key="registration.email"/> </th>
             <th><fmt:message key="users.role"/> </th>
             <th>block</th>
+            <th>BuySum</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${requestScope.users}" var="user">
             <tr>
-                <td>${user.id}</td>
-                <td>${user.login}</td>
-                <td>${user.name}</td>
-                <td>${user.email}</td>
+                <td>${user.key.id}</td>
+                <td>${user.key.login}</td>
+                <td>${user.key.name}</td>
+                <td>${user.key.email}</td>
                 <td>
                     <form method="post" action="updateUserStatus">
-                        <input type="hidden" name="userId" value="${user.id}">
-                        <c:if test="${user.role == 1}">
+                        <input type="hidden" name="userId" value="${user.key.id}">
+                        <c:if test="${user.key.role == 1}">
                             <input type="hidden" name="newRole" value="2">
                             <button type="submit" class="btn btn-success btn-sm">
                                 <span class="glyphicon glyphicon-chevron-down"></span>
                             </button>
                         </c:if>
-                        <c:if test="${user.role == 2}">
+                        <c:if test="${user.key.role == 2}">
                             <input type="hidden" name="newRole" value="1">
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-chevron-up"></span>
@@ -48,20 +49,23 @@
                 </td>
                 <td>
                     <form method="post" action="updateUserStatus">
-                        <input type="hidden" name="userId" value="${user.id}">
-                        <c:if test="${!user.ban}">
+                        <input type="hidden" name="userId" value="${user.key.id}">
+                        <c:if test="${!user.key.ban}">
                             <input type="hidden" name="banUser" value="1">
                             <button type="submit" class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
                         </c:if>
-                        <c:if test="${user.ban}">
+                        <c:if test="${user.key.ban}">
                             <input type="hidden" name="banUser" value="0">
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-repeat"></span>
                             </button>
                         </c:if>
                     </form>
+                </td>
+                <td>
+                    ${user.value}
                 </td>
             </tr>
         </c:forEach>

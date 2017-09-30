@@ -2,19 +2,20 @@ package ua.nure.sliva.SummaryTask4.service;
 
 import ua.nure.sliva.SummaryTask4.dao.OrderDao;
 import ua.nure.sliva.SummaryTask4.entity.Order;
+import ua.nure.sliva.SummaryTask4.transaction.TRPool;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 import ua.nure.sliva.SummaryTask4.transaction.Transaction;
-import ua.nure.sliva.SummaryTask4.transaction.TransactionPool;
+
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
-    private TransactionPool transactionPool;
+    private TRPool transactionPool;
     private OrderDao orderDao;
 
-    public OrderServiceImpl(OrderDao orderDao, TransactionPool transactionPool) {
+    public OrderServiceImpl(OrderDao orderDao, TRPool transactionPool) {
         this.orderDao = orderDao;
         this.transactionPool = transactionPool;
     }

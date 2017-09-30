@@ -4,9 +4,10 @@ import ua.nure.sliva.SummaryTask4.Cart;
 import ua.nure.sliva.SummaryTask4.dao.ProductDAO;
 import ua.nure.sliva.SummaryTask4.entity.Image;
 import ua.nure.sliva.SummaryTask4.entity.Product;
+import ua.nure.sliva.SummaryTask4.transaction.TRPool;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 import ua.nure.sliva.SummaryTask4.transaction.Transaction;
-import ua.nure.sliva.SummaryTask4.transaction.TransactionPool;
+
 
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
@@ -14,9 +15,9 @@ import java.util.*;
 
 public class ProductServiceImpl implements ProductService {
     private ProductDAO productDAO;
-    private TransactionPool transactionPool;
+    private TRPool transactionPool;
 
-    public ProductServiceImpl(ProductDAO productDAO, TransactionPool transactionPool) {
+    public ProductServiceImpl(ProductDAO productDAO, TRPool transactionPool) {
         this.productDAO = productDAO;
         this.transactionPool = transactionPool;
     }

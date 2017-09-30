@@ -1,3 +1,4 @@
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -16,8 +17,8 @@
         <c:forEach items="${requestScope.orders}" var="order">
             <tr>
                 <td><a href="orderProducts?orderId=${order.id}">#${order.id}</a></td>
-                <td>${order.orders_status_id}</td>
-                <td>date</td>
+                <td>${order.orders_status_id==1?'new':order.orders_status_id==2?'accepted':'disabled'}</td>
+                <td>${order.date}</td>
                 <td>${order.price}</td>
 
             </tr>

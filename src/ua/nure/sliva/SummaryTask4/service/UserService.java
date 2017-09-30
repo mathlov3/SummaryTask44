@@ -26,4 +26,8 @@ public interface UserService {
     void notifyUsers(int productId);
 
     int addWaiting(int userId, int productId);
+
+    Map<User,Double> getAllUserWithTotalPrice();
+
+
 }

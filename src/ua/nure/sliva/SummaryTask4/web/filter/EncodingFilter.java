@@ -11,6 +11,7 @@ import java.io.IOException;
 public class EncodingFilter implements Filter {
 
     private String encoding = "utf-8";
+
     public void destroy() {
     }
 

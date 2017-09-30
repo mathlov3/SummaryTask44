@@ -1,8 +1,10 @@
-package ua.nure.sliva.SummaryTask4.dao;
+package ua.nure.sliva.SummaryTask4.dao.mysql;
 
 import ua.nure.sliva.SummaryTask4.constants.Sql;
+import ua.nure.sliva.SummaryTask4.dao.CommentaryDAO;
 import ua.nure.sliva.SummaryTask4.dao.mapper.CommentaryMapper;
 import ua.nure.sliva.SummaryTask4.entity.Commentary;
+import ua.nure.sliva.SummaryTask4.exception.DBException;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 
 import java.sql.Connection;
@@ -40,7 +42,7 @@ public class CommentaryDAOImpl implements CommentaryDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException(e);
+            throw new DBException(e);
         }
         return id;
     }

@@ -17,13 +17,13 @@ public class Logout extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.debug(request.getSession().getAttribute(Parameters.USER));
-        request.getSession().setAttribute(Parameters.USER,null);
-        request.getSession().setAttribute(Parameters.ROLE,null);
+        request.getSession().setAttribute(Parameters.USER, null);
+        request.getSession().setAttribute(Parameters.ROLE, null);
         response.sendRedirect("index");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req,resp);
+        doPost(req, resp);
     }
 }

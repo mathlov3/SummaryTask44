@@ -43,16 +43,16 @@ public class Registration extends HttpServlet {
         LOG.debug(name);
         LOG.debug(email);
 
-        String err = userValidator.validate(login,name,email,password,repassword);
-        if(err != null){
+        String err = userValidator.validate(login, name, email, password, repassword);
+        if (err != null) {
             LOG.error(err);
-            request.getSession().setAttribute("err",err);
+            request.getSession().setAttribute("err", err);
             response.sendRedirect("registration.jsp");
             return;
         }
-        if(userService.isExist(login)){
+        if (userService.isExist(login)) {
             LOG.error("User already exist");
-            request.getSession().setAttribute("err","User already exist");
+            request.getSession().setAttribute("err", "User already exist");
             response.sendRedirect("registration.jsp");
             return;
         }
@@ -64,15 +64,16 @@ public class Registration extends HttpServlet {
         user.setRoleId(2);
         user.setLogin(login);
         user.setBan(false);
-        if(userService.create(user) == 0){
+        if (userService.create(user) == 0) {
             AppException exception = new AppException("Inner error");
             LOG.error(exception);
-            request.setAttribute(Parameters.EXCEPTION,exception);
+            request.setAttribute(Parameters.EXCEPTION, exception);
             throw exception;
         }
         Role role = roleService.getRoleById(2);
-        request.getSession().setAttribute(Parameters.USER,user);
-        request.getSession().setAttribute(Parameters.ROLE,role);
+        request.getSession().setAttribute(Parameters.USER, user);
+        request.getSession().setAttribute(Parameters.ROLE, role);
+        request.getSession().setAttribute("gr", "gr");
         response.sendRedirect("index");
     }
 }

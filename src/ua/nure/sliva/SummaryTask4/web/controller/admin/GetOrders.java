@@ -14,10 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @WebServlet("/getOrders")
 public class GetOrders extends HttpServlet {
@@ -35,7 +32,7 @@ public class GetOrders extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.debug(request.getParameter(Parameters.STATUS));
-        int status = Integer.parseInt(request.getParameter(Parameters.STATUS) == null || request.getParameter(Parameters.STATUS).isEmpty()?"0":request.getParameter(Parameters.STATUS));
+        int status = Integer.parseInt(Objects.isNull(request.getParameter(Parameters.STATUS)) || request.getParameter(Parameters.STATUS).isEmpty()?"0":request.getParameter(Parameters.STATUS));
         List<Order> orders = orderService.getOrdersByStatusId(status);
         Map<Order,List<Product>> fullOrders = new LinkedHashMap<>();
         LOG.debug(fullOrders);

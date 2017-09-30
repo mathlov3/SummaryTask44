@@ -17,6 +17,16 @@
         <a href="/getProducts" class="btn btn-primary btn-lg"><fmt:message key="toppanel.products"/> </a>
     </header>
 
+    <c:if test="${!empty sessionScope.gr}">
+        <div style="margin-left: 4px;margin-right: 4px" class="row">
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">×</a>
+                <p>Registration successful</p>
+                <% request.getSession().removeAttribute("gr"); %>
+            </div>
+        </div>
+    </c:if>
+
     <!-- Page Features -->
 
         <h2><fmt:message key="index.newproducts"/> </h2>

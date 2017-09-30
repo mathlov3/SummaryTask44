@@ -27,7 +27,7 @@ public class Index extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Product> products = productService.getNewProducts();
-        request.setAttribute(Parameters.PRODUCTS,products);
-        request.getRequestDispatcher("/index.jsp").forward(request,response);
+        request.setAttribute(Parameters.PRODUCTS, products);
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 }

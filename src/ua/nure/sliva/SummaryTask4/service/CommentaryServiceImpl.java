@@ -2,9 +2,9 @@ package ua.nure.sliva.SummaryTask4.service;
 
 import ua.nure.sliva.SummaryTask4.dao.CommentaryDAO;
 import ua.nure.sliva.SummaryTask4.entity.Commentary;
+import ua.nure.sliva.SummaryTask4.transaction.TRPool;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 import ua.nure.sliva.SummaryTask4.transaction.Transaction;
-import ua.nure.sliva.SummaryTask4.transaction.TransactionPool;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import java.util.List;
 
 public class CommentaryServiceImpl implements CommentaryService {
     CommentaryDAO commentaryDAO;
-    TransactionPool transactionPool;
-    public CommentaryServiceImpl(CommentaryDAO commentaryDAO, TransactionPool transactionPool){
+    TRPool transactionPool;
+    public CommentaryServiceImpl(CommentaryDAO commentaryDAO, TRPool transactionPool){
         this.commentaryDAO = commentaryDAO;
         this.transactionPool =transactionPool;
     }
@@ -27,8 +27,6 @@ public class CommentaryServiceImpl implements CommentaryService {
                 return null;
             }
         });
-        transactionPool.closeConnection(ThreadLocaleHandler.getConnection());
-        ThreadLocaleHandler.setConnecion(null);
         return result[0];
     }
 

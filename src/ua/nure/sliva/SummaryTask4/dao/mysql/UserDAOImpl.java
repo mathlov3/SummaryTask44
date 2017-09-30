@@ -1,6 +1,7 @@
-package ua.nure.sliva.SummaryTask4.dao;
+package ua.nure.sliva.SummaryTask4.dao.mysql;
 
 import ua.nure.sliva.SummaryTask4.constants.Sql;
+import ua.nure.sliva.SummaryTask4.dao.UserDAO;
 import ua.nure.sliva.SummaryTask4.dao.mapper.UserMapper;
 import ua.nure.sliva.SummaryTask4.entity.User;
 import ua.nure.sliva.SummaryTask4.exception.DBException;
@@ -10,10 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class UserDAOImpl implements UserDAO {
     private UserMapper userMapper = new UserMapper();
@@ -120,6 +118,31 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public Map<User, Double> getAllUsersWithTotalSum() {
+        Connection connection = ThreadLocaleHandler.getConnection();
+        Map<User,Double> users = new LinkedHashMap<>();
+        try(PreparedStatement ps = connection.prepareStatement(Sql.GET_ALL_USERS_WITH_TOTALSUM)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                User user = new User();
+                int k = 0;
+                user.setId(rs.getInt(++k));
+                user.setLogin(rs.getString(++k));
+                user.setPassword(rs.getString(++k));
+                user.setName(rs.getString(++k));
+                user.setEmail(rs.getString(++k));
+                user.setRole(rs.getInt(++k));
+                user.setBan(rs.getInt(++k)==0?false:true);
+                users.put(user,rs.getDouble(++k));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(e);
+        }
+        return users;
+    }
+
+    @Override
     public User getById(int id) {
         Connection connection = ThreadLocaleHandler.getConnection();
         User user = null;
@@ -188,6 +211,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public int delete(User entity) {
-        return 0;
+        throw new UnsupportedOperationException();
     }
 }

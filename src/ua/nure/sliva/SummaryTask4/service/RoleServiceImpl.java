@@ -1,17 +1,18 @@
 package ua.nure.sliva.SummaryTask4.service;
 
 import ua.nure.sliva.SummaryTask4.entity.Role;
+import ua.nure.sliva.SummaryTask4.transaction.TRPool;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 import ua.nure.sliva.SummaryTask4.transaction.Transaction;
-import ua.nure.sliva.SummaryTask4.transaction.TransactionPool;
+
 import ua.nure.sliva.SummaryTask4.dao.RoleDao;
 
 import java.sql.SQLException;
 
 public class RoleServiceImpl implements RoleService {
     private RoleDao roleDao;
-    private TransactionPool transactionPool;
-    public RoleServiceImpl(RoleDao roleDao,TransactionPool transactionPool){
+    private TRPool transactionPool;
+    public RoleServiceImpl(RoleDao roleDao,TRPool transactionPool){
         this.roleDao=roleDao;
         this.transactionPool = transactionPool;
     }

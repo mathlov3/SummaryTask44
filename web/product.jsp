@@ -1,4 +1,4 @@
-<!--This page for simpleusers that want buy product on this page-->
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -36,36 +36,44 @@
             <div class="col-md-6">
                 <h4><a href="#">${requestScope.product.name}</a>
                 </h4>
-                <p>${requestScope.product.description}</p>
+                <p>${requestScope.product.allDesc}</p>
             </div>
 
         </div>
 
         <div class="caption-full">
-            <h4 class="pull-right"><fmt:message key="getproduct.price"/> - ${requestScope.product.price}</h4>
+            <h4 class="pull-right"><fmt:message key="getproduct.price"/> - ${requestScope.product.price} UAH</h4>
         </div>
         <br>
-        <form method="post" action="addToCart">
+
             <c:if test="${product.count!=0}">
+        <form method="post" action="addToCart">
                 <input type="hidden" name="id" value="${product.id}">
                 <div class="row">
                     <div class="col-md-1">
-                        <input style="width: 60px" name="count" type="number" min="0"
+                        <input style="width: 60px" name="count" type="number" min="1"
                                max="${product.count>100?100:product.count}" class="form-control text-center" value="1">
                     </div>
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-success"><fmt:message key="product.addtocart"/></button>
                     </div>
                 </div>
+        </form>
             </c:if>
             <c:if test="${product.count==0}">
+        <form method="post" action="addWaiting">
                 <div class="row">
                     <div class="col-md-12">
                         <p><b><fmt:message key="product.empty"/></b></p>
+                        <c:if test="${!empty sessionScope.user}">
+                            <input type="hidden" name="id" value="${requestScope.product.id}">
+                        <button type="submit" class="btn btn-success">Сообщить когда появится</button>
+                        </c:if>
                     </div>
                 </div>
-            </c:if>
         </form>
+            </c:if>
+
         <div class="ratings">
             <p>
                 <a href="addVote?id=${product.id}&vote=1"><span

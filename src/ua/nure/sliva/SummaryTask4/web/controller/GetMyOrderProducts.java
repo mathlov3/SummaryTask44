@@ -31,25 +31,26 @@ public class GetMyOrderProducts extends HttpServlet {
         orderService = (OrderService) getServletContext().getAttribute("orderService");
         productService = (ProductService) getServletContext().getAttribute("productService");
     }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute(Parameters.USER)==null){
+        if (request.getSession().getAttribute(Parameters.USER) == null) {
             AppException exception = new AppException("You need login if you want show orders and ordered products");
             LOG.error(exception);
-            request.setAttribute(Parameters.EXCEPTION,exception);
+            request.setAttribute(Parameters.EXCEPTION, exception);
             throw exception;
         }
         int orderId = Integer.parseInt(request.getParameter(Parameters.ORDER_ID));
-        boolean access = orderService.isUserHaveOrder(((User)request.getSession().getAttribute(Parameters.USER)).getId(),orderId);
-        if(!access){
+        boolean access = orderService.isUserHaveOrder(((User) request.getSession().getAttribute(Parameters.USER)).getId(), orderId);
+        if (!access) {
             AppException exception = new AppException("You don't have access to this page");
-            request.setAttribute(Parameters.EXCEPTION,exception);
+            request.setAttribute(Parameters.EXCEPTION, exception);
             throw exception;
         }
         Order order = orderService.getOrderById(orderId);
         List<Product> products = productService.getProductsByOrderId(orderId);
         LOG.debug(products);
-        request.setAttribute(Parameters.PRODUCTS,products);
-        request.setAttribute(Parameters.ORDER,order);
-        request.getRequestDispatcher("myOrderProducts.jsp").forward(request,response);
+        request.setAttribute(Parameters.PRODUCTS, products);
+        request.setAttribute(Parameters.ORDER, order);
+        request.getRequestDispatcher("myOrderProducts.jsp").forward(request, response);
     }
 }

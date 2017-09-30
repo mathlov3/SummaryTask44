@@ -27,26 +27,27 @@ public class Login extends HttpServlet {
     private UserService userService;
     private RoleService roleService;
     private UserValidator userValidator;
+
     @Override
     public void init() throws ServletException {
-        roleService = (RoleService)getServletContext().getAttribute("roleService") ;
+        roleService = (RoleService) getServletContext().getAttribute("roleService");
         userService = (UserService) getServletContext().getAttribute("userService");
         userValidator = new UserValidator();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.debug(request.getParameter(Parameters.USER_LOGIN));
-        if(request.getSession().getAttribute(Parameters.USER)!=null){
+        if (request.getSession().getAttribute(Parameters.USER) != null) {
             AppException exception = new AppException("You already loginned");
-            request.setAttribute(Parameters.EXCEPTION,exception);
+            request.setAttribute(Parameters.EXCEPTION, exception);
             throw exception;
         }
         String login = request.getParameter(Parameters.USER_LOGIN);
         String password = request.getParameter(Parameters.USER_PASSWORD);
-        String err = userValidator.validate(login,password);
-        if(err != null){
+        String err = userValidator.validate(login, password);
+        if (err != null) {
             LOG.debug(err);
-            request.getSession().setAttribute("err",err);
+            request.getSession().setAttribute("err", err);
             response.sendRedirect("login.jsp");
             return;
         }
@@ -56,24 +57,23 @@ public class Login extends HttpServlet {
             md.update(password.getBytes());
             byte[] thedigest = md.digest();
             password = DatatypeConverter.printHexBinary(thedigest);
-            System.out.println(password);
         } catch (NoSuchAlgorithmException e) {
             AppException exception = new AppException(e);
-            request.setAttribute("exception",exception);
-            request.getRequestDispatcher("appException").forward(request,response);
+            request.setAttribute("exception", exception);
+            request.getRequestDispatcher("appException").forward(request, response);
             return;
         }
-        User user = userService.tryToLogin(login,password);
-        if(user == null){
-            request.getSession().setAttribute("err","Incorrect login or password");
-            request.getSession().setAttribute("login",login);
+        User user = userService.tryToLogin(login, password);
+        if (user == null) {
+            request.getSession().setAttribute("err", "Incorrect login or password");
+            request.getSession().setAttribute("login", login);
             response.sendRedirect("login.jsp");
             return;
         }
 
-        request.getSession().setAttribute(Parameters.USER,user);
+        request.getSession().setAttribute(Parameters.USER, user);
         Role role = roleService.getRoleById(user.getRole());
-        request.getSession().setAttribute(Parameters.ROLE,role);
+        request.getSession().setAttribute(Parameters.ROLE, role);
         response.sendRedirect("index");
     }
 

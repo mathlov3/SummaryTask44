@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 @WebServlet("/addCommentary")
 public class AddCommentary extends HttpServlet {
@@ -36,7 +37,7 @@ public class AddCommentary extends HttpServlet {
             Commentary commentary = new Commentary();
             commentary.setProducts_id(id);
             commentary.setContent(content);
-            commentary.setUsers_id(user == null ? null : user.getId());
+            commentary.setUsers_id(Objects.isNull(user) ? null : user.getId());
             commentaryService.addCommentary(commentary);
             request.getSession().setAttribute("addcomm", "ok");
             response.sendRedirect("/product?id=" + id);

@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
+
 @WebServlet("/addToCart")
 public class AddToCart extends HttpServlet {
     private static final Logger LOG = Logger.getLogger(AddToCart.class);
@@ -37,7 +39,7 @@ public class AddToCart extends HttpServlet {
             req.setAttribute("exception",exception);
             throw exception;
         }
-        if(product != null){
+        if(Objects.nonNull(product)){
             ((Cart<Product>)req.getSession().getAttribute(Parameters.CART)).put(product,count);
         }
         req.getSession().setAttribute("okb","ok");

@@ -4,10 +4,10 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class TransactionPool {
+public class TransactionPoolMysql implements TRPool {
     private DataSource ds;
 
-    public TransactionPool(DataSource ds){
+    public TransactionPoolMysql(DataSource ds){
         this.ds = ds;
     }
 

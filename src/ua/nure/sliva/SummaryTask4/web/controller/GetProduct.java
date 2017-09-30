@@ -43,14 +43,14 @@ public class GetProduct extends HttpServlet {
         LOG.debug(request.getParameter(Parameters.ID));
         int id = Integer.parseInt(request.getParameter(Parameters.ID));
         Product product = productService.getProductById(id);
-        List<Commentary> commentaries=commentaryService.getCommentariesByProductId(id);
-        Map<Commentary,User> commentaryUserMap = userService.getCommentaryWithUsers(commentaries);
+        List<Commentary> commentaries = commentaryService.getCommentariesByProductId(id);
+        Map<Commentary, User> commentaryUserMap = userService.getCommentaryWithUsers(commentaries);
         List<Image> images = productService.getProductImages(id);
         int vote = productService.getProductVote(id);
-        request.setAttribute(Parameters.PRODUCT,product);
-        request.setAttribute(Parameters.IMAGES,images);
-        request.setAttribute(Parameters.VOTE,vote);
-        request.setAttribute(Parameters.COMMENTARIES,commentaryUserMap);
-        request.getRequestDispatcher("/product.jsp").forward(request,response);
+        request.setAttribute(Parameters.PRODUCT, product);
+        request.setAttribute(Parameters.IMAGES, images);
+        request.setAttribute(Parameters.VOTE, vote);
+        request.setAttribute(Parameters.COMMENTARIES, commentaryUserMap);
+        request.getRequestDispatcher("/product.jsp").forward(request, response);
     }
 }

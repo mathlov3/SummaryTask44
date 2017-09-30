@@ -18,6 +18,7 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet("/editProduct")
 @MultipartConfig
@@ -61,7 +62,7 @@ public class EditProduct extends HttpServlet {
                 throw new UnsupportedOperationException(e);
 
             } finally {
-                if (filecontent != null) {
+                if (Objects.nonNull(filecontent)) {
                     filecontent.close();
                 }
             }

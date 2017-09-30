@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 @WebServlet("/updateUserStatus")
 public class UpdateUserStatus extends HttpServlet {
@@ -24,7 +25,7 @@ public class UpdateUserStatus extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int userId = Integer.parseInt(request.getParameter(Parameters.USER_ID));
         if(userId != 1) {
-            if (request.getParameter("banUser") != null) {
+            if (Objects.nonNull(request.getParameter("banUser"))) {
                 int banUser = Integer.parseInt(request.getParameter("banUser"));
                 userService.changeBanUser(userId, banUser);
             } else {

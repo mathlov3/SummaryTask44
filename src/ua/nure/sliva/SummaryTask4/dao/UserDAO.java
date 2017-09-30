@@ -3,6 +3,7 @@ package ua.nure.sliva.SummaryTask4.dao;
 import ua.nure.sliva.SummaryTask4.entity.User;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface UserDAO extends GenericDAO<User> {
@@ -17,4 +18,6 @@ public interface UserDAO extends GenericDAO<User> {
     int addWaiting(int userId, int productId);
 
     int deleteWaiting(int productId);
+
+    Map<User,Double> getAllUsersWithTotalSum();
 }

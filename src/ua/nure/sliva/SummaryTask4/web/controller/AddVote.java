@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 @WebServlet("/addVote")
 public class AddVote extends HttpServlet {
@@ -28,7 +29,7 @@ public class AddVote extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute(Parameters.USER) == null){
+        if(Objects.isNull(request.getSession().getAttribute(Parameters.USER))){
             AppException exception = new AppException("You must be logined if you want vote for product");
             request.setAttribute(Parameters.EXCEPTION,exception);
             throw exception;
@@ -39,7 +40,7 @@ public class AddVote extends HttpServlet {
         LOG.debug(id);
 
         try {
-            productService.voteForProduct(id,((User)request.getSession().getAttribute(Parameters.USER)).getId(),vote);
+            productService.voteForProduct(id,((User)request.getSession().getAttribute(Parameters.USER)).getId(),vote>5?5:vote<1?1:vote);
             request.getSession().setAttribute("voteStatus","Your vote was accepte");
         } catch (DBException e){
             request.getSession().setAttribute("voteStatus","Your alredy vote for this product");

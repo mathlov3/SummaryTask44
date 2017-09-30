@@ -39,7 +39,7 @@ public class UpdateImage extends HttpServlet {
                 throw new UnsupportedOperationException(e);
 
             } finally {
-                if (filecontent != null) {
+                if (Objects.nonNull(filecontent)) {
                     filecontent.close();
                 }
             }
