@@ -4,13 +4,12 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-import org.bson.types.Binary;
 import ua.nure.sliva.SummaryTask4.dao.ProductDAO;
 import ua.nure.sliva.SummaryTask4.entity.Category;
 import ua.nure.sliva.SummaryTask4.entity.Image;
 import ua.nure.sliva.SummaryTask4.entity.Product;
-import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 
+import java.util.Base64;
 import java.util.List;
 
 public class ProductDAOImpl implements ProductDAO {
@@ -89,7 +88,9 @@ public class ProductDAOImpl implements ProductDAO {
         product.setCount((Integer) result.get("count"));
         product.setCategoryId((Integer) result.get("categoryId"));
         product.setPrice((Double) result.get("price"));
-        product.setImgInBase64();
+        product.setImgInBase64((String) result.get("img64"));
+        product.setAllDesc((String) result.get("alldesc"));
+        product.setDescription((String) result.get("description"));
 
         return product;
     }
@@ -97,6 +98,9 @@ public class ProductDAOImpl implements ProductDAO {
     @Override
     public int create(Product product) {
         int id;
+        if (product.getImg() != null) {
+            product.setImgInBase64(Base64.getEncoder().encodeToString(product.getImg()));
+        }
         MongoCollection<Document> collection = mongoDatabase.getCollection("products");
         id = Integer.parseInt(getNextSequence("productid"));
         Document document = new Document()
@@ -106,7 +110,8 @@ public class ProductDAOImpl implements ProductDAO {
                 .append("count",id)
                 .append("price",product.getPrice())
                 .append("categoryId",product.getCategoryId())
-                .append("img64",product.getImgInBase64());
+                .append("img64",product.getImgInBase64())
+                .append("alldesc",product.getAllDesc());
         collection.insertOne(document);
         return id;
     }
