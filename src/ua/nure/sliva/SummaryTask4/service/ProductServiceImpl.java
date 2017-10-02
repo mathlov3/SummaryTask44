@@ -7,6 +7,7 @@ import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.transaction.TRPool;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
 import ua.nure.sliva.SummaryTask4.transaction.Transaction;
+import ua.nure.sliva.SummaryTask4.util.ProductParams;
 
 
 import java.io.UnsupportedEncodingException;
@@ -68,12 +69,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsBySql(String sql, int start) {
+    public List<Product> getProductsBySql(ProductParams pp, int start) {
         return parseImagesToBase64(
                 transactionPool.execute(new Transaction<List<Product>>() {
                     @Override
                     public List<Product> execute() throws SQLException {
-                        return productDAO.getProductsBySql(sql, start);
+                        return productDAO.getProductsBySql(pp, start);
                     }
                 })
         );

@@ -66,7 +66,7 @@ public class GetProducts extends HttpServlet {
         pp.setOrderBy(sort);
         String sql = sqlBuilder.buildSqlProductWithRestrict(pp);
         LOG.debug(sql);
-        List<Product> products = productService.getProductsBySql(sql, ((Integer.parseInt(page == null || page.isEmpty() ? "1" : page) - 1)) * 6);
+        List<Product> products = productService.getProductsBySql(pp, ((Integer.parseInt(page == null || page.isEmpty() ? "1" : page) - 1)) * 6);
         request.setAttribute(Parameters.PRODUCT_MIN_PRICE, minPrice);
         request.setAttribute(Parameters.PRODUCT_MAX_PRICE, maxPrice);
         request.setAttribute(Parameters.NAME, name);

@@ -1,21 +1,28 @@
 package ua.nure.sliva.SummaryTask4.dao.mongodb;
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import ua.nure.sliva.SummaryTask4.dao.ProductDAO;
 import ua.nure.sliva.SummaryTask4.entity.Category;
 import ua.nure.sliva.SummaryTask4.entity.Image;
 import ua.nure.sliva.SummaryTask4.entity.Product;
+import ua.nure.sliva.SummaryTask4.util.ProductParams;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 public class ProductDAOImpl implements ProductDAO {
     private MongoDatabase mongoDatabase;
+    private ProductUtil productUtil;
     public ProductDAOImpl(MongoDatabase mongoDatabase){
         this.mongoDatabase = mongoDatabase;
+        productUtil = new ProductUtil();
     }
     @Override
     public List<Product> getProductsByCategoryId(int categoryId) {
@@ -29,11 +36,13 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public int getCountProductsByCategoryId(int categoryId) {
-        return 0;
+        MongoCollection<Document> collection = mongoDatabase.getCollection("products");
+        Document search = new Document().append("categoryId",categoryId);
+        return (int) collection.count(search);
     }
 
     @Override
-    public List<Product> getProductsBySql(String sql, int start) {
+    public List<Product> getProductsBySql(ProductParams pp, int start) {
         return null;
     }
 
@@ -49,7 +58,14 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public List<Product> getNewProducts() {
-        return null;
+        List<Product> products = new ArrayList<>();
+        MongoCollection<Document> productDocuments = mongoDatabase.getCollection("products");
+        Document sort = new Document().append("_id",-1);
+        MongoCursor<Document> cursor = productDocuments.find().sort(sort).limit(4).iterator();
+        while (cursor.hasNext()){
+            products.add(productUtil.map(cursor.next()));
+        }
+        return products;
     }
 
     @Override
@@ -64,6 +80,8 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public List<Image> getImagesById(int id) {
+        MongoCollection<Document> collection = mongoDatabase.getCollection("products");
+        System.out.println(collection.find(new Document("_id",id)).first().get("images"));
         return null;
     }
 
@@ -82,16 +100,7 @@ public class ProductDAOImpl implements ProductDAO {
         MongoCollection<Document> collection = mongoDatabase.getCollection("products");
         Document document = new Document().append("_id",id);
         Document result = collection.find(document).first();
-        Product product = new Product();
-        product.setId((Integer) result.get("_id"));
-        product.setName((String) result.get("name"));
-        product.setCount((Integer) result.get("count"));
-        product.setCategoryId((Integer) result.get("categoryId"));
-        product.setPrice((Double) result.get("price"));
-        product.setImgInBase64((String) result.get("img64"));
-        product.setAllDesc((String) result.get("alldesc"));
-        product.setDescription((String) result.get("description"));
-
+        Product product = productUtil.map(result);
         return product;
     }
 
@@ -103,22 +112,20 @@ public class ProductDAOImpl implements ProductDAO {
         }
         MongoCollection<Document> collection = mongoDatabase.getCollection("products");
         id = Integer.parseInt(getNextSequence("productid"));
-        Document document = new Document()
-                .append("_id",id)
-                .append("name",product.getName())
-                .append("description",product.getDescription())
-                .append("count",id)
-                .append("price",product.getPrice())
-                .append("categoryId",product.getCategoryId())
-                .append("img64",product.getImgInBase64())
-                .append("alldesc",product.getAllDesc());
-        collection.insertOne(document);
+        product.setId(id);
+        collection.insertOne(productUtil.unMap(product));
         return id;
     }
 
     @Override
-    public int update(Product entity) {
-        return 0;
+    public int update(Product product) {
+        Document search = new Document().append("_id",product.getId());
+        if (product.getImg() != null) {
+            product.setImgInBase64(Base64.getEncoder().encodeToString(product.getImg()));
+        }
+        Bson nDocument = productUtil.unMap(product);
+        mongoDatabase.getCollection("products").updateOne(search,new Document("$set",nDocument));
+        return product.getId();
     }
 
     @Override
@@ -130,7 +137,7 @@ public class ProductDAOImpl implements ProductDAO {
     public List<Product> getList(int start, int end, boolean ascending, String orderColumn, int category) {
         return null;
     }
-    public static String getNextSequence(String name){
+    public static synchronized String getNextSequence(String name){
         MongoClient mongoClient = new MongoClient("localhost",27017);
         MongoDatabase mongoDatabase = mongoClient.getDatabase("testDB");
         MongoCollection<Document> collection = mongoDatabase.getCollection("counters");

@@ -3,6 +3,7 @@ package ua.nure.sliva.SummaryTask4.service;
 import ua.nure.sliva.SummaryTask4.Cart;
 import ua.nure.sliva.SummaryTask4.entity.Image;
 import ua.nure.sliva.SummaryTask4.entity.Product;
+import ua.nure.sliva.SummaryTask4.util.ProductParams;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ public interface ProductService {
 
     int getCountProductsInCategory(int categoryId);
 
-    List<Product> getProductsBySql(String sql, int start);
+    List<Product> getProductsBySql(ProductParams pp, int start);
 
     int getCountProductsBySql(String sql);
 

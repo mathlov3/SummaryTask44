@@ -13,6 +13,7 @@ public class TransactionPoolMysql implements TRPool {
 
     public <T> T execute(Transaction<T> transaction){
         Connection connection = null;
+
         T result = null;
         try {
             connection = ds.getConnection();

@@ -9,6 +9,8 @@ import ua.nure.sliva.SummaryTask4.entity.Image;
 import ua.nure.sliva.SummaryTask4.entity.Product;
 import ua.nure.sliva.SummaryTask4.exception.DBException;
 import ua.nure.sliva.SummaryTask4.transaction.ThreadLocaleHandler;
+import ua.nure.sliva.SummaryTask4.util.ProductParams;
+import ua.nure.sliva.SummaryTask4.util.SqlBuilder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -148,8 +150,9 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public List<Product> getProductsBySql(String sql, int start) {
+    public List<Product> getProductsBySql(ProductParams pp, int start) {
         List<Product> products = new ArrayList<>();
+        String sql = new SqlBuilder().buildSqlProductWithRestrict(pp);
         Connection connection = ThreadLocaleHandler.getConnection();
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1,start);
